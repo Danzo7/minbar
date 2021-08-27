@@ -15,28 +15,27 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-          appBar: AppBar(title: Text("Minbar")),
           body: Center(
-            child: Container(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                  Text("data 1"),
-                  Text("data 2"),
-                  Button(
-                      value: 'تسجيل الدخول',
-                      onClick: () => setState(() => {count++})),
-                  SizedBox(height: 10),
-                  Button(
-                    value: 'انشاء حساب',
-                    onClick: () => setState(() => {count++}),
-                    color: DColors.orange,
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height / 5),
-                ])),
-          )),
+        child: Container(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+              Text("data 1"),
+              Text("data 2"),
+              Button(
+                  value: 'تسجيل الدخول',
+                  onClick: () => setState(() => {count++})),
+              SizedBox(height: 10),
+              Button(
+                value: 'انشاء حساب',
+                onClick: () => setState(() => {count++}),
+                color: DColors.orange,
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 5),
+            ])),
+      )),
     );
   }
 }
