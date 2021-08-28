@@ -12,4 +12,5 @@ class DColors {
   static const Color coldGray = Color(0xffEEEEEE);
   static const Color blueSaidGray = Color(0xff6D7D89);
   static const Color white = Colors.white;
+  
 }
