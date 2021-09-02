@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/screens/LoginScreen.dart';
+import 'components/screens/login/LoginScreen.dart';
+import 'components/static/colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         textDirection: TextDirection.rtl,
         child: LoginScreen(),
       ),
-      color: Colors.black,
+      color: DColors.green,
     );
   }
 }

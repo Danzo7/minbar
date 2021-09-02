@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/static/colors.dart';
+import 'package:minbar_fl/components/static/colors.dart';
 
 typedef Void = void Function();
 
@@ -24,9 +24,12 @@ class Button extends StatelessWidget {
                     side: BorderSide(color: color)))),
         child: Text(
           value,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 12),
         ),
-        onPressed: onClick,
+        onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          onClick!();
+        },
       ),
     );
   }
