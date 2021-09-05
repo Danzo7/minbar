@@ -1,4 +1,5 @@
 # minbar
-
-- Live broadcast podcast App 
-- cooming on 2023
+> Live broadcast podcast App 
+```diff
+! Coming on 2023... 
+```
