@@ -29,10 +29,11 @@ class LoginForm extends StatelessWidget {
                 label: "كلمة المرور",
               ))
             ]),
-            Button(value: 'تسجيل الدخول', onClick: () => callback!("Typing")),
+            Button(
+              value: 'تسجيل الدخول',
+            ),
             Button(
               value: 'انشاء حساب',
-              onClick: () => callback!("movie"),
               color: DColors.orange,
             ),
             InkWell(
