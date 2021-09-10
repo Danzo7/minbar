@@ -15,17 +15,23 @@ class LoginScreen extends StatelessWidget {
             child: Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: Container(
+                    // decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //   image: const AssetImage('assets/images/bug.png'),
+                    //   fit: BoxFit.fitHeight,
+                    //   alignment: Alignment.topCenter,
+                    // )),
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: const AssetImage('assets/images/background.png'),
-                      fit: BoxFit.fill,
-                      alignment: Alignment.topCenter,
+                        gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xff071A16), Color(0xff165173)],
                     )),
                     child: Stack(alignment: Alignment.topCenter, children: [
                       Container(
                           alignment: Alignment.bottomCenter,
                           child: LoginForm()),
-                      RepaintBoundary(child: AnimatedLogo()),
+                      AnimatedLogo(),
                     ]))),
           )),
     );

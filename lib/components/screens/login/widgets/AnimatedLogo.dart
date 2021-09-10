@@ -1,5 +1,11 @@
+import 'dart:math';
+
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_cache.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:minbar_fl/components/static/colors.dart';
 
 class AnimatedLogo extends StatefulWidget {
   AnimatedLogo({Key? key}) : super(key: key);
@@ -11,23 +17,58 @@ class AnimatedLogo extends StatefulWidget {
 }
 
 class _AnimatedLogoState extends State<AnimatedLogo> {
-  String _animation = "logo";
-  void setTimeLine(String animation) {
+  int step = 0;
+  void _nextStep() {
     setState(() {
-      _animation = animation;
+      step++;
     });
   }
 
   @override
+  void initState() {
+    print("gh");
+    _warmupAnimations().then((value) => _nextStep());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 300,
-        height: 240,
-        child: new FlareActor(
-          "assets/flare/logo.flr",
-          alignment: Alignment.topCenter,
-          fit: BoxFit.scaleDown,
-          animation: _animation,
-        ));
+    print(step);
+
+    return step == 0
+        ? Text(
+            "data",
+            style: TextStyle(color: DColors.white),
+          )
+        : RepaintBoundary(
+            child: step == 1
+                ? Container(
+                    width: 300,
+                    height: 240,
+                    child: FlareActor(
+                      "assets/flare/logo.flr",
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.scaleDown,
+                      animation: "Typing",
+                      callback: (animationName) {
+                        print("typing");
+
+                        _nextStep();
+                      },
+                    ))
+                : Container(
+                    width: 300,
+                    height: 240,
+                    child: FlareActor(
+                      "assets/flare/logo.flr",
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.scaleDown,
+                      animation: "movie",
+                    )));
+  }
+
+  Future<void> _warmupAnimations() async {
+    await cachedActor(
+        AssetFlare(bundle: rootBundle, name: 'assets/flare/logo.flr'));
   }
 }

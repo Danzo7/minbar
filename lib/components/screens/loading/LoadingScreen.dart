@@ -22,13 +22,11 @@ class _SplashState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    precacheImage(AssetImage('assets/images/background.png'), context);
-
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-      image: const AssetImage('assets/images/background.png'),
-      fit: BoxFit.fill,
+      image: const AssetImage('assets/images/bug.png'),
+      fit: BoxFit.fitHeight,
       alignment: Alignment.topCenter,
     )));
   }
