@@ -15,7 +15,7 @@ class Button extends StatelessWidget {
         height: 50.0,
         width: double.infinity,
         //  width: MediaQuery.of(context).size.width * 0.85,
-        child: ElevatedButton(
+        child: TextButton(
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(DColors.white),
               backgroundColor: MaterialStateProperty.all<Color>(color),
@@ -27,9 +27,7 @@ class Button extends StatelessWidget {
             value,
             style: TextStyle(fontSize: 12),
           ),
-          onPressed: () {
-            onClick!();
-          },
+          onPressed: onClick,
         ),
       ),
     );

@@ -37,10 +37,12 @@ class LoginForm extends StatelessWidget {
               color: DColors.orange,
             ),
             InkWell(
+                onTap: () =>
+                    {Navigator.pushReplacementNamed(context, 'HomeScreen')},
                 child: Icon(
-              Icons.arrow_back,
-              color: DColors.white,
-            )),
+                  Icons.arrow_back,
+                  color: DColors.white,
+                )),
           ]),
     );
   }

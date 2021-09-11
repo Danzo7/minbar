@@ -36,9 +36,9 @@ class _AnimatedLogoState extends State<AnimatedLogo> {
     print(step);
 
     return step == 0
-        ? Text(
-            "data",
-            style: TextStyle(color: DColors.white),
+        ? Image.asset(
+            'assets/images/typeLogo.png',
+            alignment: Alignment.topCenter,
           )
         : RepaintBoundary(
             child: step == 1

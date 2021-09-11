@@ -46,7 +46,7 @@ class _InputBoxState extends State<InputBox> {
           widget.iconPath ??
               (_obscureText
                   ? "assets/icons/hide.svg"
-                  : "assets/icons/view.svg"),
+                  : "assets/icons/unhide.svg"),
           color: DColors.blueGray,
           fit: BoxFit.fitWidth,
         ));

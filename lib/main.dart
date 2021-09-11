@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/screens/home/homeScreen.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'components/screens/login/LoginScreen.dart';
 
@@ -15,11 +16,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Cairo'),
       color: DColors.white,
-      // routes: {
-      //   'LoadingScreen': (_) => LoadingScreen(),
-      //   'LoginScreen': (_) => LoginScreen()
-      // },
-      // initialRoute: 'LoginScreen',
+      routes: {
+        'HomeScreen': (_) => HomeScreen(),
+        'LoginScreen': (_) => LoginScreen()
+      },
+      initialRoute: 'LoginScreen',
       home: LoginScreen(),
     );
   }

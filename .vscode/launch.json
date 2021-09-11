@@ -12,12 +12,12 @@
         "flutterMode": "release"
     },
         {
-            "name": "minbar_fl",
+            "name": "debug",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "minbar_fl (profile mode)",
+            "name": "profile",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
