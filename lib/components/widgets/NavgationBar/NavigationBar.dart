@@ -42,7 +42,7 @@ class _NavigationBarState extends State<NavigationBar> {
           widget.navType != NavType.idle
               ? Center(
                   heightFactor:
-                      0.3 + (widget.navType != NavType.listen ? 0.3 : 0),
+                      0.6 - (widget.navType == NavType.listen ? 0.4 : 0),
                   child: FloatingActionButton(
                       backgroundColor: DColors.blueGray,
                       child: Icon(Icons.shopping_basket),

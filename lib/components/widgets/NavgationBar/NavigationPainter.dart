@@ -20,9 +20,9 @@ class NavigationPainter extends CustomPainter {
     path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
 
     if (type == NavType.listen) {
-      path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 10);
-      path.arcToPoint(Offset(size.width * 0.60, 10),
-          radius: Radius.circular(20.0), clockwise: true);
+      path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -15);
+
+      path.quadraticBezierTo(size.width * 0.50, 0, size.width * 0.55, -15);
     }
 
     if (type == NavType.broadcastable) {

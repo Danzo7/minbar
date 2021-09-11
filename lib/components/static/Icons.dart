@@ -20,17 +20,4 @@ class DIcons {
         color: color,
         fit: BoxFit.fitWidth,
       );
-
-  static Widget generateSvgIcons(path,
-      {color = Colors.white, width = 20, heigt = 20}) {
-    return Container(
-        alignment: Alignment.center,
-        width: 20,
-        height: 20,
-        child: SvgPicture.asset(
-          path,
-          color: Colors.amberAccent,
-          fit: BoxFit.fitWidth,
-        ));
-  }
 }

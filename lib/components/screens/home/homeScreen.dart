@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/NavigationBar.dart';
+import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -10,19 +11,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int currentIndex = 0;
-
-  setBottomBarIndex(index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
+  NavType navType = NavType.idle;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: DColors.white,
-      bottomNavigationBar: NavigationBar(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Button(
+            color: DColors.blueGray,
+            value: "Change Menu Type...",
+            onClick: () => setState(() => {
+                  navType = navType == NavType.broadcastable
+                      ? NavType.listen
+                      : NavType.broadcastable
+                }),
+          )
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(navType: navType),
     );
   }
 }
