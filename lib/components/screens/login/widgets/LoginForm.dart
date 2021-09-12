@@ -10,7 +10,7 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(28),
-      padding: EdgeInsets.only(bottom: 70),
+      //padding: EdgeInsets.only(bottom: 70),
       height: MediaQuery.of(context).size.height * 0.58,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -18,16 +18,14 @@ class LoginForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Column(children: [
-              Container(
-                  child: InputBox(
+              InputBox(
                 label: "البريد الالكتروني",
                 type: boxType.text,
                 iconPath: "assets/icons/email.svg",
-              )),
-              Container(
-                  child: InputBox(
+              ),
+              InputBox(
                 label: "كلمة المرور",
-              ))
+              )
             ]),
             Button(
               value: 'تسجيل الدخول',
@@ -36,7 +34,9 @@ class LoginForm extends StatelessWidget {
               value: 'انشاء حساب',
               color: DColors.orange,
             ),
-            InkWell(
+            FlatIconButton(
+                size: 10,
+                backgroundColor: Colors.transparent,
                 onTap: () =>
                     {Navigator.pushReplacementNamed(context, 'HomeScreen')},
                 child: Icon(

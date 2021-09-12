@@ -10,6 +10,8 @@ enum IconList {
   email,
   hide,
   unhide,
+  broadcast,
+  listening
 }
 
 class DIcons {

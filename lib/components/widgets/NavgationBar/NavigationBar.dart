@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:minbar_fl/components/static/Icons.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
+import '../TextPlay.dart';
 import 'NavigationPainter.dart';
 
 enum NavType { broadcastable, listen, idle }
@@ -43,17 +46,23 @@ class _NavigationBarState extends State<NavigationBar> {
               ? Center(
                   heightFactor:
                       0.6 - (widget.navType == NavType.listen ? 0.4 : 0),
-                  child: FloatingActionButton(
-                      backgroundColor: DColors.blueGray,
-                      child: Icon(Icons.shopping_basket),
-                      elevation: 0.1,
-                      onPressed: () {}),
+                  child: FlatIconButton(
+                      backgroundColor: widget.navType == NavType.broadcastable
+                          ? DColors.sadRed
+                          : DColors.blueGray,
+                      child: DIcons.getIcon(
+                          widget.navType == NavType.broadcastable
+                              ? IconList.broadcast
+                              : IconList.listening),
+                      onTap: () {}),
                 )
               : SizedBox(),
           Container(
             width: size.width,
             height: 80,
             child: Row(
+              textDirection: TextDirection
+                  .ltr, //this is the native direction on nabar,its does not matter if the ocalization is rtl or ltr.
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
@@ -71,13 +80,34 @@ class _NavigationBarState extends State<NavigationBar> {
                       setBottomBarIndex(1);
                     }),
                 Container(
+                  alignment: Alignment.bottomCenter,
                   width: widget.navType != NavType.idle ? size.width * 0.20 : 0,
+                  child: widget.navType == NavType.listen
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                              TextPlay(
+                                  textAlign: TextAlign.center,
+                                  minFontSize: 10,
+                                  marquee: Marquee(
+                                    text: "سوء الضنا",
+                                    style: TextStyle(
+                                        color: DColors.white, fontSize: 12),
+                                    blankSpace: 50,
+                                    velocity: 20.0,
+                                  )),
+                              Divider(
+                                color: DColors.white,
+                                thickness: 2,
+                              )
+                            ])
+                      : null,
                 ),
                 IconButton(
                     icon: DIcons.getIcon(IconList.profile,
                         filled: currentIndex == 2),
                     onPressed: () {
-                      setBottomBarIndex(2);
+                      Navigator.pushReplacementNamed(context, 'LoginScreen');
                     }),
                 IconButton(
                     icon: DIcons.getIcon(IconList.settings,

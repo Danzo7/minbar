@@ -32,6 +32,8 @@ dependencies:
   flare_flutter: ^3.0.2
   equatable: ^2.0.3
   flutter_native_splash: any
+  marquee: ^2.2.0
+  auto_size_text: ^3.0.0-nullsafety.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

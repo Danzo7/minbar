@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 
@@ -28,6 +30,45 @@ class Button extends StatelessWidget {
             style: TextStyle(fontSize: 12),
           ),
           onPressed: onClick,
+        ),
+      ),
+    );
+  }
+}
+
+class FlatIconButton extends StatelessWidget {
+  final Widget child;
+  final Color? backgroundColor;
+  final Color? highlightColor;
+  final Color? splashColor;
+  final double size;
+
+  final GestureTapCallback? onTap;
+  const FlatIconButton(
+      {Key? key,
+      required this.child,
+      this.backgroundColor,
+      this.onTap,
+      this.highlightColor,
+      this.splashColor,
+      this.size = 20})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Material(
+        color: backgroundColor,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        child: InkWell(
+          splashColor: splashColor,
+          highlightColor: highlightColor,
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.all(size),
+            child: child,
+          ),
         ),
       ),
     );
