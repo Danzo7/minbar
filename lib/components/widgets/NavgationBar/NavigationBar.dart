@@ -33,8 +33,10 @@ class _NavigationBarState extends State<NavigationBar> {
 
     return Container(
       width: size.width,
-      height: 80,
+      height: widget.navType == NavType.idle ? 80 : 100,
+      alignment: Alignment.bottomCenter,
       child: Stack(
+        alignment: Alignment.bottomCenter,
         clipBehavior: Clip.none,
         children: [
           CustomPaint(
@@ -43,18 +45,21 @@ class _NavigationBarState extends State<NavigationBar> {
                 color: DColors.blueGray, type: widget.navType),
           ),
           widget.navType != NavType.idle
-              ? Center(
-                  heightFactor:
-                      0.6 - (widget.navType == NavType.listen ? 0.4 : 0),
+              ? Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(
+                      bottom:
+                          widget.navType == NavType.broadcastable ? 20 : 30),
                   child: FlatIconButton(
-                      backgroundColor: widget.navType == NavType.broadcastable
-                          ? DColors.sadRed
-                          : DColors.blueGray,
-                      child: DIcons.getIcon(
-                          widget.navType == NavType.broadcastable
-                              ? IconList.broadcast
-                              : IconList.listening),
-                      onTap: () {}),
+                    backgroundColor: widget.navType == NavType.broadcastable
+                        ? DColors.sadRed
+                        : DColors.blueGray,
+                    child: DIcons.getIcon(
+                        widget.navType == NavType.broadcastable
+                            ? IconList.broadcast
+                            : IconList.listening),
+                    onTap: () {},
+                  ),
                 )
               : SizedBox(),
           Container(
@@ -90,7 +95,7 @@ class _NavigationBarState extends State<NavigationBar> {
                                   textAlign: TextAlign.center,
                                   minFontSize: 10,
                                   marquee: Marquee(
-                                    text: "سوء الضنا",
+                                    text: "سوء الضنا الضنا الضنا",
                                     style: TextStyle(
                                         color: DColors.white, fontSize: 12),
                                     blankSpace: 50,

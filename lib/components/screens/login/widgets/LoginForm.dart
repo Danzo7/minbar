@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/textStyles.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/formFields/inputBox.dart';
 
@@ -28,11 +29,21 @@ class LoginForm extends StatelessWidget {
               )
             ]),
             Button(
-              value: 'تسجيل الدخول',
+              Text(
+                'تسجيل الدخول',
+                style: DTextStyle.w12,
+              ),
+              width: double.infinity,
+              height: 50,
             ),
             Button(
-              value: 'انشاء حساب',
+              Text(
+                'انشاء حساب',
+                style: DTextStyle.w12,
+              ),
               color: DColors.orange,
+              width: double.infinity,
+              height: 50,
             ),
             FlatIconButton(
                 size: 10,

@@ -7,15 +7,25 @@ typedef Void = void Function();
 
 class Button extends StatelessWidget {
   final Void? onClick;
-  final String value;
   final Color color;
-  Button({this.onClick, this.value = "text", this.color = DColors.green});
+  final double raduis;
+  final double? height;
+  final double? width;
+  final Widget text;
+  Button(
+    this.text, {
+    this.onClick,
+    this.color = DColors.green,
+    this.height,
+    this.width,
+    this.raduis = 55,
+  });
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: SizedBox(
-        height: 50.0,
-        width: double.infinity,
+        height: height,
+        width: width,
         //  width: MediaQuery.of(context).size.width * 0.85,
         child: TextButton(
           style: ButtonStyle(
@@ -23,13 +33,56 @@ class Button extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all<Color>(color),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(55.0),
+                      borderRadius: BorderRadius.circular(raduis),
                       side: BorderSide(color: color)))),
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 12),
-          ),
+          child: text,
           onPressed: onClick,
+        ),
+      ),
+    );
+  }
+}
+
+class ContainButton extends StatelessWidget {
+  final Widget child;
+  final Color? backgroundColor;
+  final Color? highlightColor;
+  final Color? splashColor;
+  final double? height, width;
+  final double raduis;
+  final GestureTapCallback? onTap;
+
+  const ContainButton(
+      {Key? key,
+      required this.child,
+      this.backgroundColor,
+      this.highlightColor,
+      this.splashColor,
+      this.height,
+      this.width,
+      this.raduis = 0,
+      this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(raduis),
+        color: backgroundColor,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        child: InkWell(
+          splashColor: splashColor,
+          highlightColor: highlightColor,
+          onTap: onTap,
+          child: child,
         ),
       ),
     );

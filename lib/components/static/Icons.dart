@@ -11,15 +11,18 @@ enum IconList {
   hide,
   unhide,
   broadcast,
-  listening
+  listening,
+  pause,
+  listeners
 }
 
 class DIcons {
   static Widget getIcon(IconList name,
-          {bool filled = false, color = DColors.white}) =>
+          {bool filled = false, color = DColors.white, double? size}) =>
       SvgPicture.asset(
         "assets/icons/${name.toString().replaceAll(new RegExp("IconList."), "")}${filled ? "-filled" : ""}.svg",
         color: color,
+        width: size,
         fit: BoxFit.fitWidth,
       );
 }

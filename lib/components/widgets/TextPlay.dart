@@ -28,6 +28,7 @@ class TextPlay extends StatelessWidget {
         maxFontSize: marquee.style?.fontSize ?? 12,
         style: marquee.style,
         textAlign: textAlign,
+        maxLines: 1,
         overflowReplacement: marquee,
       ),
     );
