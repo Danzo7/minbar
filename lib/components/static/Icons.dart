@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:minbar_fl/components/static/colors.dart';
 
-enum IconList {
-  home,
-  article,
-  profile,
-  settings,
-  email,
-  hide,
-  unhide,
-  broadcast,
-  listening,
-  pause,
-  listeners
-}
-
-class DIcons {
-  static Widget getIcon(IconList name,
-          {bool filled = false, color = DColors.white, double? size}) =>
-      SvgPicture.asset(
-        "assets/icons/${name.toString().replaceAll(new RegExp("IconList."), "")}${filled ? "-filled" : ""}.svg",
-        color: color,
-        width: size,
-        fit: BoxFit.fitWidth,
-      );
+class IconBuilder extends StatelessWidget {
+  const IconBuilder(this.name,
+      {Key? key, this.fill = false, this.color, this.size})
+      : super(key: key);
+  final String name;
+  final bool fill;
+  final Color? color;
+  final double? size;
+  @override
+  Widget build(BuildContext context) {
+    return SvgPicture.asset(
+      "assets/icons/$name${fill ? "-filled" : ""}.svg",
+      color: color,
+      width: size,
+      fit: BoxFit.fitWidth,
+    );
+  }
 }

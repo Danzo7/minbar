@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/static/Icons.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/staticValues.dart';
+import 'package:minbar_fl/components/static/textStyles.dart';
 import 'package:minbar_fl/components/widgets/BroadcastBox.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/NavigationBar.dart';
-import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:minbar_fl/components/widgets/ScrollView.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../../widgets/ChipsTag.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -14,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   NavType navType = NavType.idle;
-  List mediaItems = [
+  static const List mediaItems = const [
     BroadcastBox(
       host: "مسيلمة الكذاب",
       field: "حوار",
@@ -52,22 +57,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Button(
-                Text("تغيير وضع القائمة"),
-                color: DColors.blueGray,
-                onClick: () => setState(() => {
-                      navType = navType != NavType.listen
-                          ? navType == NavType.broadcastable
-                              ? NavType.listen
-                              : NavType.broadcastable
-                          : NavType.idle
-                    }),
+              Container(
+                child: Text("الاكثر تفاعلا", style: DTextStyle.bg20s),
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 5),
               ),
               CarouselSlider(
                   options: CarouselOptions(
                       enableInfiniteScroll: false,
                       height: 116.0,
-                      autoPlay: true,
                       reverse: true),
                   items: mediaItems
                       .map((e) => Container(height: 113, width: 265, child: e))
@@ -75,55 +73,33 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 20,
               ),
-              BroadcastsList(
-                  mediaItems: mediaItems, direction: Axis.horizontal),
+              ChipsTag(items: ["الكل", "ختبة", "درس", "حوار"]),
               SizedBox(
                 height: 20,
               ),
+              Container(
+                child: Column(
+                  children: [
+                    const Text("يبث الان", style: DTextStyle.bg20s),
+                    const IconBuilder("live", color: DColors.sadRed),
+                  ],
+                ),
+                height: 70,
+              ),
               Expanded(
-                child: BroadcastsList(mediaItems: mediaItems),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 33),
+                  child: const SpacedScrollView(
+                    children: mediaItems,
+                    spacing: 10,
+                  ),
+                ),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBar(navType: navType),
+      bottomNavigationBar: StaticValues.navBar,
     );
-  }
-}
-
-class BroadcastsList extends StatelessWidget {
-  const BroadcastsList({
-    Key? key,
-    required this.mediaItems,
-    this.direction = Axis.vertical,
-  }) : super(key: key);
-
-  final List mediaItems;
-  final direction;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        //clipBehavior: Clip.none,
-        height: direction == Axis.horizontal ? 113 : null,
-        padding: direction == Axis.vertical
-            ? EdgeInsets.symmetric(horizontal: 33)
-            : null,
-        child: ListView(
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            scrollDirection: direction,
-            children: direction == Axis.vertical
-                ? mediaItems
-                    .map((e) => Container(
-                        padding: EdgeInsets.only(bottom: 10), child: e))
-                    .toList()
-                : mediaItems
-                    .map((e) => Container(
-                        padding: EdgeInsets.only(right: 10),
-                        height: 113,
-                        width: 265,
-                        child: e))
-                    .toList()));
   }
 }

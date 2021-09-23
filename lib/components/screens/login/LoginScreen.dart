@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/login/widgets/AnimatedLogo.dart';
+import 'widgets/AnimatedLogo.dart';
 import 'widgets/LoginForm.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -21,17 +21,17 @@ class LoginScreen extends StatelessWidget {
                     //   fit: BoxFit.fitHeight,
                     //   alignment: Alignment.topCenter,
                     // )),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xff071A16), Color(0xff165173)],
+                      colors: const [Color(0xff071A16), Color(0xff165173)],
                     )),
                     child: Stack(alignment: Alignment.topCenter, children: [
+                      AnimatedLogo(),
                       Container(
                           alignment: Alignment.bottomCenter,
                           child: LoginForm()),
-                      AnimatedLogo(),
                     ]))),
           )),
     );

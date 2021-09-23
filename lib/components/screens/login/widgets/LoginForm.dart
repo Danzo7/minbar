@@ -46,10 +46,9 @@ class LoginForm extends StatelessWidget {
               height: 50,
             ),
             FlatIconButton(
-                size: 10,
+                size: 40,
                 backgroundColor: Colors.transparent,
-                onTap: () =>
-                    {Navigator.pushReplacementNamed(context, 'HomeScreen')},
+                onTap: () => {Navigator.pushReplacementNamed(context, '/home')},
                 child: Icon(
                   Icons.arrow_back,
                   color: DColors.white,

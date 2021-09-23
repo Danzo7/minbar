@@ -11,14 +11,39 @@ enum NavType { broadcastable, listen, idle }
 
 class NavigationBar extends StatefulWidget {
   final navType;
-  final List menuItems = ["home", "article", "profile", "settings"];
-  NavigationBar({Key? key, this.navType = NavType.idle}) : super(key: key);
+  static const List menuItems = ["home", "article", "profile", "settings"];
+  static const idlePainter = const NavigationPainter(type: NavType.idle);
+  static const broadcastPainter =
+      const NavigationPainter(type: NavType.broadcastable);
+  static const listenPainter = const NavigationPainter(type: NavType.listen);
+
+  const NavigationBar({Key? key, this.navType = NavType.idle})
+      : super(key: key);
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
 }
 
 class _NavigationBarState extends State<NavigationBar> {
+  static final Widget broadcastButton = Container(
+    alignment: Alignment.center,
+    padding: const EdgeInsets.only(bottom: 20),
+    child: FlatIconButton(
+      iconName: "broadcast",
+      backgroundColor: DColors.sadRed,
+      onTap: () {},
+    ),
+  );
+  static final Widget listenButton = Container(
+    alignment: Alignment.center,
+    padding: const EdgeInsets.only(bottom: 30),
+    child: FlatIconButton(
+      backgroundColor: DColors.blueGray,
+      iconName: "listening",
+      onTap: () => {},
+    ),
+  );
+
   int currentIndex = 0;
 
   setBottomBarIndex(index) {
@@ -41,27 +66,14 @@ class _NavigationBarState extends State<NavigationBar> {
         children: [
           CustomPaint(
             size: Size(size.width, 80),
-            painter: NavigationPainter(
-                color: DColors.blueGray, type: widget.navType),
+            painter: widget.navType == NavType.idle
+                ? NavigationBar.idlePainter
+                : widget.navType == NavType.broadcastable
+                    ? NavigationBar.broadcastPainter
+                    : NavigationBar.listenPainter,
           ),
-          widget.navType != NavType.idle
-              ? Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(
-                      bottom:
-                          widget.navType == NavType.broadcastable ? 20 : 30),
-                  child: FlatIconButton(
-                    backgroundColor: widget.navType == NavType.broadcastable
-                        ? DColors.sadRed
-                        : DColors.blueGray,
-                    child: DIcons.getIcon(
-                        widget.navType == NavType.broadcastable
-                            ? IconList.broadcast
-                            : IconList.listening),
-                    onTap: () {},
-                  ),
-                )
-              : SizedBox(),
+          if (widget.navType == NavType.listen) listenButton,
+          if (widget.navType == NavType.broadcastable) broadcastButton,
           Container(
             width: size.width,
             height: 80,
@@ -71,54 +83,53 @@ class _NavigationBarState extends State<NavigationBar> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon:
-                      DIcons.getIcon(IconList.home, filled: currentIndex == 0),
+                  icon: IconBuilder("home", fill: currentIndex == 0),
                   onPressed: () {
-                    setBottomBarIndex(0);
+                    if (currentIndex != 0) setBottomBarIndex(0);
                   },
-                  splashColor: Colors.white,
                 ),
                 IconButton(
-                    icon: DIcons.getIcon(IconList.article,
-                        filled: currentIndex == 1),
+                    icon: IconBuilder("article", fill: (currentIndex == 1)),
                     onPressed: () {
-                      setBottomBarIndex(1);
+                      if (currentIndex != 1) setBottomBarIndex(1);
+                      Navigator.pushReplacementNamed(context, '/showcase');
                     }),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  width: widget.navType != NavType.idle ? size.width * 0.20 : 0,
-                  child: widget.navType == NavType.listen
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                              TextPlay(
-                                  textAlign: TextAlign.center,
-                                  minFontSize: 10,
-                                  marquee: Marquee(
-                                    text: "سوء الضنا الضنا الضنا",
-                                    style: TextStyle(
-                                        color: DColors.white, fontSize: 12),
-                                    blankSpace: 50,
-                                    velocity: 20.0,
-                                  )),
-                              Divider(
-                                color: DColors.white,
-                                thickness: 2,
-                              )
-                            ])
-                      : null,
-                ),
+                if (widget.navType != NavType.idle)
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    width: size.width * 0.20,
+                    child: widget.navType == NavType.listen
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                                TextPlay(
+                                    textAlign: TextAlign.center,
+                                    minFontSize: 10,
+                                    marquee: Marquee(
+                                      showFadingOnlyWhenScrolling: true,
+                                      fadingEdgeEndFraction: 0.1,
+                                      text: "سوء الضنا الضنا الضنا",
+                                      style: TextStyle(
+                                          color: DColors.white, fontSize: 12),
+                                      blankSpace: 50,
+                                      velocity: 20.0,
+                                    )),
+                                Divider(
+                                  color: DColors.white,
+                                  thickness: 2,
+                                )
+                              ])
+                        : null,
+                  ),
                 IconButton(
-                    icon: DIcons.getIcon(IconList.profile,
-                        filled: currentIndex == 2),
+                    icon: IconBuilder("profile", fill: currentIndex == 2),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'LoginScreen');
+                      Navigator.pushReplacementNamed(context, '/login');
                     }),
                 IconButton(
-                    icon: DIcons.getIcon(IconList.settings,
-                        filled: currentIndex == 3),
+                    icon: IconBuilder("settings", fill: currentIndex == 3),
                     onPressed: () {
-                      setBottomBarIndex(3);
+                      if (currentIndex != 3) setBottomBarIndex(3);
                     }),
               ],
             ),

@@ -5,14 +5,14 @@ import 'package:minbar_fl/components/widgets/NavgationBar/NavigationBar.dart';
 class NavigationPainter extends CustomPainter {
   final NavType type;
   final Color color;
-  NavigationPainter({required this.type, this.color = Colors.white});
+  const NavigationPainter({required this.type, this.color = Colors.white});
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = new Paint()
+    final Paint paint = new Paint()
       ..color = DColors.blueGray
       ..style = PaintingStyle.fill;
 
-    Path path = Path();
+    final Path path = Path();
     path.moveTo(0, 20); // Start
     path.quadraticBezierTo(0, 0, 0, 30);
     path.quadraticBezierTo(0, 0, size.width * 0.1, 0);
@@ -21,7 +21,6 @@ class NavigationPainter extends CustomPainter {
 
     if (type == NavType.listen) {
       path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -15);
-
       path.quadraticBezierTo(size.width * 0.50, 0, size.width * 0.55, -15);
     }
 
