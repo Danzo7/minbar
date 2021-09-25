@@ -7,7 +7,7 @@ class Header extends StatelessWidget {
   final String username;
   final bool withDetail;
 //
-  final String timeAgo;
+  final String timestamp;
   final String? field, verb;
   final String avatarPath;
   const Header(
@@ -17,7 +17,7 @@ class Header extends StatelessWidget {
       this.withDetail = false,
       this.field,
       this.verb,
-      required this.timeAgo})
+      required this.timestamp})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class Header extends StatelessWidget {
                       )
                   ]),
               Text(
-                timeAgo,
+                timestamp,
                 style: DTextStyle.bg10,
               )
             ],

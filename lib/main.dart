@@ -1,11 +1,16 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:minbar_fl/components/screens/ShowCaseScreen.dart';
 import 'package:minbar_fl/components/screens/home/homeScreen.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'components/screens/login/LoginScreen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 void main() {
+  GestureBinding.instance?.resamplingEnabled = true; // Set this flag.
+  timeago.setLocaleMessages('ar', timeago.ArMessages());
+
   //FlareCache.doesPrune = false;
   runApp(MyApp());
 }

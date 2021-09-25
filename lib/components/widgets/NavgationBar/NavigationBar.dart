@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/static/Icons.dart';
+import 'package:minbar_fl/components/widgets/IconBuilder.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 

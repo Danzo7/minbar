@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/Icons.dart';
+import 'package:minbar_fl/components/widgets/IconBuilder.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/static/staticValues.dart';
 import 'package:minbar_fl/components/static/textStyles.dart';
