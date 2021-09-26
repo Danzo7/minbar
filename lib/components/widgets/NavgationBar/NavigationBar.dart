@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/widgets/IconBuilder.dart';
+import 'package:minbar_fl/components/static/soda_icons_icons.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
@@ -29,7 +29,7 @@ class _NavigationBarState extends State<NavigationBar> {
     alignment: Alignment.center,
     padding: const EdgeInsets.only(bottom: 20),
     child: FlatIconButton(
-      iconName: "broadcast",
+      icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
       backgroundColor: DColors.sadRed,
       onTap: () {},
     ),
@@ -39,7 +39,7 @@ class _NavigationBarState extends State<NavigationBar> {
     padding: const EdgeInsets.only(bottom: 30),
     child: FlatIconButton(
       backgroundColor: DColors.blueGray,
-      iconName: "listening",
+      icon: Icon(SodaIcons.listening, size: 24, color: DColors.white),
       onTap: () => {},
     ),
   );
@@ -83,16 +83,28 @@ class _NavigationBarState extends State<NavigationBar> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: IconBuilder("home", fill: currentIndex == 0),
+                  icon: currentIndex == 0
+                      ? Icon(SodaIcons.home, color: DColors.white, size: 24)
+                      : Icon(SodaIcons.home_outlined,
+                          color: DColors.white, size: 24),
                   onPressed: () {
-                    if (currentIndex != 0) setBottomBarIndex(0);
+                    if (currentIndex != 0) {
+                      setBottomBarIndex(0);
+                      Navigator.pushReplacementNamed(context, "/login");
+                    }
                   },
                 ),
                 IconButton(
-                    icon: IconBuilder("article", fill: (currentIndex == 1)),
+                    icon: currentIndex == 1
+                        ? Icon(SodaIcons.article,
+                            color: DColors.white, size: 24)
+                        : Icon(SodaIcons.article_outlined,
+                            color: DColors.white, size: 24),
                     onPressed: () {
-                      if (currentIndex != 1) setBottomBarIndex(1);
-                      Navigator.pushReplacementNamed(context, '/showcase');
+                      if (currentIndex != 1) {
+                        setBottomBarIndex(2);
+                        Navigator.pushReplacementNamed(context, "/showcase");
+                      }
                     }),
                 if (widget.navType != NavType.idle)
                   Container(
@@ -122,12 +134,20 @@ class _NavigationBarState extends State<NavigationBar> {
                         : null,
                   ),
                 IconButton(
-                    icon: IconBuilder("profile", fill: currentIndex == 2),
+                    icon: currentIndex == 2
+                        ? Icon(SodaIcons.profile,
+                            color: DColors.white, size: 24)
+                        : Icon(SodaIcons.profile_outlined,
+                            color: DColors.white, size: 24),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/login');
+                      if (currentIndex != 2) setBottomBarIndex(2);
                     }),
                 IconButton(
-                    icon: IconBuilder("settings", fill: currentIndex == 3),
+                    icon: currentIndex == 3
+                        ? Icon(SodaIcons.settings,
+                            color: DColors.white, size: 24)
+                        : Icon(SodaIcons.settings_outlined,
+                            color: DColors.white, size: 24),
                     onPressed: () {
                       if (currentIndex != 3) setBottomBarIndex(3);
                     }),

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:minbar_fl/components/screens/ShowCaseScreen.dart';
 import 'package:minbar_fl/components/screens/home/homeScreen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      showPerformanceOverlay: true,
       theme: ThemeData(
           fontFamily: 'Cairo',
           textTheme: const TextTheme(
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
         '/login': (_) => LoginScreen(),
         "/showcase": (_) => ShowCaseScreen(),
       },
-      home: HomeScreen(),
+      home: ShowCaseScreen(),
     );
   }
 }

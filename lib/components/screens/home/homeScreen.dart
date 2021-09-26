@@ -38,6 +38,36 @@ class _HomeScreenState extends State<HomeScreen> {
     BroadcastBox(
       host: "مسيلمة الكذاب",
       field: "حوار",
+      subject: "مسيلمة الكذاب الثقة",
+    ),
+    BroadcastBox(
+      host: "مسيلمة الكذاب",
+      field: "حوار",
+      subject: "مسيلمة الكذاب الثقة",
+    ),
+    BroadcastBox(
+      host: "مسيلمة الكذاب",
+      field: "حوار",
+      subject: "مسيلمة الكذاب الثقة",
+    ),
+    BroadcastBox(
+      host: "مسيلمة الكذاب",
+      field: "حوار",
+      subject: "مسيلمة الكذاب الثقة",
+    ),
+    BroadcastBox(
+      host: "مسيلمة الكذاب",
+      field: "حوار",
+      subject: "مسيلمة الكذاب الثقة",
+    ),
+    BroadcastBox(
+      host: "مسيلمة الكذاب",
+      field: "حوار",
+      subject: "مسيلمة الكذاب الثقة",
+    ),
+    BroadcastBox(
+      host: "مسيلمة الكذاب",
+      field: "حوار",
       subject: "الثقة",
     ),
     BroadcastBox(

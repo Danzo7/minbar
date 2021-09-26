@@ -1,28 +1,39 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/widgets/IconBuilder.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/soda_icons_icons.dart';
 import 'package:minbar_fl/components/static/textStyles.dart';
 
 import 'buttons/buttons.dart';
 
 class BroadcastBox extends StatelessWidget {
-  static const img = const AssetImage('assets/images/placeholder.png');
-  static const pauseIcon = const IconBuilder("pause");
-  static const listenersIcon = const IconBuilder("listeners", size: 15);
-
   const BroadcastBox({
     Key? key,
     required this.subject,
     required this.field,
     required this.host,
   }) : super(key: key);
+
+  static const img = const AssetImage('assets/images/cover.png');
+  static const listenersIcon = const Icon(
+    SodaIcons.listeners,
+    size: 15,
+    color: Colors.white,
+  );
+  static const pauseIcon = const Icon(
+    SodaIcons.pause,
+    size: 35,
+    color: Colors.white,
+  );
+
   final String subject, field, host;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: DColors.blueGray, borderRadius: BorderRadius.circular(17)),
+          image: DecorationImage(image: img, fit: BoxFit.fitWidth),
+          borderRadius: BorderRadius.circular(17)),
       child: Container(
         width: double.infinity,
         height: 120,
@@ -80,12 +91,16 @@ class BroadcastBox extends StatelessWidget {
                     fit: FlexFit.tight,
                     child: Container(
                       alignment: Alignment.topLeft,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                      child: Wrap(
+                          spacing: 2,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.center,
+                          verticalDirection: VerticalDirection.up,
                           children: [
                             Text(
                               "115",
                               style: DTextStyle.w12,
+                              textAlign: TextAlign.center,
                             ),
                             listenersIcon
                           ]),

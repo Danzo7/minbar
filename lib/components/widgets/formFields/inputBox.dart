@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/soda_icons_icons.dart';
 
 enum boxType { password, date, text }
 
 class InputBox extends StatefulWidget {
   final String hint, helper, label;
   final TextDirection willingDir;
-  final String? iconPath;
+  final IconData? icon;
   final boxType type;
   InputBox(
       {this.hint = "",
       this.helper = "",
       this.label = "",
       this.type = boxType.password,
-      this.iconPath,
+      this.icon,
       this.willingDir = TextDirection.ltr});
 
   @override
@@ -42,21 +42,18 @@ class _InputBoxState extends State<InputBox> {
         alignment: Alignment.center,
         width: 20,
         height: 20,
-        child: SvgPicture.asset(
-          widget.iconPath ??
-              (_obscureText
-                  ? "assets/icons/hide.svg"
-                  : "assets/icons/unhide.svg"),
-          color: DColors.blueGray,
-          fit: BoxFit.fitWidth,
-        ));
+        child: widget.icon != null
+            ? Icon(widget.icon, size: 16)
+            : (_obscureText
+                ? Icon(SodaIcons.visibility, size: 21)
+                : Icon(SodaIcons.visibility_off, size: 21)));
     Widget? prefix = widget.type == boxType.password
         ? InkWell(
             onTap: _toggle,
             child: iconContainer,
             splashColor: DColors.grayBrown,
           )
-        : widget.iconPath != null
+        : widget.icon != null
             ? iconContainer
             : null;
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/widgets/IconBuilder.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 
 typedef Void = void Function();
@@ -129,26 +128,28 @@ class ContentButtonV2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      child: RawMaterialButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(raduis),
-            side: borderColor != null
-                ? BorderSide(color: borderColor ?? DColors.white)
-                : BorderSide.none),
-        constraints: BoxConstraints(),
-        fillColor: backgroundColor,
-        elevation: 0,
-        hoverElevation: 0,
-        highlightElevation: 0,
-        onPressed: onTap,
-        padding: EdgeInsets.symmetric(horizontal: spacing),
-        child: UnconstrainedBox(
-          child: Container(
-            height: height,
-            width: width,
-            alignment: Alignment.center,
-            child: child,
+    return RepaintBoundary(
+      child: FittedBox(
+        child: RawMaterialButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(raduis),
+              side: borderColor != null
+                  ? BorderSide(color: borderColor ?? DColors.white)
+                  : BorderSide.none),
+          constraints: BoxConstraints(),
+          fillColor: backgroundColor,
+          elevation: 0,
+          hoverElevation: 0,
+          highlightElevation: 0,
+          onPressed: onTap,
+          padding: EdgeInsets.symmetric(horizontal: spacing),
+          child: UnconstrainedBox(
+            child: Container(
+              height: height,
+              width: width,
+              alignment: Alignment.center,
+              child: child,
+            ),
           ),
         ),
       ),
@@ -157,23 +158,21 @@ class ContentButtonV2 extends StatelessWidget {
 }
 
 class FlatIconButton extends StatelessWidget {
-  final Widget? child;
   final Color? backgroundColor;
   final Color? highlightColor;
   final Color? splashColor;
   final double size;
-  final String iconName;
+  final Icon icon;
   final double? iconSize;
   final GestureTapCallback? onTap;
   const FlatIconButton(
       {Key? key,
-      this.child,
       this.backgroundColor,
       this.onTap,
       this.highlightColor,
       this.splashColor,
       this.size = 70,
-      this.iconName = "home",
+      required this.icon,
       this.iconSize = 30})
       : super(key: key);
 
@@ -192,7 +191,7 @@ class FlatIconButton extends StatelessWidget {
         child: Container(
           height: iconSize,
           width: iconSize,
-          child: child ?? IconBuilder(iconName),
+          child: icon,
         ),
         shape: const CircleBorder(),
       ),

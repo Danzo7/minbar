@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/soda_icons_icons.dart';
 import 'package:minbar_fl/components/static/textStyles.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/formFields/inputBox.dart';
@@ -22,7 +23,7 @@ class LoginForm extends StatelessWidget {
               InputBox(
                 label: "البريد الالكتروني",
                 type: boxType.text,
-                iconPath: "assets/icons/email.svg",
+                icon: SodaIcons.email,
               ),
               InputBox(
                 label: "كلمة المرور",
@@ -49,7 +50,7 @@ class LoginForm extends StatelessWidget {
                 size: 40,
                 backgroundColor: Colors.transparent,
                 onTap: () => {Navigator.pushReplacementNamed(context, '/home')},
-                child: Icon(
+                icon: Icon(
                   Icons.arrow_back,
                   color: DColors.white,
                 )),

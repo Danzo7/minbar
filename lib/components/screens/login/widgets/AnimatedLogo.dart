@@ -41,6 +41,7 @@ class _AnimatedLogoState extends State<AnimatedLogo> {
                     height: 240,
                     child: FlareActor(
                       "assets/flare/logo.flr",
+                      antialias: false,
                       alignment: Alignment.topCenter,
                       fit: BoxFit.scaleDown,
                       animation: "Typing",

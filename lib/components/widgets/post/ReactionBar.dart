@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/static/soda_icons_icons.dart';
 import 'package:minbar_fl/components/widgets/IconBuilder.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
@@ -35,9 +36,10 @@ class _ReactionBarState extends State<ReactionBar> {
             spacing: 3,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-          ContentButton(
+          ContentButtonV2(
             borderColor: DColors.coldGray,
             raduis: 7,
+            spacing: 10,
             height: 30,
             onTap: () => {_updatepinBtnState()()},
             child: Wrap(
@@ -49,12 +51,10 @@ class _ReactionBarState extends State<ReactionBar> {
                   textDirection: TextDirection.ltr,
                   style: const TextStyle(color: DColors.sadRed, fontSize: 13),
                 ),
-                IconBuilder(
-                  "pin",
-                  color: DColors.sadRed,
-                  size: 14,
-                  fill: _pinIsDown,
-                )
+                _pinIsDown
+                    ? Icon(SodaIcons.heart, color: DColors.sadRed, size: 14)
+                    : Icon(SodaIcons.heart_outlined,
+                        color: DColors.sadRed, size: 14)
               ],
             ),
           ),
@@ -62,6 +62,7 @@ class _ReactionBarState extends State<ReactionBar> {
             borderColor: DColors.coldGray,
             raduis: 7,
             height: 30,
+            spacing: 10,
             onTap: () => {_updateLikeBtnState()},
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
@@ -72,12 +73,10 @@ class _ReactionBarState extends State<ReactionBar> {
                   textDirection: TextDirection.ltr,
                   style: const TextStyle(color: DColors.sadRed, fontSize: 13),
                 ),
-                IconBuilder(
-                  "heart",
-                  color: DColors.sadRed,
-                  size: 14,
-                  fill: _likeIsDown,
-                )
+                _likeIsDown
+                    ? Icon(SodaIcons.pin, color: DColors.sadRed, size: 14)
+                    : Icon(SodaIcons.pin_outlined,
+                        color: DColors.sadRed, size: 14)
               ],
             ),
           )
