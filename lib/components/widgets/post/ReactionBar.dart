@@ -51,8 +51,8 @@ class _ReactionBarState extends State<ReactionBar> {
                   style: const TextStyle(color: DColors.sadRed, fontSize: 13),
                 ),
                 _pinIsDown
-                    ? Icon(SodaIcons.heart, color: DColors.sadRed, size: 14)
-                    : Icon(SodaIcons.heart_outlined,
+                    ? Icon(SodaIcons.pin, color: DColors.sadRed, size: 14)
+                    : Icon(SodaIcons.pin_outlined,
                         color: DColors.sadRed, size: 14)
               ],
             ),
@@ -73,8 +73,8 @@ class _ReactionBarState extends State<ReactionBar> {
                   style: const TextStyle(color: DColors.sadRed, fontSize: 13),
                 ),
                 _likeIsDown
-                    ? Icon(SodaIcons.pin, color: DColors.sadRed, size: 14)
-                    : Icon(SodaIcons.pin_outlined,
+                    ? Icon(SodaIcons.heart, color: DColors.sadRed, size: 14)
+                    : Icon(SodaIcons.heart_outlined,
                         color: DColors.sadRed, size: 14)
               ],
             ),
