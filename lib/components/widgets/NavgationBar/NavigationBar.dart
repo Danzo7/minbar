@@ -7,21 +7,56 @@ import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import '../TextPlay.dart';
 import 'NavigationPainter.dart';
 
+const idlePainter = const NavigationPainter(type: NavType.idle);
+const broadcastPainter = const NavigationPainter(type: NavType.broadcastable);
+const listenPainter = const NavigationPainter(type: NavType.listen);
+
 enum NavType { broadcastable, listen, idle }
 
-class NavigationBar extends StatefulWidget {
-  final navType;
-  static const List menuItems = ["home", "article", "profile", "settings"];
-  static const idlePainter = const NavigationPainter(type: NavType.idle);
-  static const broadcastPainter =
-      const NavigationPainter(type: NavType.broadcastable);
-  static const listenPainter = const NavigationPainter(type: NavType.listen);
+class NavbarItem {
+  final String name;
+  final Icon beforeIcon;
+  final Icon afterIcon;
+  const NavbarItem(
+      {required this.name, required this.beforeIcon, required this.afterIcon});
+}
 
-  const NavigationBar({Key? key, this.navType = NavType.idle})
+class NavigationBar extends StatefulWidget {
+  final NavType navType;
+  final int selectedIndex;
+  final List<NavbarItem> items;
+  const NavigationBar(
+      {Key? key,
+      this.navType = NavType.idle,
+      required this.selectedIndex,
+      this.items = const [
+        NavbarItem(
+            name: "broadcasts",
+            beforeIcon:
+                Icon(SodaIcons.broadcasts, color: DColors.white, size: 24),
+            afterIcon: Icon(SodaIcons.broadcasts_outlined,
+                color: DColors.white, size: 24)),
+        NavbarItem(
+            name: "posts",
+            beforeIcon: Icon(SodaIcons.article, color: DColors.white, size: 24),
+            afterIcon: Icon(SodaIcons.article_outlined,
+                color: DColors.white, size: 24)),
+        NavbarItem(
+            name: "profile",
+            beforeIcon: Icon(SodaIcons.profile, color: DColors.white, size: 24),
+            afterIcon: Icon(SodaIcons.profile_outlined,
+                color: DColors.white, size: 24)),
+        NavbarItem(
+            name: "settings",
+            beforeIcon:
+                Icon(SodaIcons.settings, color: DColors.white, size: 24),
+            afterIcon:
+                Icon(SodaIcons.settings, color: DColors.white, size: 24)),
+      ]})
       : super(key: key);
 
   @override
-  _NavigationBarState createState() => _NavigationBarState();
+  _NavigationBarState createState() => _NavigationBarState(selectedIndex);
 }
 
 class _NavigationBarState extends State<NavigationBar> {
@@ -44,12 +79,13 @@ class _NavigationBarState extends State<NavigationBar> {
     ),
   );
 
-  int currentIndex = 0;
-
+  int currentIndex;
+  _NavigationBarState(this.currentIndex);
   setBottomBarIndex(index) {
-    setState(() {
-      currentIndex = index;
-    });
+    if (currentIndex != index)
+      setState(() {
+        currentIndex = index;
+      });
   }
 
   @override
@@ -67,10 +103,10 @@ class _NavigationBarState extends State<NavigationBar> {
           CustomPaint(
             size: Size(size.width, 80),
             painter: widget.navType == NavType.idle
-                ? NavigationBar.idlePainter
+                ? idlePainter
                 : widget.navType == NavType.broadcastable
-                    ? NavigationBar.broadcastPainter
-                    : NavigationBar.listenPainter,
+                    ? broadcastPainter
+                    : listenPainter,
           ),
           if (widget.navType == NavType.listen) listenButton,
           if (widget.navType == NavType.broadcastable) broadcastButton,
@@ -82,15 +118,55 @@ class _NavigationBarState extends State<NavigationBar> {
                   .ltr, //this is the native direction on nabar,its does not matter if the ocalization is rtl or ltr.
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                //    ... widget.items.map((e) =>
+                //  widget.items.indexOf(e)==widget.items.length/2? IconButton(
+                //       icon: currentIndex == widget.items.indexOf(e)
+                //           ? e.beforeIcon
+                //           : e.afterIcon,
+                //       onPressed: () {
+                //         if (currentIndex != widget.items.indexOf(e)) {
+                //           setBottomBarIndex(widget.items.indexOf(e));
+                //         }
+                //       },
+                //     ): (widget.navType != NavType.idle)?
+                //       Container(
+                //         alignment: Alignment.bottomCenter,
+                //         width: size.width * 0.20,
+                //         child: widget.navType == NavType.listen
+                //             ? Column(
+                //                 mainAxisAlignment: MainAxisAlignment.end,
+                //                 children: [
+                //                     TextPlay(
+                //                         textAlign: TextAlign.center,
+                //                         minFontSize: 10,
+                //                         marquee: Marquee(
+                //                           showFadingOnlyWhenScrolling: true,
+                //                           fadingEdgeEndFraction: 0.1,
+                //                           text: "سوء الضنا الضنا الضنا",
+                //                           style: TextStyle(
+                //                               color: DColors.white, fontSize: 12),
+                //                           blankSpace: 50,
+                //                           velocity: 20.0,
+                //                         )),
+                //                     Divider(
+                //                       color: DColors.white,
+                //                       thickness: 2,
+                //                     )
+                //                   ])
+                //             : null,
+                //       ):SizedBox()
+                //                     ).toList(),
+
                 IconButton(
                   icon: currentIndex == 0
-                      ? Icon(SodaIcons.home, color: DColors.white, size: 24)
-                      : Icon(SodaIcons.home_outlined,
+                      ? Icon(SodaIcons.broadcasts,
+                          color: DColors.white, size: 24)
+                      : Icon(SodaIcons.broadcasts_outlined,
                           color: DColors.white, size: 24),
                   onPressed: () {
                     if (currentIndex != 0) {
                       setBottomBarIndex(0);
-                      Navigator.pushReplacementNamed(context, "/login");
+                      Navigator.pushReplacementNamed(context, "/home");
                     }
                   },
                 ),
@@ -102,7 +178,7 @@ class _NavigationBarState extends State<NavigationBar> {
                             color: DColors.white, size: 24),
                     onPressed: () {
                       if (currentIndex != 1) {
-                        setBottomBarIndex(2);
+                        setBottomBarIndex(1);
                         Navigator.pushReplacementNamed(context, "/showcase");
                       }
                     }),
@@ -140,7 +216,10 @@ class _NavigationBarState extends State<NavigationBar> {
                         : Icon(SodaIcons.profile_outlined,
                             color: DColors.white, size: 24),
                     onPressed: () {
-                      if (currentIndex != 2) setBottomBarIndex(2);
+                      if (currentIndex != 2) {
+                        setBottomBarIndex(2);
+                        Navigator.pushReplacementNamed(context, "/profile");
+                      }
                     }),
                 IconButton(
                     icon: currentIndex == 3

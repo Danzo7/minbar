@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:minbar_fl/components/screens/profile/ProfileScreen.dart';
 import 'package:minbar_fl/components/screens/ShowCaseScreen.dart';
 import 'package:minbar_fl/components/screens/home/homeScreen.dart';
 import 'package:minbar_fl/components/static/colors.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/home': (_) => HomeScreen(),
         '/login': (_) => LoginScreen(),
         "/showcase": (_) => ShowCaseScreen(),
+        "/profile": (_) => ProfileScreen(),
       },
       home: ShowCaseScreen(),
     );

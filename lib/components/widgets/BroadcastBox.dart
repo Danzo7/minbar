@@ -14,25 +14,15 @@ class BroadcastBox extends StatelessWidget {
     required this.host,
   }) : super(key: key);
 
-  static const img = const AssetImage('assets/images/cover.png');
-  static const listenersIcon = const Icon(
-    SodaIcons.listeners,
-    size: 15,
-    color: Colors.white,
-  );
-  static const pauseIcon = const Icon(
-    SodaIcons.pause,
-    size: 35,
-    color: Colors.white,
-  );
-
   final String subject, field, host;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(image: img, fit: BoxFit.fitWidth),
+          image: DecorationImage(
+              image: const AssetImage('assets/images/cover.png'),
+              fit: BoxFit.fitWidth),
           borderRadius: BorderRadius.circular(17)),
       child: Container(
         width: double.infinity,
@@ -46,9 +36,9 @@ class BroadcastBox extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
-                  alignment: Alignment.bottomLeft,
-                  child: pauseIcon,
-                ),
+                    alignment: Alignment.bottomLeft,
+                    child: const Icon(SodaIcons.pause,
+                        size: 35, color: Colors.white)),
               ),
             ),
             Padding(
@@ -102,7 +92,11 @@ class BroadcastBox extends StatelessWidget {
                               style: DTextStyle.w12,
                               textAlign: TextAlign.center,
                             ),
-                            listenersIcon
+                            const Icon(
+                              SodaIcons.listeners,
+                              size: 15,
+                              color: Colors.white,
+                            )
                           ]),
                     ),
                   )
