@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/widgets/post/PodcastBox.dart';
 import 'package:minbar_fl/components/widgets/post/Content.dart';
 import 'package:minbar_fl/components/widgets/post/Header.dart';
 import 'package:minbar_fl/components/widgets/post/ReactionBar.dart';
@@ -11,10 +12,10 @@ class Post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ;
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: DColors.coldGray)),
       child: Wrap(
@@ -32,7 +33,7 @@ class Post extends StatelessWidget {
           //content
           Content(value: pub.content),
           //resource
-          Container(),
+          if (pub.hasPodcast) PodcastBox(),
           //ReactionBar
           ReactionBar(likeAmount: pub.likeCount, pinsAmount: pub.pinCount)
         ],
