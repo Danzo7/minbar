@@ -21,6 +21,12 @@ class SodaIcons {
   static const _kFontFam = 'SodaIcons';
   static const String? _kFontPkg = null;
 
+  static const IconData clock = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData broadcasts = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData broadcasts_outlined = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData broadcasts_1 = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData broadcasts_2 = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData broadcasts_outlined_1 = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home_outlined = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData listeners = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
