@@ -29,6 +29,6 @@ class Publication {
       timestamp})
       : _timestamp = timestamp;
   String get timestamp {
-    return timeago.format(date, locale: 'ar');
+    return _timestamp ?? timeago.format(date, locale: 'ar');
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
-import 'package:minbar_fl/components/widgets/NavgationBar/NavigationBar.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 
 class NavigationPainter extends CustomPainter {
   final NavType type;

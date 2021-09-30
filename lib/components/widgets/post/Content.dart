@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/textStyles.dart';
+import 'package:minbar_fl/components/static/text_styles.dart';
 
 class Content extends StatelessWidget {
   final String value;

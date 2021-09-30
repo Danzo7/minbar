@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
-import 'package:minbar_fl/components/static/textStyles.dart';
+import 'package:minbar_fl/components/static/text_styles.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
 class Header extends StatelessWidget {

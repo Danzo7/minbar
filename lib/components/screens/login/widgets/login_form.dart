@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/static/soda_icons_icons.dart';
-import 'package:minbar_fl/components/static/textStyles.dart';
+import 'package:minbar_fl/components/static/text_styles.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
-import 'package:minbar_fl/components/widgets/formFields/inputBox.dart';
+import 'package:minbar_fl/components/widgets/formFields/input_box.dart';
 
 class LoginForm extends StatelessWidget {
   final Function? callback;

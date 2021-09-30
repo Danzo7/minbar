@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
-import 'package:minbar_fl/components/widgets/post/PodcastBox.dart';
-import 'package:minbar_fl/components/widgets/post/Content.dart';
+import 'package:minbar_fl/components/widgets/post/podcast_box.dart';
+import 'package:minbar_fl/components/widgets/post/content.dart';
 import 'package:minbar_fl/components/widgets/post/Header.dart';
-import 'package:minbar_fl/components/widgets/post/ReactionBar.dart';
+import 'package:minbar_fl/components/widgets/post/reaction_bar.dart';
 import 'package:minbar_fl/model/publication.dart';
 
 class Post extends StatelessWidget {

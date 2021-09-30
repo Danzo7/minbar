@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:minbar_fl/components/screens/profile/ProfileScreen.dart';
-import 'package:minbar_fl/components/screens/ShowCaseScreen.dart';
-import 'package:minbar_fl/components/screens/home/homeScreen.dart';
+import 'package:minbar_fl/components/screens/profile/profile_screen.dart';
+import 'package:minbar_fl/components/screens/General/general_screen.dart';
+import 'package:minbar_fl/components/screens/home/home_screen.dart';
 import 'package:minbar_fl/components/static/colors.dart';
-import 'components/screens/login/LoginScreen.dart';
+import 'components/screens/login/login_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() {
@@ -45,10 +45,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (_) => HomeScreen(),
         '/login': (_) => LoginScreen(),
-        "/showcase": (_) => ShowCaseScreen(),
+        "/showcase": (_) => GeneralScreen(),
         "/profile": (_) => ProfileScreen(),
       },
-      home: ShowCaseScreen(),
+      home: GeneralScreen(),
     );
   }
 }

@@ -4,8 +4,8 @@ import 'package:minbar_fl/components/static/soda_icons_icons.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
-import '../TextPlay.dart';
-import 'NavigationPainter.dart';
+import '../text_play.dart';
+import 'navigation_painter.dart';
 
 const idlePainter = const NavigationPainter(type: NavType.idle);
 const broadcastPainter = const NavigationPainter(type: NavType.broadcastable);

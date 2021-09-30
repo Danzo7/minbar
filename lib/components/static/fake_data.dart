@@ -1,3 +1,4 @@
+import 'package:minbar_fl/model/cast.dart';
 import 'package:minbar_fl/model/publication.dart';
 
 class FakeData {
@@ -156,4 +157,17 @@ class FakeData {
         authorAvatar: "assets/images/profilePicture.png",
         authorName: "مسيلمة الكذاب"),
   ];
+  static const List<Cast> casts = [
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+  ];
+  static const List<String> fields = [""];
 }

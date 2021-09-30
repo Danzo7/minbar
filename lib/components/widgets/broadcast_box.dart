@@ -2,19 +2,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/static/colors.dart';
 import 'package:minbar_fl/components/static/soda_icons_icons.dart';
-import 'package:minbar_fl/components/static/textStyles.dart';
+import 'package:minbar_fl/components/static/text_styles.dart';
+import 'package:minbar_fl/model/cast.dart';
 
 import 'buttons/buttons.dart';
 
 class BroadcastBox extends StatelessWidget {
-  const BroadcastBox({
+  const BroadcastBox(
+    this.cast, {
     Key? key,
-    required this.subject,
-    required this.field,
-    required this.host,
   }) : super(key: key);
 
-  final String subject, field, host;
+  final Cast cast;
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +54,19 @@ class BroadcastBox extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         NotAButton(
-                          child: Text(field, style: DTextStyle.w10),
+                          child: Text(cast.field, style: DTextStyle.w10),
                           backgroundColor: DColors.orange,
                           raduis: 7,
                           spacing: 5,
                         ),
                         AutoSizeText(
-                          subject,
+                          cast.subject,
                           style: DTextStyle.w20s,
                           minFontSize: 12,
                           maxLines: 1,
                         ),
                         AutoSizeText(
-                          host,
+                          cast.hostUsername,
                           style: DTextStyle.w12,
                           minFontSize: 8,
                           maxLines: 1,
