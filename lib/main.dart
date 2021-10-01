@@ -1,19 +1,28 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:minbar_fl/components/screens/profile/profile_screen.dart';
 import 'package:minbar_fl/components/screens/General/general_screen.dart';
 import 'package:minbar_fl/components/screens/home/home_screen.dart';
-import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/default_colors.dart';
 import 'components/screens/login/login_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: DColors.blueGray,
+    systemNavigationBarIconBrightness: Brightness.light,
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
+  ));
+
   GestureBinding.instance?.resamplingEnabled = true; // Set this flag.
   timeago.setLocaleMessages('ar', timeago.ArMessages());
 
-  //FlareCache.doesPrune = false;
+  //FlareCache.doesPrune = false;const [Color(0xff071A16), Color(0xff165173)]
   runApp(MyApp());
 }
 
@@ -23,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      showPerformanceOverlay: true,
+      //   showPerformanceOverlay: true,
       theme: ThemeData(
           fontFamily: 'Cairo',
           textTheme: const TextTheme(
