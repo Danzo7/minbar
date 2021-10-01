@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/default_colors.dart';
 import 'package:minbar_fl/components/widgets/post/podcast_box.dart';
 import 'package:minbar_fl/components/widgets/post/content.dart';
 import 'package:minbar_fl/components/widgets/post/Header.dart';

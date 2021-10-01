@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/colors.dart';
-import 'package:minbar_fl/components/static/text_styles.dart';
+import 'package:minbar_fl/components/static/default_colors.dart';
+import 'package:minbar_fl/components/static/default_text_styles.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
 class ChipsTag extends StatefulWidget {
@@ -26,10 +26,17 @@ class _ChipsTagState extends State<ChipsTag> {
     return Container(
       height: 47,
       width: double.infinity,
-      color: widget.bgColor ?? DColors.coldGray,
+      decoration: BoxDecoration(
+          color: widget.bgColor ?? DColors.coldGray,
+          border: widget.bgColor != null
+              ? Border(bottom: BorderSide(color: DColors.coldGray))
+              : null),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         height: 33,
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          clipBehavior: Clip.none,
           scrollDirection: Axis.horizontal,
           child: Wrap(spacing: 20, children: [
             ...widget.items

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/default_colors.dart';
 import 'package:minbar_fl/components/static/soda_icons_icons.dart';
-import 'package:minbar_fl/components/static/text_styles.dart';
+import 'package:minbar_fl/components/static/default_text_styles.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/formFields/input_box.dart';
 

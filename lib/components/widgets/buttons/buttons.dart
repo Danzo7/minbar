@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/default_colors.dart';
 
 typedef Void = void Function();
 
