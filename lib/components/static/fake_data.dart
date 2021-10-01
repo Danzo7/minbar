@@ -169,5 +169,5 @@ class FakeData {
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
   ];
-  static const List<String> fields = [""];
+  static const List<String> fields = ["الكل", "درس", "خطبة", "حوار"];
 }
