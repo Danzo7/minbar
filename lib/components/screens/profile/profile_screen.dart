@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:minbar_fl/components/static/colors.dart';
+import 'package:minbar_fl/components/static/default_colors.dart';
 import 'package:minbar_fl/components/static/fake_data.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
+import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/post/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 
@@ -13,22 +14,18 @@ class ProfileScreen extends StatelessWidget {
   final ScrollController wheel = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: DColors.white,
-        extendBody: true,
-        bottomNavigationBar: const NavigationBar(selectedIndex: 2),
-        body: SafeArea(
-          bottom: false,
-          child: Container(
-            alignment: Alignment.topCenter,
-            child: CustomScrollView(controller: wheel, slivers: [
-              ProfileHeader(wheel: wheel),
-              StickyChipTag(
-                items: FakeData.fields,
-              ),
-              postList()
-            ]),
-          ),
+    return MinbarScaffold(
+        selectedIndex: 2,
+        withSafeArea: true,
+        body: Container(
+          alignment: Alignment.topCenter,
+          child: CustomScrollView(controller: wheel, slivers: [
+            ProfileHeader(wheel: wheel),
+            StickyChipTag(
+              items: FakeData.fields,
+            ),
+            postList()
+          ]),
         ));
   }
 
