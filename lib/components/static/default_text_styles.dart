@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
+import 'default_colors.dart';
 
 class DTextStyle {
 //Light colors
