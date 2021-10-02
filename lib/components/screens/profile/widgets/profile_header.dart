@@ -10,10 +10,10 @@ import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
     Key? key,
-    required this.wheel,
+    this.wheel,
   }) : super(key: key);
 
-  final ScrollController wheel;
+  final ScrollController? wheel;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,9 @@ class ProfileHeader extends StatelessWidget {
 class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
-  final ScrollController wheel;
+  final ScrollController? wheel;
   _SliverProfileHeader({
-    required this.wheel,
+    this.wheel,
     required this.minHeight,
     required this.maxHeight,
   });
@@ -49,17 +49,19 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
-    if (shrinkPercentage < 1 && shrinkPercentage > 0.1) {
-      if (wheel.position.userScrollDirection == ScrollDirection.reverse) {
-        wheel.animateTo(maxHeight,
-            duration: Duration(milliseconds: 70), curve: Curves.easeOutCubic);
-      } else {
-        wheel.animateTo(0,
-            duration: Duration(milliseconds: 70), curve: Curves.easeOutCubic);
+    if (wheel != null) {
+      if (shrinkPercentage < 1 && shrinkPercentage > 0.1) {
+        if (wheel!.position.userScrollDirection == ScrollDirection.reverse) {
+          wheel!.animateTo(maxHeight,
+              duration: Duration(milliseconds: 70), curve: Curves.easeOutCubic);
+        } else {
+          wheel!.animateTo(0,
+              duration: Duration(milliseconds: 70), curve: Curves.easeOutCubic);
+        }
       }
     }
     return AnimatedOpacity(
-      opacity: 1 - shrinkPercentage,
+      opacity: max(0, 1 - (shrinkPercentage) * 9),
       duration: Duration(milliseconds: 10),
       child: Container(
         alignment: Alignment.center,

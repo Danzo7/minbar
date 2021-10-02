@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
       withSafeArea: true,
       body: Container(
         child: CustomScrollView(
-          physics: RangeMaintainingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
                 child: Wrap(spacing: 10, children: [

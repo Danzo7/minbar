@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //   showPerformanceOverlay: true,
+      //showPerformanceOverlay: true,
       theme: ThemeData(
           fontFamily: 'Cairo',
           textTheme: const TextTheme(
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         "/showcase": (_) => GeneralScreen(),
         "/profile": (_) => ProfileScreen(),
       },
-      home: GeneralScreen(),
+      home: ProfileScreen(),
     );
   }
 }
