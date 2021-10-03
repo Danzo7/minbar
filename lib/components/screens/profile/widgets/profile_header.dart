@@ -10,10 +10,7 @@ import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
     Key? key,
-    this.wheel,
   }) : super(key: key);
-
-  final ScrollController? wheel;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,6 @@ class ProfileHeader extends StatelessWidget {
         pinned: false,
         floating: false,
         delegate: _SliverProfileHeader(
-          wheel: wheel,
           minHeight: 33,
           maxHeight: 300,
         ));
@@ -31,9 +27,7 @@ class ProfileHeader extends StatelessWidget {
 class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
-  final ScrollController? wheel;
   _SliverProfileHeader({
-    this.wheel,
     required this.minHeight,
     required this.maxHeight,
   });
@@ -49,17 +43,6 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
-    if (wheel != null) {
-      if (shrinkPercentage < 1 && shrinkPercentage > 0.1) {
-        if (wheel!.position.userScrollDirection == ScrollDirection.reverse) {
-          wheel!.animateTo(maxHeight,
-              duration: Duration(milliseconds: 70), curve: Curves.easeOutCubic);
-        } else {
-          wheel!.animateTo(0,
-              duration: Duration(milliseconds: 70), curve: Curves.easeOutCubic);
-        }
-      }
-    }
     return AnimatedOpacity(
       opacity: max(0, 1 - (shrinkPercentage) * 9),
       duration: Duration(milliseconds: 10),

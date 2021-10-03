@@ -8,6 +8,7 @@ import 'package:minbar_fl/components/widgets/broadcast_box.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
+import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -25,6 +26,25 @@ class _HomeScreenState extends State<HomeScreen> {
       withSafeArea: true,
       body: Container(
         child: CustomScrollView(
+          physics: SnapScrollPhysics(snaps: [
+            Snap(173,
+                distance:
+                    50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
+            Snap(173,
+                leadingDistance:
+                    50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
+            Snap(173,
+                trailingDistance:
+                    50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
+            Snap(173,
+                trailingDistance:
+                    50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
+            Snap.avoidZone(0,
+                173), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
+            Snap.avoidZone(0, 173,
+                delimiter:
+                    50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
+          ]),
           slivers: [
             SliverToBoxAdapter(
                 child: Wrap(spacing: 10, children: [
@@ -65,9 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       (context, index) => Padding(
                           padding: const EdgeInsets.only(
                               left: 33, bottom: 10, right: 33),
-                          child: BroadcastBox(
-                            FakeData.casts[index],
-                          )),
+                          child: BroadcastBox(FakeData.casts[index],
+                              key: Key('key-$index'))),
                       childCount: FakeData.casts.length)),
             )
           ],
