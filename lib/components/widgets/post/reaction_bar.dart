@@ -40,7 +40,7 @@ class _ReactionBarState extends State<ReactionBar> {
             raduis: 7,
             spacing: 10,
             height: 30,
-            onTap: () => {_updatepinBtnState()()},
+            onTap: () => {_updatepinBtnState()},
             child: Wrap(
               spacing: 5,
               crossAxisAlignment: WrapCrossAlignment.center,
