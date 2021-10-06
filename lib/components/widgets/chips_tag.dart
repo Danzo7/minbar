@@ -34,6 +34,7 @@ class _ChipsTagState extends State<ChipsTag> {
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         height: 33,
+        alignment: Alignment.center,
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           clipBehavior: Clip.none,
