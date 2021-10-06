@@ -37,7 +37,9 @@ dependencies:
   carousel_slider: ^4.0.0
   scroll_when_needed: ^2.0.0
   timeago: ^3.1.0
-  snap_scroll_physics: ^0.0.1+2
+  snap_scroll_physics: 
+   git:
+    url: https://github.com/Danzo7/snap_scroll_physics
 dev_dependencies:
   flutter_test:
     sdk: flutter
