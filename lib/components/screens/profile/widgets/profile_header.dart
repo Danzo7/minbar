@@ -8,9 +8,11 @@ import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({
-    Key? key,
-  }) : super(key: key);
+  final double minHeight;
+  final double maxHeight;
+  const ProfileHeader(
+      {Key? key, required this.minHeight, required this.maxHeight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +20,8 @@ class ProfileHeader extends StatelessWidget {
         pinned: false,
         floating: false,
         delegate: _SliverProfileHeader(
-          minHeight: 33,
-          maxHeight: 300,
+          minHeight: minHeight,
+          maxHeight: maxHeight,
         ));
   }
 }

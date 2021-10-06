@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       withSafeArea: true,
       body: Container(
         child: CustomScrollView(
-          physics: SnapScrollPhysics(snaps: [
+          physics: SnapScrollPhysics(parent: BouncingScrollPhysics(), snaps: [
             Snap(173,
                 distance:
                     50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,

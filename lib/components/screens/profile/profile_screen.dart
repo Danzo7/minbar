@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
 //the error is related to this issue:https://github.com/flutter/flutter/issues/91166.
 //the only way to fix this issue was by editing flutter source code.
   static bool _bugIsFixed = false;
-
+  static const double _maxHeaderHieght = 300;
   ProfileScreen({Key? key}) : super(key: key);
 
   @override
@@ -25,44 +25,59 @@ class ProfileScreen extends StatelessWidget {
         withSafeArea: true,
         body: Container(
           alignment: Alignment.topCenter,
-          child: _bugIsFixed
-              ? GraviryHeaderScrollView(
+          child: !_bugIsFixed
+              ? RefreshIndicator(
+                  edgeOffset: _maxHeaderHieght + 47,
+                  displacement: 100,
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                  onRefresh: () =>
+                      Future.delayed(Duration(seconds: 1), () => {true}),
+                  child: CustomScrollView(
+                      physics: SnapScrollPhysics(
+                          parent: BouncingScrollPhysics(),
+                          snaps: [
+                            Snap(_maxHeaderHieght,
+                                distance:
+                                    50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
+                            Snap(_maxHeaderHieght,
+                                leadingDistance:
+                                    50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
+                            Snap(_maxHeaderHieght,
+                                trailingDistance:
+                                    50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
+                            Snap(_maxHeaderHieght,
+                                trailingDistance:
+                                    50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
+                            Snap.avoidZone(0,
+                                _maxHeaderHieght), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
+                            Snap.avoidZone(0, _maxHeaderHieght,
+                                delimiter:
+                                    50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
+                          ]),
+                      slivers: [
+                        ProfileHeader(
+                          maxHeight: _maxHeaderHieght,
+                          minHeight: 33,
+                        ),
+                        StickyChipTag(
+                          items: FakeData.fields,
+                        ),
+                        _postList(FakeData.pub)
+                      ]),
+                )
+              : GraviryHeaderScrollView(
                   slivers: [
-                    ProfileHeader(),
+                    ProfileHeader(
+                      maxHeight: 300,
+                      minHeight: 33,
+                    ),
                     StickyChipTag(
                       items: FakeData.fields,
                     ),
                     _postList(FakeData.pub)
                   ],
                   gravityField: 300,
-                )
-              : CustomScrollView(
-                  physics: SnapScrollPhysics(snaps: [
-                    Snap(300,
-                        distance:
-                            50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
-                    Snap(300,
-                        leadingDistance:
-                            50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
-                    Snap(300,
-                        trailingDistance:
-                            50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-                    Snap(300,
-                        trailingDistance:
-                            50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-                    Snap.avoidZone(0,
-                        300), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
-                    Snap.avoidZone(0, 300,
-                        delimiter:
-                            50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
-                  ]),
-                  slivers: [
-                      ProfileHeader(),
-                      StickyChipTag(
-                        items: FakeData.fields,
-                      ),
-                      _postList(FakeData.pub)
-                    ]),
+                ),
         ));
   }
 
