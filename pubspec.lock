@@ -262,10 +262,12 @@ packages:
   snap_scroll_physics:
     dependency: "direct main"
     description:
-      name: snap_scroll_physics
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.1+2"
+      path: "."
+      ref: HEAD
+      resolved-ref: e4708ca0b28d311c6145769197148e6600632aec
+      url: "https://github.com/Danzo7/snap_scroll_physics"
+    source: git
+    version: "0.0.1+1"
   source_span:
     dependency: transitive
     description:
