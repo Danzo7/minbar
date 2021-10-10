@@ -40,6 +40,9 @@ dependencies:
   snap_scroll_physics: 
    git:
     url: https://github.com/Danzo7/snap_scroll_physics
+  pull_to_refresh: ^2.0.0
+  loadmore: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
