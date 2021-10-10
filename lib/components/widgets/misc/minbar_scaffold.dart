@@ -18,7 +18,10 @@ class MinbarScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: DColors.white,
       extendBody: true,
-      bottomNavigationBar: NavigationBar(selectedIndex: selectedIndex),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: selectedIndex,
+        type: NavType.broadcastable,
+      ),
       body: withSafeArea ? SafeArea(bottom: false, child: body) : body,
     );
   }

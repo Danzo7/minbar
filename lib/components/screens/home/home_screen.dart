@@ -78,17 +78,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 70,
               ),
             ),
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 80),
-              sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (context, index) => Padding(
-                          padding: const EdgeInsets.only(
-                              left: 33, bottom: 10, right: 33),
-                          child: BroadcastBox(FakeData.casts[index],
-                              key: Key('key-$index'))),
-                      childCount: FakeData.casts.length)),
-            )
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (context, index) => Padding(
+                        padding: const EdgeInsets.only(
+                            left: 33, bottom: 10, right: 33),
+                        child: BroadcastBox(FakeData.casts[index],
+                            key: Key('key-$index'))),
+                    childCount: FakeData.casts.length)),
           ],
         ),
       ),

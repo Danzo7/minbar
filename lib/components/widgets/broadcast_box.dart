@@ -8,10 +8,7 @@ import 'package:minbar_fl/model/cast.dart';
 import 'buttons/buttons.dart';
 
 class BroadcastBox extends StatelessWidget {
-  const BroadcastBox(
-    this.cast, {
-    Key? key,
-  }) : super(key: key);
+  const BroadcastBox(this.cast, {Key? key}) : super(key: key);
 
   final Cast cast;
 
