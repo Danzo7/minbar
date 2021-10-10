@@ -22,12 +22,12 @@ class NavbarItem {
 }
 
 class NavigationBar extends StatefulWidget {
-  final NavType navType;
+  final NavType type;
   final int selectedIndex;
   final List<NavbarItem> items;
   const NavigationBar(
       {Key? key,
-      this.navType = NavType.idle,
+      this.type = NavType.idle,
       required this.selectedIndex,
       this.items = const [
         NavbarItem(
@@ -94,7 +94,7 @@ class _NavigationBarState extends State<NavigationBar> {
 
     return Container(
       width: size.width,
-      height: widget.navType == NavType.idle ? 80 : 100,
+      height: widget.type == NavType.idle ? 80 : 100,
       alignment: Alignment.bottomCenter,
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -102,14 +102,14 @@ class _NavigationBarState extends State<NavigationBar> {
         children: [
           CustomPaint(
             size: Size(size.width, 80),
-            painter: widget.navType == NavType.idle
+            painter: widget.type == NavType.idle
                 ? idlePainter
-                : widget.navType == NavType.broadcastable
+                : widget.type == NavType.broadcastable
                     ? broadcastPainter
                     : listenPainter,
           ),
-          if (widget.navType == NavType.listen) listenButton,
-          if (widget.navType == NavType.broadcastable) broadcastButton,
+          if (widget.type == NavType.listen) listenButton,
+          if (widget.type == NavType.broadcastable) broadcastButton,
           Container(
             width: size.width,
             height: 80,
@@ -182,11 +182,11 @@ class _NavigationBarState extends State<NavigationBar> {
                         Navigator.pushReplacementNamed(context, "/showcase");
                       }
                     }),
-                if (widget.navType != NavType.idle)
+                if (widget.type != NavType.idle)
                   Container(
                     alignment: Alignment.bottomCenter,
                     width: size.width * 0.20,
-                    child: widget.navType == NavType.listen
+                    child: widget.type == NavType.listen
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
