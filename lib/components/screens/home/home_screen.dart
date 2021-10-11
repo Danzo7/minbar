@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/fake_data.dart';
+import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
-import 'package:minbar_fl/components/static/default_colors.dart';
-import 'package:minbar_fl/components/static/default_text_styles.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
+
 import 'package:minbar_fl/components/widgets/broadcast_box.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
@@ -12,6 +12,7 @@ import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
+  static const String route = 'home';
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

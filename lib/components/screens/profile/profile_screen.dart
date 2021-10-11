@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:minbar_fl/components/static/fake_data.dart';
+import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
 import 'package:minbar_fl/components/widgets/post/post.dart';
@@ -12,12 +12,13 @@ import 'widgets/gravity_header_scroll_view.dart';
 import 'widgets/profile_header.dart';
 
 class ProfileScreen extends StatefulWidget {
-//set this to false in case of assertion exception "Failed assertion: line 659 pos 12: '_hold == null': is not true".
-//the error is related to this issue:https://github.com/flutter/flutter/issues/91166.
-//the only way to fix this issue was by editing flutter source code.
+  ///set this to false in case of assertion exception ``Failed assertion: line 659 pos 12: '_hold == null': is not true``.
+  ///the error is related to this issue:https://github.com/flutter/flutter/issues/91166.
+  ///the only way to fix this issue was by editing flutter source code.
   static bool _bugIsFixed = false;
   static const double _maxHeaderHieght = 300;
   ProfileScreen({Key? key}) : super(key: key);
+  static const String route = 'profile';
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();

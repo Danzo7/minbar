@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/default_colors.dart';
-import 'package:minbar_fl/components/static/soda_icons_icons.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
 
 enum boxType { password, date, text }
 

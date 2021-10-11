@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/static/soda_icons_icons.dart';
-import 'package:minbar_fl/components/static/default_colors.dart';
+import 'package:minbar_fl/components/screens/broadcast/Broadcast_page.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
+
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../text_play.dart';
+import 'navigation_item.dart';
 import 'navigation_painter.dart';
 
 const idlePainter = const NavigationPainter(type: NavType.idle);
@@ -13,62 +17,24 @@ const listenPainter = const NavigationPainter(type: NavType.listen);
 
 enum NavType { broadcastable, listen, idle }
 
-class NavbarItem {
-  final String name;
-  final Icon beforeIcon;
-  final Icon afterIcon;
-  const NavbarItem(
-      {required this.name, required this.beforeIcon, required this.afterIcon});
-}
-
 class NavigationBar extends StatefulWidget {
   final NavType type;
   final int selectedIndex;
-  final List<NavbarItem> items;
+  final List<NavigatonItem> items;
+
   const NavigationBar(
       {Key? key,
       this.type = NavType.idle,
       required this.selectedIndex,
-      this.items = const [
-        NavbarItem(
-            name: "broadcasts",
-            beforeIcon:
-                Icon(SodaIcons.broadcasts, color: DColors.white, size: 24),
-            afterIcon: Icon(SodaIcons.broadcasts_outlined,
-                color: DColors.white, size: 24)),
-        NavbarItem(
-            name: "posts",
-            beforeIcon: Icon(SodaIcons.article, color: DColors.white, size: 24),
-            afterIcon: Icon(SodaIcons.article_outlined,
-                color: DColors.white, size: 24)),
-        NavbarItem(
-            name: "profile",
-            beforeIcon: Icon(SodaIcons.profile, color: DColors.white, size: 24),
-            afterIcon: Icon(SodaIcons.profile_outlined,
-                color: DColors.white, size: 24)),
-        NavbarItem(
-            name: "settings",
-            beforeIcon:
-                Icon(SodaIcons.settings, color: DColors.white, size: 24),
-            afterIcon:
-                Icon(SodaIcons.settings, color: DColors.white, size: 24)),
-      ]})
-      : super(key: key);
+      required this.items})
+      : assert(items.length % 2 == 0),
+        super(key: key);
 
   @override
   _NavigationBarState createState() => _NavigationBarState(selectedIndex);
 }
 
 class _NavigationBarState extends State<NavigationBar> {
-  static final Widget broadcastButton = Container(
-    alignment: Alignment.center,
-    padding: const EdgeInsets.only(bottom: 20),
-    child: FlatIconButton(
-      icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
-      backgroundColor: DColors.sadRed,
-      onTap: () {},
-    ),
-  );
   static final Widget listenButton = Container(
     alignment: Alignment.center,
     padding: const EdgeInsets.only(bottom: 30),
@@ -109,7 +75,7 @@ class _NavigationBarState extends State<NavigationBar> {
                     : listenPainter,
           ),
           if (widget.type == NavType.listen) listenButton,
-          if (widget.type == NavType.broadcastable) broadcastButton,
+          if (widget.type == NavType.broadcastable) broadcastButton(context),
           Container(
             width: size.width,
             height: 80,
@@ -118,122 +84,98 @@ class _NavigationBarState extends State<NavigationBar> {
                   .ltr, //this is the native direction on nabar,its does not matter if the ocalization is rtl or ltr.
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                //    ... widget.items.map((e) =>
-                //  widget.items.indexOf(e)==widget.items.length/2? IconButton(
-                //       icon: currentIndex == widget.items.indexOf(e)
-                //           ? e.beforeIcon
-                //           : e.afterIcon,
-                //       onPressed: () {
-                //         if (currentIndex != widget.items.indexOf(e)) {
-                //           setBottomBarIndex(widget.items.indexOf(e));
-                //         }
-                //       },
-                //     ): (widget.navType != NavType.idle)?
-                //       Container(
-                //         alignment: Alignment.bottomCenter,
-                //         width: size.width * 0.20,
-                //         child: widget.navType == NavType.listen
-                //             ? Column(
-                //                 mainAxisAlignment: MainAxisAlignment.end,
-                //                 children: [
-                //                     TextPlay(
-                //                         textAlign: TextAlign.center,
-                //                         minFontSize: 10,
-                //                         marquee: Marquee(
-                //                           showFadingOnlyWhenScrolling: true,
-                //                           fadingEdgeEndFraction: 0.1,
-                //                           text: "سوء الضنا الضنا الضنا",
-                //                           style: TextStyle(
-                //                               color: DColors.white, fontSize: 12),
-                //                           blankSpace: 50,
-                //                           velocity: 20.0,
-                //                         )),
-                //                     Divider(
-                //                       color: DColors.white,
-                //                       thickness: 2,
-                //                     )
-                //                   ])
-                //             : null,
-                //       ):SizedBox()
-                //                     ).toList(),
-
-                IconButton(
-                  icon: currentIndex == 0
-                      ? Icon(SodaIcons.broadcasts,
-                          color: DColors.white, size: 24)
-                      : Icon(SodaIcons.broadcasts_outlined,
-                          color: DColors.white, size: 24),
-                  onPressed: () {
-                    if (currentIndex != 0) {
-                      setBottomBarIndex(0);
-                      Navigator.pushReplacementNamed(context, "/home");
-                    }
-                  },
-                ),
-                IconButton(
-                    icon: currentIndex == 1
-                        ? Icon(SodaIcons.article,
-                            color: DColors.white, size: 24)
-                        : Icon(SodaIcons.article_outlined,
-                            color: DColors.white, size: 24),
-                    onPressed: () {
-                      if (currentIndex != 1) {
-                        setBottomBarIndex(1);
-                        Navigator.pushReplacementNamed(context, "/showcase");
-                      }
-                    }),
-                if (widget.type != NavType.idle)
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    width: size.width * 0.20,
-                    child: widget.type == NavType.listen
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                                TextPlay(
-                                    textAlign: TextAlign.center,
-                                    minFontSize: 10,
-                                    marquee: Marquee(
-                                      showFadingOnlyWhenScrolling: true,
-                                      fadingEdgeEndFraction: 0.1,
-                                      text: "سوء الضنا الضنا الضنا",
-                                      style: TextStyle(
-                                          color: DColors.white, fontSize: 12),
-                                      blankSpace: 50,
-                                      velocity: 20.0,
-                                    )),
-                                Divider(
-                                  color: DColors.white,
-                                  thickness: 2,
-                                )
-                              ])
-                        : null,
-                  ),
-                IconButton(
-                    icon: currentIndex == 2
-                        ? Icon(SodaIcons.profile,
-                            color: DColors.white, size: 24)
-                        : Icon(SodaIcons.profile_outlined,
-                            color: DColors.white, size: 24),
-                    onPressed: () {
-                      if (currentIndex != 2) {
-                        setBottomBarIndex(2);
-                        Navigator.pushReplacementNamed(context, "/profile");
-                      }
-                    }),
-                IconButton(
-                    icon: currentIndex == 3
-                        ? Icon(SodaIcons.settings,
-                            color: DColors.white, size: 24)
-                        : Icon(SodaIcons.settings_outlined,
-                            color: DColors.white, size: 24),
-                    onPressed: () {
-                      if (currentIndex != 3) setBottomBarIndex(3);
-                    }),
+                ...widget.items
+                    .map((e) => [
+                          if (widget.items.indexOf(e) ==
+                                  widget.items.length / 2 &&
+                              widget.type != NavType.idle)
+                            Container(
+                              alignment: Alignment.bottomCenter,
+                              width: size.width * 0.20,
+                              child: widget.type == NavType.listen
+                                  ? Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                          TextPlay(
+                                              textAlign: TextAlign.center,
+                                              minFontSize: 10,
+                                              marquee: Marquee(
+                                                showFadingOnlyWhenScrolling:
+                                                    true,
+                                                fadingEdgeEndFraction: 0.1,
+                                                text: "سوء الضنا الضنا الضنا",
+                                                style: TextStyle(
+                                                    color: DColors.white,
+                                                    fontSize: 12),
+                                                blankSpace: 50,
+                                                velocity: 20.0,
+                                              )),
+                                          Divider(
+                                            color: DColors.white,
+                                            thickness: 2,
+                                          )
+                                        ])
+                                  : null,
+                            ),
+                          IconButton(
+                              icon: currentIndex == widget.items.indexOf(e)
+                                  ? e.beforeIcon
+                                  : e.afterIcon,
+                              onPressed: () {
+                                if (currentIndex != widget.items.indexOf(e)) {
+                                  setBottomBarIndex(widget.items.indexOf(e));
+                                  Navigator.pushReplacementNamed(
+                                      context, e.route);
+                                }
+                              })
+                        ])
+                    .expand((i) => i)
+                    .toList()
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Container broadcastButton(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.only(bottom: 20),
+      child: FlatIconButton(
+        icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
+        backgroundColor: DColors.sadRed,
+        onTap: () {
+          showMaterialModalBottomSheet(
+            expand: false,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+            ),
+            clipBehavior: Clip.antiAlias,
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context) => Container(
+                child: Container(
+              child: SlidingUpPanel(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.horizontal(
+                      left: Radius.circular(40), right: Radius.circular(40)),
+                  boxShadow: [],
+                  minHeight: 600,
+                  maxHeight: MediaQuery.of(context).size.height,
+                  panel: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(40),
+                          right: Radius.circular(40)),
+                    ),
+                    child: BroadcastPage(600),
+                  )),
+            )),
+          );
+        },
       ),
     );
   }

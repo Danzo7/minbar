@@ -20,6 +20,7 @@ class IconBuilder extends StatelessWidget {
       "assets/icons/$name${outlined ? "_outlined" : ""}.svg",
       color: color,
       width: size,
+      height: size,
       fit: fit,
     );
   }

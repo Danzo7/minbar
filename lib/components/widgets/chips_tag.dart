@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/static/default_colors.dart';
-import 'package:minbar_fl/components/static/default_text_styles.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
+
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ChipsTag extends StatefulWidget {
   final List<String> items;
@@ -13,11 +14,25 @@ class ChipsTag extends StatefulWidget {
 }
 
 class _ChipsTagState extends State<ChipsTag> {
+  AutoScrollController? _scrollController;
+  void initState() {
+    super.initState();
+
+    _scrollController = AutoScrollController(axis: Axis.horizontal);
+  }
+
+  void _scrollToIndex(int index) {
+    _scrollController!.scrollToIndex(
+      index,
+      duration: Duration(milliseconds: 100),
+    );
+  }
+
   int _selectedItem = 0;
   _setSelectedItem(int index) {
-    print(index);
     setState(() {
       _selectedItem = index;
+      _scrollToIndex(index);
     });
   }
 
@@ -36,23 +51,30 @@ class _ChipsTagState extends State<ChipsTag> {
         height: 33,
         alignment: Alignment.center,
         child: SingleChildScrollView(
+          controller: _scrollController,
           physics: BouncingScrollPhysics(),
           clipBehavior: Clip.none,
           scrollDirection: Axis.horizontal,
           child: Wrap(spacing: 20, children: [
             ...widget.items
-                .map((e) => ContentButtonV2(
-                      spacing: 25,
-                      height: 33,
-                      child: Text(e,
-                          style: _selectedItem == widget.items.indexOf(e)
-                              ? DTextStyle.w12b
-                              : DTextStyle.b12b),
-                      backgroundColor: _selectedItem == widget.items.indexOf(e)
-                          ? DColors.green
-                          : Colors.transparent,
-                      raduis: 100,
-                      onTap: () => _setSelectedItem(widget.items.indexOf(e)),
+                .map((e) => AutoScrollTag(
+                      key: ValueKey<int>(widget.items.indexOf(e)),
+                      controller: _scrollController!,
+                      index: widget.items.indexOf(e),
+                      child: ContentButtonV2(
+                        spacing: 25,
+                        height: 33,
+                        child: Text(e,
+                            style: _selectedItem == widget.items.indexOf(e)
+                                ? DTextStyle.w12b
+                                : DTextStyle.b12b),
+                        backgroundColor:
+                            _selectedItem == widget.items.indexOf(e)
+                                ? DColors.green
+                                : Colors.transparent,
+                        raduis: 100,
+                        onTap: () => _setSelectedItem(widget.items.indexOf(e)),
+                      ),
                     ))
                 .toList(),
           ]),
