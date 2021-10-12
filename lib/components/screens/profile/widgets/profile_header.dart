@@ -11,8 +11,14 @@ class ProfileHeader extends StatelessWidget {
   final double? minHeight;
   final double maxHeight;
   final bool shrink;
+
+  final bool hasPopularity;
   const ProfileHeader(
-      {Key? key, this.minHeight, required this.maxHeight, this.shrink = true})
+      {Key? key,
+      this.minHeight,
+      required this.maxHeight,
+      this.shrink = true,
+      this.hasPopularity = true})
       : super(key: key);
 
   @override
@@ -21,7 +27,10 @@ class ProfileHeader extends StatelessWidget {
         pinned: false,
         floating: false,
         delegate: _SliverProfileHeader(
-            minHeight: minHeight, maxHeight: maxHeight, shrink: shrink));
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+            shrink: shrink,
+            hasPopularity: hasPopularity));
   }
 }
 
@@ -29,8 +38,13 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
   final double? minHeight;
   final double maxHeight;
   final bool shrink;
+
+  final bool hasPopularity;
   _SliverProfileHeader(
-      {this.minHeight, required this.maxHeight, required this.shrink});
+      {this.minHeight,
+      required this.maxHeight,
+      required this.shrink,
+      required this.hasPopularity});
 
   @override
   double get minExtent => minHeight ?? maxHeight;
@@ -57,44 +71,60 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
           children: [
             profilePicture(shrinkPercentage),
             userInfo(),
-            userPopularity(shrinkPercentage),
+            if (hasPopularity) userPopularity(shrinkPercentage),
           ],
         ),
       ),
     );
   }
 
-  Wrap userPopularity(double shrinkPercentage) {
-    return Wrap(
-      spacing: 5,
-      children: [
-        NotAButton(
-            raduis: 20,
-            width: 80,
-            height: 30 + 50 * (1 - shrinkPercentage),
-            backgroundColor: DColors.sailBlue,
-            child: Wrap(
-                direction: Axis.vertical,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Text("المتابعون", style: DTextStyle.w15s),
-                  Text("15", style: DTextStyle.w15s)
-                ])),
-        NotAButton(
-            raduis: 20,
-            width: 80,
-            height: 30 + 50 * (1 - shrinkPercentage),
-            backgroundColor: DColors.sailBlue,
-            child: Wrap(
-                direction: Axis.vertical,
-                alignment: WrapAlignment.center,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Text("المتابعون", style: DTextStyle.w15s),
-                  Text("15", style: DTextStyle.w15s)
-                ]))
-      ],
+  Container userPopularity(double shrinkPercentage) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: DColors.coldGray),
+          borderRadius: BorderRadius.circular(22)),
+      child: Wrap(
+        spacing: 5,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          NotAButton(
+              raduis: 20,
+              borderColor: DColors.coldGray,
+              child: Container(
+                width: 50,
+                height: 30 + 50 * (1 - shrinkPercentage),
+                alignment: Alignment.center,
+                child: Wrap(
+                    direction: Axis.vertical,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text("يتابع", style: DTextStyle.bg10),
+                      Text("15", style: DTextStyle.bg16)
+                    ]),
+              )),
+          Text(
+            "",
+            style: DTextStyle.bg10,
+          ),
+          NotAButton(
+              raduis: 20,
+              borderColor: DColors.coldGray,
+              child: Container(
+                width: 50,
+                height: 30 + 50 * (1 - shrinkPercentage),
+                alignment: Alignment.center,
+                child: Wrap(
+                    direction: Axis.vertical,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text("يتابعه", style: DTextStyle.bg10),
+                      Text("15", style: DTextStyle.bg16)
+                    ]),
+              ))
+        ],
+      ),
     );
   }
 

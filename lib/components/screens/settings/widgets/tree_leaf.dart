@@ -7,19 +7,19 @@ import '../setting_data_presentation.dart';
 class TreeLeaf extends StatelessWidget {
   final IconData icon;
   final String text;
-  final List<Param> paramArguments;
+  final void Function()? onPressed;
   const TreeLeaf({
     Key? key,
     required this.icon,
     required this.text,
-    this.paramArguments = const [Param(text: "hello", type: ParamType.secret)],
+    this.onPressed,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40,
       child: MaterialButton(
-        onPressed: () => _onTap(context),
+        onPressed: onPressed,
         child: Container(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,11 +47,6 @@ class TreeLeaf extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _onTap(context) {
-    Navigator.pushNamed(context, SettingParamsScreen.route,
-        arguments: paramArguments);
   }
 }
 

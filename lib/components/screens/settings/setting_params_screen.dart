@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/screens/settings/setting_data_presentation.dart';
+import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 
 class SettingParamsScreen extends StatelessWidget {
   static const String route = "params";
@@ -10,8 +11,11 @@ class SettingParamsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [...arguments.map((e) => Text(e.text)).toList()],
+    return MinbarScaffold(
+      hasBottomNavigationBar: false,
+      body: Wrap(
+        children: [...arguments.map((e) => Text(e.text)).toList()],
+      ),
     );
   }
 }

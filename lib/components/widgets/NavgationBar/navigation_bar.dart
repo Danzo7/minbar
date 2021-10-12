@@ -124,8 +124,7 @@ class _NavigationBarState extends State<NavigationBar> {
                               onPressed: () {
                                 if (currentIndex != widget.items.indexOf(e)) {
                                   setBottomBarIndex(widget.items.indexOf(e));
-                                  Navigator.pushReplacementNamed(
-                                      context, e.route);
+                                  Navigator.popAndPushNamed(context, e.route);
                                 }
                               })
                         ])

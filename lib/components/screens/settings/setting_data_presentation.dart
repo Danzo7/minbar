@@ -3,8 +3,12 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 const List<SettingTree> kDefaultSetting = [
   SettingTree(name: "اعدادات الحساب", leafs: [
-    const SettingLeaf("المعلومات الشخصية", Icons.person),
-    const SettingLeaf("الحماية والخصوصية", SodaIcons.security),
+    const SettingLeaf("المعلومات الشخصية", Icons.person,
+        params: const [Param(text: "hello", type: ParamType.secret)]),
+    const SettingLeaf("الحماية والخصوصية", SodaIcons.security, params: const [
+      Param(text: "bad day", type: ParamType.secret),
+      Param(text: "passed out", type: ParamType.secret)
+    ]),
   ]),
   SettingTree(name: "اعدادات التطبيق", leafs: [
     const SettingLeaf("المظهر", SodaIcons.appearance),

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:minbar_fl/components/screens/general/general_screen.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
+import 'package:minbar_fl/components/screens/settings/setting_params_screen.dart';
 import 'package:minbar_fl/components/screens/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/misc/navigation.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'components/screens/settings/setting_data_presentation.dart';
 
 class MinbarApp extends StatelessWidget {
   const MinbarApp({Key? key}) : super(key: key);
@@ -36,13 +40,7 @@ class MinbarApp extends StatelessWidget {
           Locale('ar', 'AE') // OR Locale('ar', 'AE') OR Other RTL locales
         ],
         locale: Locale('ar', 'AE'),
-        routes: {
-          HomeScreen.route: (_) => HomeScreen(),
-          LoginScreen.route: (_) => LoginScreen(),
-          GeneralScreen.route: (_) => GeneralScreen(),
-          ProfileScreen.route: (_) => ProfileScreen(),
-          SettingsScreen.route: (_) => SettingsScreen()
-        },
+        onGenerateRoute: onGenerateRoute,
         home: SettingsScreen(),
       ),
     );
