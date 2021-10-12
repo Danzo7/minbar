@@ -34,4 +34,6 @@ class DTextStyle {
   static const bg10 = const TextStyle(color: DColors.blueGray, fontSize: 10);
   static const bg12b = const TextStyle(
       color: DColors.blueGray, fontSize: 12, fontWeight: FontWeight.w700);
+  static const bg12s = const TextStyle(
+      color: DColors.blueGray, fontSize: 12, fontWeight: FontWeight.w600);
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/api/fake_data.dart';
+import 'package:minbar_fl/components/theme/snaps.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
 import 'package:minbar_fl/components/widgets/post/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:minbar_fl/model/publication.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 import 'widgets/gravity_header_scroll_view.dart';
 import 'widgets/profile_header.dart';
 
@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   refreshController: _refreshController,
                   onRefresh: _onRefresh,
                   onLoading: _onLoading,
-                  physics: snapPhysic(),
+                  physics: Snaps.profileHeaderSnap(),
                   header: ProfileHeader(
                     maxHeight: ProfileScreen._maxHeaderHieght,
                     minHeight: 33,
@@ -106,30 +106,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   gravityField: 300,
                 ),
         ));
-  }
-
-  SnapScrollPhysics snapPhysic() {
-    return SnapScrollPhysics(parent: BouncingScrollPhysics(), snaps: [
-      Snap(ProfileScreen._maxHeaderHieght,
-          distance:
-              50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
-      Snap(ProfileScreen._maxHeaderHieght,
-          leadingDistance:
-              50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
-      Snap(ProfileScreen._maxHeaderHieght,
-          trailingDistance:
-              50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-      Snap(ProfileScreen._maxHeaderHieght,
-          trailingDistance:
-              50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-      Snap.avoidZone(
-          0,
-          ProfileScreen
-              ._maxHeaderHieght), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
-      Snap.avoidZone(0, ProfileScreen._maxHeaderHieght,
-          delimiter:
-              50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
-    ]);
   }
 
   SliverPadding _postList(List<Publication> items) {

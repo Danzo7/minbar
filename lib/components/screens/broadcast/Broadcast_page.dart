@@ -108,7 +108,7 @@ class BroadcastPage extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                     ),
                     Icon(
-                      Icons.keyboard_arrow_up,
+                      SodaIcons.arrowUp,
                       size: 10,
                       color: DColors.white,
                     )
@@ -128,7 +128,7 @@ class BroadcastPage extends StatelessWidget {
         Container(
           alignment: Alignment.centerRight,
           child: Icon(
-            Icons.close_rounded,
+            SodaIcons.close,
             color: DColors.white,
           ),
         ),

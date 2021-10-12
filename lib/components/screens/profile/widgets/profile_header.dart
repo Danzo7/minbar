@@ -8,10 +8,11 @@ import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 
 class ProfileHeader extends StatelessWidget {
-  final double minHeight;
+  final double? minHeight;
   final double maxHeight;
+  final bool shrink;
   const ProfileHeader(
-      {Key? key, required this.minHeight, required this.maxHeight})
+      {Key? key, this.minHeight, required this.maxHeight, this.shrink = true})
       : super(key: key);
 
   @override
@@ -20,31 +21,29 @@ class ProfileHeader extends StatelessWidget {
         pinned: false,
         floating: false,
         delegate: _SliverProfileHeader(
-          minHeight: minHeight,
-          maxHeight: maxHeight,
-        ));
+            minHeight: minHeight, maxHeight: maxHeight, shrink: shrink));
   }
 }
 
 class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
-  final double minHeight;
+  final double? minHeight;
   final double maxHeight;
-  _SliverProfileHeader({
-    required this.minHeight,
-    required this.maxHeight,
-  });
+  final bool shrink;
+  _SliverProfileHeader(
+      {this.minHeight, required this.maxHeight, required this.shrink});
 
   @override
-  double get minExtent => minHeight;
+  double get minExtent => minHeight ?? maxHeight;
 
   @override
-  double get maxExtent => max(maxHeight, minHeight);
+  double get maxExtent => max(maxHeight, minHeight ?? maxHeight);
 
   // 2
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
+    double shrinkPercentage =
+        shrink ? min(1, shrinkOffset / (maxExtent - minExtent)) : 0;
     return AnimatedOpacity(
       opacity: max(0, 1 - (shrinkPercentage) * 9),
       duration: Duration(milliseconds: 10),
