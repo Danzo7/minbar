@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
+import 'package:minbar_fl/components/screens/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 const List<NavigatonItem> navigationItems = const [
@@ -19,7 +20,7 @@ const List<NavigatonItem> navigationItems = const [
       afterIcon:
           Icon(SodaIcons.profile_outlined, color: DColors.white, size: 24)),
   NavigatonItem(
-      route: "settings",
+      route: SettingsScreen.route,
       beforeIcon: Icon(SodaIcons.settings, color: DColors.white, size: 24),
       afterIcon:
           Icon(SodaIcons.settings_outlined, color: DColors.white, size: 24)),
