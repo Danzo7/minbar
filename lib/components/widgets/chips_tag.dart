@@ -4,17 +4,27 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+enum BorderSides { top, bottom, both, none }
+
 class ChipsTag extends StatefulWidget {
   final List<String> items;
   final Color? bgColor;
-  ChipsTag({Key? key, required this.items, this.bgColor}) : super(key: key);
+  final BorderSides border;
+  ChipsTag(
+      {Key? key,
+      required this.items,
+      this.bgColor,
+      this.border = BorderSides.none})
+      : super(key: key);
 
   @override
-  _ChipsTagState createState() => _ChipsTagState();
+  _ChipsTagState createState() => _ChipsTagState(border);
 }
 
 class _ChipsTagState extends State<ChipsTag> {
   AutoScrollController? _scrollController;
+  final BorderSides border;
+  _ChipsTagState(this.border);
   void initState() {
     super.initState();
 
@@ -36,6 +46,21 @@ class _ChipsTagState extends State<ChipsTag> {
     });
   }
 
+  Border? _createBorder() {
+    switch (border) {
+      case BorderSides.top:
+        return Border(top: BorderSide(color: DColors.coldGray));
+      case BorderSides.bottom:
+        return Border(bottom: BorderSide(color: DColors.coldGray));
+      case BorderSides.both:
+        return Border(
+            top: BorderSide(color: DColors.coldGray),
+            bottom: BorderSide(color: DColors.coldGray));
+      case BorderSides.none:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,9 +68,7 @@ class _ChipsTagState extends State<ChipsTag> {
       width: double.infinity,
       decoration: BoxDecoration(
           color: widget.bgColor ?? DColors.coldGray,
-          border: widget.bgColor != null
-              ? Border(bottom: BorderSide(color: DColors.coldGray))
-              : null),
+          border: widget.bgColor != null ? _createBorder() : null),
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         height: 33,

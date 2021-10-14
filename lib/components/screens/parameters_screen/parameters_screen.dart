@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/settings/setting_data_presentation.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
+import 'package:minbar_fl/model/setting_data_presentation.dart';
 
-class SettingParamsScreen extends StatelessWidget {
+class ParametersScreen extends StatelessWidget {
   static const String route = "params";
 
   final List<Param> arguments;
-  const SettingParamsScreen({Key? key, required this.arguments})
-      : super(key: key);
+  const ParametersScreen({Key? key, required this.arguments}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

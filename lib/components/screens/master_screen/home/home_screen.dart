@@ -4,15 +4,16 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/broadcast_box.dart';
+import 'package:minbar_fl/components/widgets/chips_tag.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/post/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_carousel.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
-class GeneralScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   final component;
-  const GeneralScreen({Key? key, this.component}) : super(key: key);
+  const HomeScreen({Key? key, this.component}) : super(key: key);
   static const String route = 'general';
 
   @override
@@ -28,6 +29,7 @@ class GeneralScreen extends StatelessWidget {
             physics: snap(),
             slivers: [
               StickyChipTag(
+                border: BorderSides.bottom,
                 items: FakeData.fields,
                 bgColor: DColors.white,
               ),

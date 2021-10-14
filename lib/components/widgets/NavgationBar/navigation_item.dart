@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
-import 'package:minbar_fl/components/screens/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 const List<NavigatonItem> navigationItems = const [
   const NavigatonItem(
-      route: HomeScreen.route,
+      route: LiveBroadcastsScreen.route,
       beforeIcon: Icon(SodaIcons.broadcasts, color: DColors.white, size: 24),
       afterIcon:
           Icon(SodaIcons.broadcasts_outlined, color: DColors.white, size: 24)),
   NavigatonItem(
-      route: GeneralScreen.route,
+      route: HomeScreen.route,
       beforeIcon: Icon(SodaIcons.article, color: DColors.white, size: 24),
       afterIcon:
           Icon(SodaIcons.article_outlined, color: DColors.white, size: 24)),

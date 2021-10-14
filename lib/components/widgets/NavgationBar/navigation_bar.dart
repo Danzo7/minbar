@@ -21,20 +21,23 @@ class NavigationBar extends StatefulWidget {
   final NavType type;
   final int selectedIndex;
   final List<NavigatonItem> items;
-
+  final PageController? pageController;
   const NavigationBar(
       {Key? key,
       this.type = NavType.idle,
       required this.selectedIndex,
-      required this.items})
+      required this.items,
+      this.pageController})
       : assert(items.length % 2 == 0),
         super(key: key);
 
   @override
-  _NavigationBarState createState() => _NavigationBarState(selectedIndex);
+  _NavigationBarState createState() =>
+      _NavigationBarState(selectedIndex, pageController);
 }
 
 class _NavigationBarState extends State<NavigationBar> {
+  final PageController? pageController;
   static final Widget listenButton = Container(
     alignment: Alignment.center,
     padding: const EdgeInsets.only(bottom: 30),
@@ -46,10 +49,13 @@ class _NavigationBarState extends State<NavigationBar> {
   );
 
   int currentIndex;
-  _NavigationBarState(this.currentIndex);
+  _NavigationBarState(this.currentIndex, this.pageController);
   setBottomBarIndex(index) {
     if (currentIndex != index)
       setState(() {
+        if (pageController != null) {
+          pageController?.jumpToPage(index);
+        }
         currentIndex = index;
       });
   }
@@ -124,7 +130,8 @@ class _NavigationBarState extends State<NavigationBar> {
                               onPressed: () {
                                 if (currentIndex != widget.items.indexOf(e)) {
                                   setBottomBarIndex(widget.items.indexOf(e));
-                                  Navigator.popAndPushNamed(context, e.route);
+                                  if (pageController == null)
+                                    Navigator.popAndPushNamed(context, e.route);
                                 }
                               })
                         ])

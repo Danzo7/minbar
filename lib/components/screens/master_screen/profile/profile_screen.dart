@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int count = 0;
   void _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 3000), () {
-      additem();
+      _additem();
     });
     _refreshController.refreshCompleted();
   }
@@ -38,14 +38,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _onLoading() async {
     await Future.delayed(Duration(milliseconds: 3000), () {
       if (count < FakeData.pub.length - 1) {
-        loadMore();
+        _loadMore();
         _refreshController.loadComplete();
       } else
         _refreshController.loadNoData();
     });
   }
 
-  additem() {
+  _additem() {
     items = [
       Publication(
           authorName: "خة",
@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (mounted) setState(() {});
   }
 
-  loadMore() {
+  _loadMore() {
     count++;
 
     items.add(FakeData.pub[count]);

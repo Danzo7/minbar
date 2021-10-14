@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/profile/widgets/profile_header.dart';
-import 'package:minbar_fl/components/screens/settings/setting_data_presentation.dart';
-import 'package:minbar_fl/components/screens/settings/setting_params_screen.dart';
-import 'package:minbar_fl/components/screens/settings/widgets/settings_tree.dart';
-import 'package:minbar_fl/components/screens/settings/widgets/tree_leaf.dart';
+import 'package:minbar_fl/components/screens/master_screen/profile/widgets/profile_header.dart';
+import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
+import 'package:minbar_fl/model/setting_data_presentation.dart';
+import 'widgets/settings_tree.dart';
+import 'widgets/tree_leaf.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String route = "settings_screen";
@@ -43,7 +43,7 @@ class SettingsLayout extends StatelessWidget {
                                 icon: leaf.icon,
                                 text: leaf.text,
                                 onPressed: () => Navigator.pushNamed(
-                                    context, SettingParamsScreen.route,
+                                    context, ParametersScreen.route,
                                     arguments: {"settingParams": leaf.params}),
                               ))
                           .toList()

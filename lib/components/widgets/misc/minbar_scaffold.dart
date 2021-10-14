@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/screens.dart';
-import 'package:minbar_fl/components/screens/settings/setting_data_presentation.dart';
-import 'package:minbar_fl/components/screens/settings/widgets/settings_tree.dart';
-import 'package:minbar_fl/components/screens/settings/widgets/tree_leaf.dart';
+import 'package:minbar_fl/components/screens/master_screen/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
@@ -14,13 +11,15 @@ class MinbarScaffold extends StatelessWidget {
   final bool withSafeArea;
   final bool hasBottomNavigationBar;
   final bool hasDrawer;
+  final PageController? pageController;
   const MinbarScaffold(
       {Key? key,
       this.selectedIndex = 0,
       required this.body,
       this.withSafeArea = true,
-      this.hasBottomNavigationBar = true,
-      this.hasDrawer = true})
+      this.hasBottomNavigationBar = false,
+      this.hasDrawer = true,
+      this.pageController})
       : super(key: key);
 
   @override
@@ -34,7 +33,7 @@ class MinbarScaffold extends StatelessWidget {
               selectedIndex: selectedIndex,
               type: NavType.broadcastable,
               items: navigationItems,
-            )
+              pageController: pageController)
           : null,
       body: withSafeArea ? SafeArea(bottom: false, child: body) : body,
     );

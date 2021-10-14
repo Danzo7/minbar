@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/settings/setting_params_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-
-import '../setting_data_presentation.dart';
 
 class TreeLeaf extends StatelessWidget {
   final IconData icon;
@@ -49,27 +46,3 @@ class TreeLeaf extends StatelessWidget {
     );
   }
 }
-
-// MaterialButton(
-//           shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(raduis),
-//               side: borderColor != null
-//                   ? BorderSide(color: borderColor ?? DColors.white)
-//                   : BorderSide.none),
-//           constraints: BoxConstraints(),
-//           fillColor: backgroundColor,
-//           elevation: 0,
-//           hoverElevation: 0,
-//           highlightElevation: 0,
-//           onPressed: onTap,
-//           padding: EdgeInsets.symmetric(horizontal: spacing),
-//           child: UnconstrainedBox(
-//             child: Container(
-//               height: height,
-//               width: width,
-//               alignment: Alignment.center,
-//               child: child,
-//             ),
-//           ),
-//         ),
-   

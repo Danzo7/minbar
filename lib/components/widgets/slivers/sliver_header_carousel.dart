@@ -2,13 +2,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SliverHeaderCarousel extends StatelessWidget {
-  final double minHeight;
+  final double? minHeight;
   final double maxHeight;
   final Widget? title;
   final Widget carousel;
   const SliverHeaderCarousel(
       {Key? key,
-      required this.minHeight,
+      this.minHeight,
       required this.maxHeight,
       required this.carousel,
       this.title})
@@ -17,7 +17,7 @@ class SliverHeaderCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPersistentHeader(
-        pinned: false,
+        pinned: true,
         floating: false,
         delegate: _SliverHeaderCarouselDelegate(
           child: carousel,
@@ -29,22 +29,22 @@ class SliverHeaderCarousel extends StatelessWidget {
 }
 
 class _SliverHeaderCarouselDelegate extends SliverPersistentHeaderDelegate {
-  final double minHeight;
+  final double? minHeight;
   final double maxHeight;
   final Widget child;
   final Widget? title;
 
   _SliverHeaderCarouselDelegate(
-      {required this.minHeight,
+      {this.minHeight,
       required this.maxHeight,
       required this.child,
       this.title});
 
   @override
-  double get minExtent => minHeight;
+  double get minExtent => minHeight ?? maxHeight;
 
   @override
-  double get maxExtent => max(maxHeight, minHeight);
+  double get maxExtent => max(maxHeight, minHeight ?? maxHeight);
 
   // 2
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
-import 'package:minbar_fl/components/screens/settings/setting_data_presentation.dart';
+import 'package:minbar_fl/model/setting_data_presentation.dart';
 
 /// [onGenerateRoute] is called whenever a new named route is being pushed to
 /// the app.
@@ -24,15 +25,15 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case HomeScreen.route:
       screen = HomeScreen();
       break;
-    case GeneralScreen.route:
-      screen = GeneralScreen();
+    case LiveBroadcastsScreen.route:
+      screen = LiveBroadcastsScreen();
       break;
     case SettingsScreen.route:
       screen = SettingsScreen();
       break;
-    case SettingParamsScreen.route:
+    case ParametersScreen.route:
       screen = settingParams != null
-          ? SettingParamsScreen(arguments: settingParams)
+          ? ParametersScreen(arguments: settingParams)
           : HomeScreen();
       break;
     default:
