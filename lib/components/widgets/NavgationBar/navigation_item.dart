@@ -4,17 +4,17 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 const List<NavigatonItem> navigationItems = const [
   const NavigatonItem(
-      route: LiveBroadcastsScreen.route,
+      route: BroadcastsPage.route,
       beforeIcon: Icon(SodaIcons.broadcasts, color: DColors.white, size: 24),
       afterIcon:
           Icon(SodaIcons.broadcasts_outlined, color: DColors.white, size: 24)),
   NavigatonItem(
-      route: HomeScreen.route,
+      route: HomePage.route,
       beforeIcon: Icon(SodaIcons.article, color: DColors.white, size: 24),
       afterIcon:
           Icon(SodaIcons.article_outlined, color: DColors.white, size: 24)),
   NavigatonItem(
-      route: ProfileScreen.route,
+      route: ProfilePage.route,
       beforeIcon: Icon(SodaIcons.profile, color: DColors.white, size: 24),
       afterIcon:
           Icon(SodaIcons.profile_outlined, color: DColors.white, size: 24)),

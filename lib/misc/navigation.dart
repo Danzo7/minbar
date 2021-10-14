@@ -19,14 +19,14 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
   Widget screen;
 
   switch (routeName) {
-    case ProfileScreen.route:
-      screen = ProfileScreen();
+    case ProfilePage.route:
+      screen = ProfilePage();
       break;
-    case HomeScreen.route:
-      screen = HomeScreen();
+    case HomePage.route:
+      screen = HomePage();
       break;
-    case LiveBroadcastsScreen.route:
-      screen = LiveBroadcastsScreen();
+    case BroadcastsPage.route:
+      screen = BroadcastsPage();
       break;
     case SettingsScreen.route:
       screen = SettingsScreen();
@@ -34,7 +34,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case ParametersScreen.route:
       screen = settingParams != null
           ? ParametersScreen(arguments: settingParams)
-          : HomeScreen();
+          : MasterScreen();
       break;
     default:
       print('route does not exist; navigating to login screen instead');

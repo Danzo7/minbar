@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/master_screen/profile/widgets/profile_header.dart';
 import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
+import 'package:minbar_fl/components/widgets/slivers/profile_header.dart';
 import 'package:minbar_fl/model/setting_data_presentation.dart';
 import 'widgets/settings_tree.dart';
 import 'widgets/tree_leaf.dart';
