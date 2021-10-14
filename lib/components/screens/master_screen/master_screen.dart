@@ -1,13 +1,8 @@
-export 'profile/profile_screen.dart';
-export 'live_broadcasts/live_broadcasts_screen.dart';
-export 'home/home_screen.dart';
-export 'settings/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/master_screen/home/home_screen.dart';
-import 'package:minbar_fl/components/screens/master_screen/profile/profile_screen.dart';
-import 'package:minbar_fl/components/screens/master_screen/settings/settings_screen.dart';
-import 'package:minbar_fl/components/screens/screens.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
+import 'minbar_page_view.dart';
+import 'pages/pages.dart';
+export 'pages/pages.dart';
 
 class MasterScreen extends StatefulWidget {
   const MasterScreen({Key? key}) : super(key: key);
@@ -26,16 +21,12 @@ class _MasterScreenState extends State<MasterScreen> {
       withSafeArea: true,
       hasBottomNavigationBar: true,
       pageController: _controller,
-      body: PageView(
-        controller: _controller,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          LiveBroadcastsScreen(),
-          HomeScreen(),
-          ProfileScreen(),
-          SettingsScreen(),
-        ],
-      ),
+      body: MinbarPageView(controller: _controller, children: [
+        BroadcastsPage(),
+        HomePage(),
+        ProfilePage(),
+        SettingsScreen(),
+      ]),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/screens/master_screen/settings/settings_screen.dart';
+import 'package:minbar_fl/components/screens/master_screen/pages/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
