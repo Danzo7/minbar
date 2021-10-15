@@ -5,6 +5,7 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'core/services/service_locator.dart';
 
 class MinbarApp extends StatelessWidget {
   const MinbarApp({Key? key}) : super(key: key);
@@ -36,6 +37,11 @@ class MinbarApp extends StatelessWidget {
           Locale('ar', 'AE') // OR Locale('ar', 'AE') OR Other RTL locales
         ],
         locale: Locale('ar', 'AE'),
+        navigatorObservers: [
+          minbarRouteObserver,
+        ],
+        navigatorKey: app<MinbarNavigator>().key,
+
         onGenerateRoute: onGenerateRoute,
         home: MasterScreen(),
       ),

@@ -1,7 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/misc/page_navigation.dart';
 import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
 import 'package:minbar_fl/model/setting_data_presentation.dart';
+
+/// A [Navigator] observer that is used to notify [RouteAware]s of changes to
+/// the state of their [Route].
+final minbarRouteObserver = RouteObserver<ModalRoute<dynamic>>();
+
+/// The [MinbarNavigator] contains the [Navigator] key used by the root
+/// [MaterialApp].
+///
+/// This allows for navigation without access to the [BuildContext].
+class MinbarNavigator {
+  final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
+  NavigatorState get state => key.currentState!;
+  void pop<T extends Object>([T? result]) => state.pop<T>(result);
+
+  Future<bool> maybePop<T extends Object>([T? result]) =>
+      state.maybePop(result);
+
+  Future<T?> push<T>(Route<T> route) => state.push<T>(route);
+
+  void pushReplacementNamed(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    state.pushReplacementNamed<void, void>(
+      route,
+      arguments: <String, dynamic>{
+        ...?arguments,
+      },
+    );
+  }
+
+  void pushNamed(
+    String route, {
+    Map<String, dynamic>? arguments,
+  }) {
+    state.pushNamed<void>(
+      route,
+      arguments: <String, dynamic>{
+        ...?arguments,
+      },
+    );
+  }
+}
 
 /// [onGenerateRoute] is called whenever a new named route is being pushed to
 /// the app.
