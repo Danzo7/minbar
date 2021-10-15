@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/screens/broadcast/Broadcast_page.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../text_play.dart';
 import 'navigation_item.dart';
