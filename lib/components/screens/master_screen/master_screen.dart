@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
-import 'minbar_page_view.dart';
+import 'package:minbar_fl/components/screens/broadcast/Broadcast_page.dart';
+import 'package:minbar_fl/components/theme/default_colors.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:minbar_fl/misc/page_navigation.dart';
+
 import 'pages/pages.dart';
 export 'pages/pages.dart';
 
-class MasterScreen extends StatefulWidget {
+class MasterScreen extends StatelessWidget {
   const MasterScreen({Key? key}) : super(key: key);
 
-  @override
-  State<MasterScreen> createState() => _MasterScreenState();
-}
-
-class _MasterScreenState extends State<MasterScreen> {
-  PageController _controller = new PageController(initialPage: 0);
-
-  @override
   Widget build(BuildContext context) {
-    return MinbarScaffold(
-      selectedIndex: 0,
-      withSafeArea: true,
-      hasBottomNavigationBar: true,
-      pageController: _controller,
-      body: MinbarPageView(controller: _controller, children: [
-        BroadcastsPage(),
-        HomePage(),
-        ProfilePage(),
-        SettingsScreen(),
-      ]),
+    return Stack(
+      children: [
+        Scaffold(
+          body: PageNavigation(pages: {
+            BroadcastsPage.route: BroadcastsPage(),
+            HomePage.route: HomePage(),
+            ProfilePage.route: ProfilePage(),
+            SettingsScreen.route: SettingsScreen(),
+          }),
+        ),
+      ],
     );
   }
 }
