@@ -10,8 +10,8 @@ class MinbarScaffold extends StatelessWidget {
   final Widget body;
   final bool withSafeArea;
   final bool hasBottomNavigationBar;
+  final Widget? navigationBar;
   final bool hasDrawer;
-  final PageController? pageController;
   const MinbarScaffold(
       {Key? key,
       this.selectedIndex = 0,
@@ -19,7 +19,7 @@ class MinbarScaffold extends StatelessWidget {
       this.withSafeArea = true,
       this.hasBottomNavigationBar = false,
       this.hasDrawer = true,
-      this.pageController})
+      this.navigationBar})
       : super(key: key);
 
   @override
@@ -28,13 +28,14 @@ class MinbarScaffold extends StatelessWidget {
       drawer: hasDrawer ? SettingsLayout() : null,
       backgroundColor: DColors.white,
       extendBody: true,
-      bottomNavigationBar: (hasBottomNavigationBar)
-          ? NavigationBar(
-              selectedIndex: selectedIndex,
-              type: NavType.broadcastable,
-              items: navigationItems,
-              pageController: pageController)
-          : null,
+      bottomNavigationBar: navigationBar ??
+          ((hasBottomNavigationBar)
+              ? NavigationBar(
+                  selectedIndex: selectedIndex,
+                  type: NavType.broadcastable,
+                  items: navigationItems,
+                )
+              : null),
       body: withSafeArea ? SafeArea(bottom: false, child: body) : body,
     );
   }
