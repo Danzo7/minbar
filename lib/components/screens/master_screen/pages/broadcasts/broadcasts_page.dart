@@ -139,23 +139,4 @@ class _BroadcastsPageState extends State<BroadcastsPage> {
     );
   }
 
-  Wrap _popularBroadcasts() {
-    return Wrap(spacing: 10, children: [
-      Container(
-        child: Text("الاكثر تفاعلا", style: DTextStyle.bg20s),
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 5),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: CarouselSlider(
-            options: CarouselOptions(
-                enableInfiniteScroll: false, height: 116.0, reverse: true),
-            items: FakeData.casts
-                .map((e) =>
-                    Container(height: 113, width: 265, child: BroadcastBox(e)))
-                .toList()),
-      ),
-    ]);
-  }
 }
