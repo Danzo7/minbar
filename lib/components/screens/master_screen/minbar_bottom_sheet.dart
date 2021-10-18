@@ -45,7 +45,7 @@ class MinbarBottomSheet extends StatefulWidget {
 
 class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     with SingleTickerProviderStateMixin<MinbarBottomSheet>, ChangeNotifier {
-  bool _enable = true;
+  bool _enable = false;
   double _snapByDitance = 0.2;
 
   late AnimationController _animationController;
@@ -119,34 +119,54 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
         ? GestureDetector(
             onVerticalDragEnd: _onVerticalDragEnd,
             onVerticalDragUpdate: _onVerticalDragUpdate,
-            child: MediaQuery.removePadding(
-              context: context,
-              removeTop: false,
-              removeBottom: true,
-              child: SafeArea(
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (BuildContext context, Widget? child) {
-                    return SlideTransition(
-                      child: child,
-                      position: animation,
-                    );
-                  },
-                  child: GestureDetector(
-                    child: Material(
+            child: Material(
+              color: Colors.transparent,
+              elevation: widget.elevation,
+              child: Container(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: false,
+                  removeBottom: true,
+                  child: SafeArea(
+                    child: Container(
                       key: _childKey,
-                      color: Colors.transparent,
-                      elevation: widget.elevation,
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        child: widget.child,
+                      alignment: Alignment.bottomCenter,
+                      height: _childHeight,
+                      child: AnimatedBuilder(
+                        animation: _animationController,
+                        builder: (BuildContext context, Widget? child) {
+                          return SlideTransition(
+                            child: child,
+                            position: animation,
+                          );
+                        },
+                        child: GestureDetector(
+                          onTap: () => {},
+                          child: Container(
+                            child: widget.child,
+                          ),
+                          excludeFromSemantics: true,
+                        ),
                       ),
                     ),
-                    excludeFromSemantics: true,
                   ),
                 ),
               ),
-            ))
+            ),
+            onTap: () {
+              switch (widget.controller.status) {
+                case MinbarBottomSheetStatus.shown:
+                  widget.controller.close();
+                  break;
+                case MinbarBottomSheetStatus.expanded:
+                  widget.controller.close();
+
+                  break;
+                case MinbarBottomSheetStatus.disabled:
+                  break;
+              }
+            },
+          )
         : Container();
   }
 
@@ -224,7 +244,9 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
           .animateTo(0,
               curve: Curves.linearToEaseOut, duration: _kDefaultTiming)
           .then((value) {
-        _enable = false;
+        setState(() {
+          _enable = false;
+        });
         widget.controller.value =
             widget.controller.value != MinbarBottomSheetStatus.disabled
                 ? MinbarBottomSheetStatus.disabled
