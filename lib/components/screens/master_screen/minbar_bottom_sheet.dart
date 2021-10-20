@@ -27,18 +27,19 @@ class MinbarBottomSheet extends StatefulWidget {
   ///take child height in case of `null`.
   final double? maxHeight;
 
-  ///default [MinbarBottomSheet] state. `state=MinbarBottomSheetStatus.disabled` by default
-  final MinbarBottomSheetStatus state;
-  const MinbarBottomSheet(
-      {Key? key,
-      required this.controller,
-      this.onStatusChanged,
-      this.elevation = 0,
-      required this.child,
-      this.minHeight,
-      this.state = MinbarBottomSheetStatus.disabled,
-      this.maxHeight})
-      : super(key: key);
+  /// a [BorderRaduis] will be aplied when [MinbarBottomSheet] is not expanded and desapear when it expanded
+  final double radiusWhenNotExpanded;
+
+  const MinbarBottomSheet({
+    Key? key,
+    required this.controller,
+    this.onStatusChanged,
+    this.elevation = 0,
+    required this.child,
+    this.minHeight,
+    this.maxHeight,
+    this.radiusWhenNotExpanded = 0,
+  }) : super(key: key);
   @override
   State<MinbarBottomSheet> createState() => _MinbarBottomSheetState();
 }
@@ -47,12 +48,14 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     with SingleTickerProviderStateMixin<MinbarBottomSheet>, ChangeNotifier {
   bool _enable = false;
   double _snapByDitance = 0.2;
-
   late AnimationController _animationController;
   late Animation<Offset> animation;
   double _minFraction = 0.0;
   double _maxFraction = 1.0;
+  double _radius = 0;
   final GlobalKey _childKey = GlobalKey(debugLabel: 'MinbarbottomSheet child');
+
+  _MinbarBottomSheetState();
 
   double? get _childHeight {
     RenderBox? renderBox =
@@ -61,14 +64,14 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void _initialize(BuildContext context) {
+    _radius = widget.radiusWhenNotExpanded;
     _minFraction = (widget.minHeight ??
             widget.maxHeight ??
             MediaQuery.of(context).size.height) /
         MediaQuery.of(context).size.height;
-    widget.controller.value = widget.state;
     _maxFraction = (widget.maxHeight ?? MediaQuery.of(context).size.height) /
         MediaQuery.of(context).size.height;
-    widget.controller.value = widget.state;
+
     switch (widget.controller.value) {
       case MinbarBottomSheetStatus.disabled:
         _enable = false;
@@ -142,7 +145,14 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
                         },
                         child: GestureDetector(
                           onTap: () => {},
-                          child: Container(
+                          child: AnimatedContainer(
+                            clipBehavior: Clip.hardEdge,
+                            duration: Duration(milliseconds: 150),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(_radius),
+                                    bottom: Radius.circular(
+                                        widget.radiusWhenNotExpanded))),
                             child: widget.child,
                           ),
                           excludeFromSemantics: true,
@@ -171,6 +181,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void _onStateChange() {
+    setRaduis();
     setState(() {
       widget.onStatusChanged?.call(widget.controller.value);
       switch (widget.controller.value) {
@@ -190,19 +201,18 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   void _onVerticalDragEnd(DragEndDetails details) {
     double _snapByVelocity =
         max(0, _snapByDitance - (details.velocity.pixelsPerSecond.dy / 10000));
-    setState(() {
-      if (_animationController.value <= _minFraction)
-        (widget.controller.value != MinbarBottomSheetStatus.disabled &&
-                _animationController.value < _minFraction - _snapByVelocity)
-            ? _close()
-            : _show();
-      else {
-        (widget.controller.value == MinbarBottomSheetStatus.expanded &&
-                _animationController.value < _maxFraction - _snapByVelocity)
-            ? _close()
-            : _expand();
-      }
-    });
+
+    if (_animationController.value <= _minFraction)
+      (widget.controller.value != MinbarBottomSheetStatus.disabled &&
+              _animationController.value < _minFraction - _snapByVelocity)
+          ? widget.controller.close()
+          : widget.controller.show();
+    else {
+      (widget.controller.value == MinbarBottomSheetStatus.expanded &&
+              _animationController.value < _maxFraction - _snapByVelocity)
+          ? widget.controller.close()
+          : widget.controller.expand();
+    }
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
@@ -210,6 +220,22 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
       _animationController.value -=
           details.primaryDelta! / (_childHeight ?? details.primaryDelta!);
     });
+    _animatedRaduis();
+  }
+
+  void setRaduis() {
+    switch (widget.controller.value) {
+      case MinbarBottomSheetStatus.shown:
+        _radius = widget.radiusWhenNotExpanded;
+        break;
+      case MinbarBottomSheetStatus.expanded:
+        _radius = 0;
+        break;
+      case MinbarBottomSheetStatus.disabled:
+        _radius = widget.radiusWhenNotExpanded;
+
+        break;
+    }
   }
 
   void _expand() {
@@ -260,6 +286,17 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     _animationController.dispose();
     super.dispose();
   }
+
+  void _animatedRaduis() {
+    _radius = max(
+        0,
+        _animationController.value > _minFraction
+            ? (widget.radiusWhenNotExpanded -
+                widget.radiusWhenNotExpanded *
+                    ((_animationController.value - _minFraction) /
+                        (_maxFraction - _minFraction)))
+            : widget.radiusWhenNotExpanded);
+  }
 }
 
 class MinbarBottomSheetController
@@ -271,16 +308,21 @@ class MinbarBottomSheetController
 
   ///Slide [MinbarBottomSheet] until become invisible then remove it content.
   void close() {
+    if (value == MinbarBottomSheetStatus.disabled) notifyListeners();
+
     value = MinbarBottomSheetStatus.disabled;
   }
 
   ///slide  [MinbarBottomSheet] to `minHeight` ,if `minHeight=null` same as ``controller.expand()``
   void show() {
+    if (value == MinbarBottomSheetStatus.shown) notifyListeners();
+
     value = MinbarBottomSheetStatus.shown;
   }
 
   ///slide [MinbarBottomSheet] to `maxHeight` if `minHeight=null` slide to whole screen.
   void expand() {
+    if (value == MinbarBottomSheetStatus.expanded) notifyListeners();
     value = MinbarBottomSheetStatus.expanded;
   }
 }
