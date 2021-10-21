@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/theme/default_theme.dart';
 
-import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
-import 'package:minbar_fl/misc/page_navigation.dart';
+import 'package:minbar_fl/core/services/service_locator.dart';
+import 'package:minbar_fl/misc/navigation.dart';
 
-import '../text_play.dart';
 import 'navigation_item.dart';
 import 'navigation_painter.dart';
 
@@ -32,45 +29,15 @@ class NavigationBar extends StatefulWidget {
 }
 
 class _NavigationBarState extends State<NavigationBar> {
-  static final Widget listenButton = Container(
-    alignment: Alignment.center,
-    padding: const EdgeInsets.only(bottom: 30),
-    child: Column(
-      children: [
-        FlatIconButton(
-          backgroundColor: DColors.blueGray,
-          icon: Icon(SodaIcons.listening, size: 24, color: DColors.white),
-          onTap: () => {},
-        ),
-        Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          TextPlay(
-              textAlign: TextAlign.center,
-              minFontSize: 10,
-              marquee: Marquee(
-                showFadingOnlyWhenScrolling: true,
-                fadingEdgeEndFraction: 0.1,
-                text: "سوء الضنا الضنا الضنا",
-                style: TextStyle(color: DColors.white, fontSize: 12),
-                blankSpace: 50,
-                velocity: 20.0,
-              )),
-          Divider(
-            color: DColors.white,
-            thickness: 2,
-          )
-        ])
-      ],
-    ),
-  );
-
   int currentIndex;
   _NavigationBarState(this.currentIndex);
   setBottomBarIndex(index) {
     if (currentIndex != index)
-      setState(() {
-        currentIndex = index;
-        Pager.navigateTo(context, index);
-      });
+      app<MinbarNavigator>()
+          .navigateTo(context, index)
+          .then((dynamic) => setState(() {
+                currentIndex = index;
+              }));
   }
 
   @override
