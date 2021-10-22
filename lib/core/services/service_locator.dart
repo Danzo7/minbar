@@ -7,8 +7,5 @@ final GetIt app = GetIt.instance;
 
 /// Adds the services to the [app] service locator.
 void setupServices() {
-  app
-    ..registerLazySingleton(
-      () => MinbarNavigator(),
-    );
+  app..registerLazySingleton(() => MinbarNavigator());
 }

@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                         .map((e) => Container(
                             height: 113, width: 265, child: BroadcastBox(e)))
                         .toList()),
-                title: Text("الاكثر تفاعلا", style: DTextStyle.bg20s),
+                title: Text("يبث الان", style: DTextStyle.bg20s),
                 minHeight: 0,
                 maxHeight: 173,
               ),

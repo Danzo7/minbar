@@ -18,7 +18,7 @@ class MinbarScaffold extends StatelessWidget {
       required this.body,
       this.withSafeArea = true,
       this.hasBottomNavigationBar = false,
-      this.hasDrawer = true,
+      this.hasDrawer = false,
       this.navigationBar})
       : super(key: key);
 

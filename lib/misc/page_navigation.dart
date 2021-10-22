@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
-import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 
 class PageNavigation extends StatefulWidget {
@@ -33,7 +31,6 @@ class _PageNavigationState extends State<PageNavigation> {
     return MinbarScaffold(
         withSafeArea: true,
         hasBottomNavigationBar: true,
-        hasDrawer: false,
         body: PageView(
           onPageChanged: widget.onPageChanged,
           controller: controller,
@@ -45,6 +42,7 @@ class _PageNavigationState extends State<PageNavigation> {
 
 class Pager {
   static List<_PageNavigationState> _actors = [];
+
   static PageController pushActor(_PageNavigationState actor) {
     PageController _controller = PageController(initialPage: 0);
     _actors.add(actor);

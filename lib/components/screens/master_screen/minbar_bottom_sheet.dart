@@ -197,23 +197,23 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
                 ),
               ),
             ),
-            onTap: widget.closeWhenLoseFocus
-                ? () {
-                    switch (widget.controller.status) {
-                      case MinbarBottomSheetStatus.shown:
-                        widget.controller.close();
-                        break;
-                      case MinbarBottomSheetStatus.expanded:
-                        widget.controller.close();
-
-                        break;
-                      case MinbarBottomSheetStatus.disabled:
-                        break;
-                    }
-                  }
-                : null,
+            onTap: widget.closeWhenLoseFocus ? _clickOutsideClose : null,
           )
         : SizedBox();
+  }
+
+  _clickOutsideClose() {
+    switch (widget.controller.status) {
+      case MinbarBottomSheetStatus.shown:
+        widget.controller.close();
+        break;
+      case MinbarBottomSheetStatus.expanded:
+        widget.controller.close();
+
+        break;
+      case MinbarBottomSheetStatus.disabled:
+        break;
+    }
   }
 
   void _onStateChange() {

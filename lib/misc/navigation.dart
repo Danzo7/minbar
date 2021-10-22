@@ -34,6 +34,9 @@ class MinbarNavigator {
     );
   }
 
+  Future navigateTo<TO extends Object?>(BuildContext context, int index) =>
+      Pager.navigateTo(context, index);
+
   void pushNamed(
     String route, {
     Map<String, dynamic>? arguments,

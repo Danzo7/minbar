@@ -15,7 +15,7 @@ class _BroadcastScreenState extends State<BroadcastScreen> {
   Widget build(BuildContext context) {
     return MinbarScaffold(
       hasBottomNavigationBar: false,
-      body: BroadcastPage(MediaQuery.of(context).size.height),
+      body: BroadcastPage(),
     );
   }
 }

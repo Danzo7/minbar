@@ -48,6 +48,7 @@ dependencies:
   scroll_to_index: ^2.1.0
   get_it: ^7.2.0
   flutter_sliding_up_panel: ^2.0.1
+  auto_size_text_field: ^1.0.1
 dev_dependencies:
   flutter_lints: ^1.0.0  
   flutter_test:
