@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 ///default duration equal to `400ms`
@@ -8,11 +9,18 @@ const Duration _kDefaultTiming = Duration(milliseconds: 400);
 
 class MinbarBottomSheet extends StatefulWidget {
   final MinbarBottomSheetController controller;
+  final DragController? dragController;
 
   final Function(MinbarBottomSheetStatus)? onStatusChanged;
 
   ///material elevation
   final double elevation;
+  final double collapseHeight;
+  final bool slideToExpand;
+
+  ///if true [MinbarBottomSheet] will be always shown and the only way to close it is by calling controller.close()
+  final bool closeWhenLoseFocus;
+  final bool allowSlideInExpanded;
 
   /// its better to pass the [MinbarBottomSheetController] to child to be able to manipulate [MinbarBottomSheet] from the child itself
   final Widget child;
@@ -30,6 +38,8 @@ class MinbarBottomSheet extends StatefulWidget {
   /// a [BorderRaduis] will be aplied when [MinbarBottomSheet] is not expanded and desapear when it expanded
   final double radiusWhenNotExpanded;
 
+  final Widget? header;
+
   const MinbarBottomSheet({
     Key? key,
     required this.controller,
@@ -39,50 +49,70 @@ class MinbarBottomSheet extends StatefulWidget {
     this.minHeight,
     this.maxHeight,
     this.radiusWhenNotExpanded = 0,
+    this.slideToExpand = true,
+    this.allowSlideInExpanded = true,
+    this.closeWhenLoseFocus = true,
+    this.collapseHeight = 0,
+    this.header,
+    this.dragController,
   }) : super(key: key);
   @override
   State<MinbarBottomSheet> createState() => _MinbarBottomSheetState();
 }
 
 class _MinbarBottomSheetState extends State<MinbarBottomSheet>
-    with SingleTickerProviderStateMixin<MinbarBottomSheet>, ChangeNotifier {
+    with SingleTickerProviderStateMixin<MinbarBottomSheet> {
   bool _enable = false;
   double _snapByDitance = 0.2;
   late AnimationController _animationController;
   late Animation<Offset> animation;
   double _minFraction = 0.0;
   double _maxFraction = 1.0;
+  double _collapseFraction = 0.0;
   double _radius = 0;
-  final GlobalKey _childKey = GlobalKey(debugLabel: 'MinbarbottomSheet child');
+  bool firstRun = true;
+  final GlobalKey _childKey =
+      GlobalKey(debugLabel: 'MinbarbottomSheet${Random(100).nextInt(100)}');
 
   _MinbarBottomSheetState();
 
   double? get _childHeight {
-    RenderBox? renderBox =
-        _childKey.currentContext?.findRenderObject()! as RenderBox?;
-    return renderBox?.size.height;
+    double? height;
+    RenderObject? current = _childKey.currentContext?.findRenderObject();
+    if (current != null) {
+      if (mounted)
+        height = (current as RenderBox).hasSize ? current.size.height : null;
+      return height;
+    }
   }
 
   void _initialize(BuildContext context) {
-    _radius = widget.radiusWhenNotExpanded;
-    _minFraction = (widget.minHeight ??
-            widget.maxHeight ??
-            MediaQuery.of(context).size.height) /
-        MediaQuery.of(context).size.height;
-    _maxFraction = (widget.maxHeight ?? MediaQuery.of(context).size.height) /
-        MediaQuery.of(context).size.height;
-
-    switch (widget.controller.value) {
-      case MinbarBottomSheetStatus.disabled:
-        _enable = false;
-        _animationController.value = 0;
-        break;
-      case MinbarBottomSheetStatus.expanded:
-        _animationController.value = _maxFraction;
-        break;
-      case MinbarBottomSheetStatus.shown:
-        _animationController.value = _minFraction;
-        break;
+    if (mounted) {
+      _radius = widget.radiusWhenNotExpanded;
+      _minFraction = (widget.minHeight ??
+              widget.maxHeight ??
+              MediaQuery.of(context).size.height) /
+          MediaQuery.of(context).size.height;
+      _maxFraction = (widget.maxHeight ??
+              _childHeight ??
+              MediaQuery.of(context).size.height) /
+          MediaQuery.of(context).size.height;
+      _collapseFraction =
+          widget.collapseHeight / MediaQuery.of(context).size.height;
+      switch (widget.controller.value) {
+        case MinbarBottomSheetStatus.disabled:
+          _enable = _collapseFraction != 0;
+          _animationController.value = _collapseFraction;
+          break;
+        case MinbarBottomSheetStatus.expanded:
+          _enable = true;
+          _animationController.value = _maxFraction;
+          break;
+        case MinbarBottomSheetStatus.shown:
+          _enable = true;
+          _animationController.value = _minFraction;
+          break;
+      }
     }
   }
 
@@ -94,7 +124,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
       vsync: this,
     );
     widget.controller.addListener(_onStateChange);
-
+    widget.dragController?.addDragListener(_onVerticalDragUpdate);
     animation = _animationController.drive(
       Tween(begin: Offset(0.0, 1), end: Offset.zero).chain(
         CurveTween(
@@ -102,60 +132,64 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
         ),
       ),
     );
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _initialize(context));
-
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant MinbarBottomSheet oldWidget) {
 //reset the listener when its lost in hot reload
-    if (!widget.controller.hasListeners)
+    // ignore: invalid_use_of_protected_member
+    if (!widget.controller.hasListeners && mounted)
       widget.controller.addListener(_onStateChange);
-    _initialize(context);
+    widget.dragController?.addDragListener((_onVerticalDragUpdate));
+
+    //_initialize(context);
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (firstRun) {
+      _initialize(context);
+      firstRun = false;
+    }
     return _enable
         ? GestureDetector(
-            onVerticalDragEnd: _onVerticalDragEnd,
-            onVerticalDragUpdate: _onVerticalDragUpdate,
             child: Material(
               color: Colors.transparent,
-              elevation: widget.elevation,
-              child: Container(
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: false,
-                  removeBottom: true,
-                  child: SafeArea(
-                    child: Container(
-                      key: _childKey,
-                      alignment: Alignment.bottomCenter,
-                      height: _childHeight,
-                      child: AnimatedBuilder(
-                        animation: _animationController,
-                        builder: (BuildContext context, Widget? child) {
-                          return SlideTransition(
-                            child: child,
-                            position: animation,
-                          );
-                        },
-                        child: GestureDetector(
-                          onTap: () => {},
-                          child: AnimatedContainer(
-                            clipBehavior: Clip.hardEdge,
-                            duration: Duration(milliseconds: 150),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(_radius),
-                                    bottom: Radius.circular(
-                                        widget.radiusWhenNotExpanded))),
-                            child: widget.child,
-                          ),
-                          excludeFromSemantics: true,
+              child: MediaQuery.removePadding(
+                context: context,
+                removeTop: false,
+                removeBottom: true,
+                child: SafeArea(
+                  child: AnimatedBuilder(
+                    animation: _animationController,
+                    builder: (BuildContext context, Widget? child) {
+                      return SlideTransition(
+                        child: child,
+                        position: animation,
+                      );
+                    },
+                    child: GestureDetector(
+                      onVerticalDragEnd: _onVerticalDragEnd,
+                      onVerticalDragUpdate: _onVerticalDragUpdate,
+                      onTap: () => {},
+                      excludeFromSemantics: true,
+                      child: Material(
+                        key: _childKey,
+                        color: Colors.transparent,
+                        elevation: widget.elevation,
+                        child: AnimatedContainer(
+                          clipBehavior: Clip.hardEdge,
+                          duration: Duration(milliseconds: 150),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(_radius),
+                                  bottom: Radius.circular(
+                                      widget.radiusWhenNotExpanded))),
+                          child: SizedBox(
+                              height: widget.maxHeight ?? _childHeight,
+                              child: widget.child),
                         ),
                       ),
                     ),
@@ -163,25 +197,30 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
                 ),
               ),
             ),
-            onTap: () {
-              switch (widget.controller.status) {
-                case MinbarBottomSheetStatus.shown:
-                  widget.controller.close();
-                  break;
-                case MinbarBottomSheetStatus.expanded:
-                  widget.controller.close();
+            onTap: widget.closeWhenLoseFocus
+                ? () {
+                    switch (widget.controller.status) {
+                      case MinbarBottomSheetStatus.shown:
+                        widget.controller.close();
+                        break;
+                      case MinbarBottomSheetStatus.expanded:
+                        widget.controller.close();
 
-                  break;
-                case MinbarBottomSheetStatus.disabled:
-                  break;
-              }
-            },
+                        break;
+                      case MinbarBottomSheetStatus.disabled:
+                        break;
+                    }
+                  }
+                : null,
           )
-        : Container();
+        : SizedBox();
   }
 
   void _onStateChange() {
     setRaduis();
+    if (!mounted) {
+      return;
+    }
     setState(() {
       widget.onStatusChanged?.call(widget.controller.value);
       switch (widget.controller.value) {
@@ -216,26 +255,40 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
+    if (!mounted) {
+      return;
+    }
+    print(details.primaryDelta);
+
     setState(() {
-      _animationController.value -=
-          details.primaryDelta! / (_childHeight ?? details.primaryDelta!);
+      if (!((!widget.slideToExpand &&
+              _animationController.value == _minFraction) ||
+          (!widget.allowSlideInExpanded &&
+              _animationController.value == _maxFraction)))
+        _animationController.value = max(
+            _collapseFraction,
+            _animationController.value -
+                (details.primaryDelta! /
+                    (_childHeight ?? details.primaryDelta!)));
+      print(_animationController.value);
     });
     _animatedRaduis();
   }
 
   void setRaduis() {
-    switch (widget.controller.value) {
-      case MinbarBottomSheetStatus.shown:
-        _radius = widget.radiusWhenNotExpanded;
-        break;
-      case MinbarBottomSheetStatus.expanded:
-        _radius = 0;
-        break;
-      case MinbarBottomSheetStatus.disabled:
-        _radius = widget.radiusWhenNotExpanded;
+    if (widget.radiusWhenNotExpanded != 0)
+      switch (widget.controller.value) {
+        case MinbarBottomSheetStatus.shown:
+          _radius = widget.radiusWhenNotExpanded;
+          break;
+        case MinbarBottomSheetStatus.expanded:
+          _radius = 0;
+          break;
+        case MinbarBottomSheetStatus.disabled:
+          _radius = widget.radiusWhenNotExpanded;
 
-        break;
-    }
+          break;
+      }
   }
 
   void _expand() {
@@ -265,13 +318,17 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void _close() {
-    if (_animationController.value != 0)
+    print(_collapseFraction);
+    if (_animationController.value != _collapseFraction)
       _animationController
-          .animateTo(0,
+          .animateTo(_collapseFraction,
               curve: Curves.linearToEaseOut, duration: _kDefaultTiming)
           .then((value) {
+        if (!mounted) {
+          return;
+        }
         setState(() {
-          _enable = false;
+          _enable = _collapseFraction != 0;
         });
         widget.controller.value =
             widget.controller.value != MinbarBottomSheetStatus.disabled
@@ -299,11 +356,19 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 }
 
+class DragController extends ValueNotifier<DragUpdateDetails> {
+  DragController({DragUpdateDetails? value})
+      : super(value ?? DragUpdateDetails(globalPosition: const Offset(0, 0)));
+
+  void addDragListener(Function(DragUpdateDetails) listener) {
+    super.addListener(() => listener(value));
+  }
+}
+
 class MinbarBottomSheetController
     extends ValueNotifier<MinbarBottomSheetStatus> {
   MinbarBottomSheetController({MinbarBottomSheetStatus? value})
       : super(value != null ? value : MinbarBottomSheetStatus.disabled);
-
   MinbarBottomSheetStatus get status => value;
 
   ///Slide [MinbarBottomSheet] until become invisible then remove it content.
