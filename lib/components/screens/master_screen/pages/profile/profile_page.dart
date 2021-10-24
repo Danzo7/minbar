@@ -70,42 +70,39 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MinbarScaffold(
-        selectedIndex: 2,
-        withSafeArea: true,
-        body: Container(
-          alignment: Alignment.topCenter,
-          child: !ProfilePage._bugIsFixed
-              ? RefreshContentPage(
-                  refreshController: _refreshController,
-                  onRefresh: _onRefresh,
-                  onLoading: _onLoading,
-                  physics: Snaps.profileHeaderSnap(),
-                  header: ProfileHeader(
-                    maxHeight: ProfilePage._maxHeaderHieght,
-                    minHeight: 33,
-                  ),
-                  beforeRefreshSlivers: [
-                    StickyChipTag(
-                      items: FakeData.fields,
-                    )
-                  ],
-                  afterRefreshSlivers: [_postList(items)],
+    return Container(
+      alignment: Alignment.topCenter,
+      child: !ProfilePage._bugIsFixed
+          ? RefreshContentPage(
+              refreshController: _refreshController,
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              physics: Snaps.profileHeaderSnap(),
+              header: ProfileHeader(
+                maxHeight: ProfilePage._maxHeaderHieght,
+                minHeight: 33,
+              ),
+              beforeRefreshSlivers: [
+                StickyChipTag(
+                  items: FakeData.fields,
                 )
-              : GraviryHeaderScrollView(
-                  slivers: [
-                    ProfileHeader(
-                      maxHeight: 300,
-                      minHeight: 33,
-                    ),
-                    StickyChipTag(
-                      items: FakeData.fields,
-                    ),
-                    _postList(items)
-                  ],
-                  gravityField: 300,
+              ],
+              afterRefreshSlivers: [_postList(items)],
+            )
+          : GraviryHeaderScrollView(
+              slivers: [
+                ProfileHeader(
+                  maxHeight: 300,
+                  minHeight: 33,
                 ),
-        ));
+                StickyChipTag(
+                  items: FakeData.fields,
+                ),
+                _postList(items)
+              ],
+              gravityField: 300,
+            ),
+    );
   }
 
   SliverPadding _postList(List<Publication> items) {

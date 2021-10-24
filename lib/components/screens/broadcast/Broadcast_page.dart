@@ -22,37 +22,16 @@ class BroadcastPage extends StatelessWidget {
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.topCenter,
             decoration: BoxDecoration(
                 image: DecorationImage(
               fit: BoxFit.fitHeight,
               image: const AssetImage('assets/images/cover.png'),
             )),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
+            child: Column(
               children: [
-                GestureDetector(
-                  onVerticalDragUpdate: dragController?.dragUpdate,
-                  onVerticalDragEnd: dragController?.dragEnd,
-                  onTap: () => controller!.isExpanded
-                      ? controller?.show()
-                      : controller?.expand(),
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    height: 30,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RoundedLine(
-                          thikness: 5,
-                          width: MediaQuery.of(context).size.width / 3,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                drager(context),
                 headerInfo(context),
                 content(),
               ],
@@ -60,6 +39,30 @@ class BroadcastPage extends StatelessWidget {
           ),
           CommentSection(),
         ],
+      ),
+    );
+  }
+
+  GestureDetector drager(BuildContext context) {
+    return GestureDetector(
+      onVerticalDragUpdate: dragController?.dragUpdate,
+      onVerticalDragEnd: dragController?.dragEnd,
+      onTap: controller != null
+          ? () =>
+              controller!.isExpanded ? controller?.show() : controller?.expand()
+          : null,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        height: 30,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RoundedLine(
+              thikness: 5,
+              width: MediaQuery.of(context).size.width / 3,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -128,34 +131,35 @@ class BroadcastPage extends StatelessWidget {
     );
   }
 
-  Row headerInfo(context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          alignment: Alignment.centerRight,
-          child: IconButton(
+  headerInfo(context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FlatIconButton(
+            size: 40,
             icon: Icon(
               SodaIcons.close,
               color: DColors.white,
             ),
-            onPressed: () => {controller?.close()},
+            onTap: () => {controller?.close()},
           ),
-        ),
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: 5,
-          children: [
-            Text("1.3k", style: DTextStyle.w15s),
-            Icon(
-              SodaIcons.listeners,
-              size: 20,
-              color: DColors.white,
-            )
-          ],
-        )
-      ],
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 5,
+            children: [
+              Text("1.3k", style: DTextStyle.w15s),
+              Icon(
+                SodaIcons.listeners,
+                size: 20,
+                color: DColors.white,
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

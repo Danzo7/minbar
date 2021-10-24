@@ -1,11 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/broadcast_box.dart';
 import 'package:minbar_fl/components/widgets/chips_tag.dart';
-import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/post/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_carousel.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
@@ -18,46 +16,42 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MinbarScaffold(
-        selectedIndex: 1,
-        body: RefreshIndicator(
-          edgeOffset: 173 + 47,
-          displacement: 100,
-          triggerMode: RefreshIndicatorTriggerMode.anywhere,
-          onRefresh: () => Future.delayed(Duration(seconds: 1), () => {true}),
-          child: CustomScrollView(
-            physics: snap(),
-            slivers: [
-              StickyChipTag(
-                border: BorderSides.bottom,
-                items: FakeData.fields,
-                bgColor: DColors.white,
-              ),
-              SliverHeaderCarousel(
-                carousel: CarouselSlider(
-                    options: CarouselOptions(
-                        enableInfiniteScroll: false,
-                        height: 116.0,
-                        reverse: true),
-                    items: FakeData.casts
-                        .map((e) => Container(
-                            height: 113, width: 265, child: BroadcastBox(e)))
-                        .toList()),
-                title: Text("يبث الان", style: DTextStyle.bg20s),
-                minHeight: 0,
-                maxHeight: 173,
-              ),
-              SliverPadding(
-                  padding: EdgeInsets.only(right: 15, left: 15, top: 20),
-                  sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                          (context, index) => Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Post(FakeData.pub[index])),
-                          childCount: FakeData.pub.length))),
-            ],
+    return RefreshIndicator(
+      edgeOffset: 173 + 47,
+      displacement: 100,
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      onRefresh: () => Future.delayed(Duration(seconds: 1), () => {true}),
+      child: CustomScrollView(
+        physics: snap(),
+        slivers: [
+          StickyChipTag(
+            border: BorderSides.bottom,
+            items: FakeData.fields,
+            bgColor: DColors.white,
           ),
-        ));
+          SliverHeaderCarousel(
+            carousel: CarouselSlider(
+                options: CarouselOptions(
+                    enableInfiniteScroll: false, height: 116.0, reverse: true),
+                items: FakeData.casts
+                    .map((e) => Container(
+                        height: 113, width: 265, child: BroadcastBox(e)))
+                    .toList()),
+            title: Text("يبث الان", style: DTextStyle.bg20s),
+            minHeight: 0,
+            maxHeight: 173,
+          ),
+          SliverPadding(
+              padding: EdgeInsets.only(right: 15, left: 15, top: 20),
+              sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (context, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Post(FakeData.pub[index])),
+                      childCount: FakeData.pub.length))),
+        ],
+      ),
+    );
   }
 
   SnapScrollPhysics snap() {
