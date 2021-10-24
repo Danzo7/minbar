@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/screens/broadcast/Broadcast_page.dart';
-import 'package:minbar_fl/components/screens/master_screen/minbar_bottom_sheet.dart';
+import 'package:minbar_fl/components/screens/broadcast/broadcast_bottom_sheet.dart';
+import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_colors.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
@@ -30,13 +30,7 @@ class MasterScreen extends StatelessWidget {
             SettingsScreen.route: SettingsScreen(),
           }),
           startBroadcasting(),
-          MinbarBottomSheet(
-            radiusWhenNotExpanded: 44,
-            allowSlideInExpanded: false,
-            controller: controller,
-            child: BroadcastPage(controller: controller),
-            minHeight: 500,
-          )
+          BroadcastBottomSheet(controller: controller)
         ],
       ),
     );
