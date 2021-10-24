@@ -81,6 +81,7 @@ class SodaIcons with MaterialIcons {
   static const IconData security = Icons.security_rounded;
   static IconData arrowLeft = Icons.keyboard_arrow_left_rounded;
   static IconData arrowUp = Icons.keyboard_arrow_up_rounded;
+  static IconData arrowDown = Icons.keyboard_arrow_down_rounded;
   static IconData arrowRight = Icons.keyboard_arrow_right_rounded;
   static IconData close = Icons.close_rounded;
 }
