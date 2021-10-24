@@ -12,6 +12,11 @@ class MinbarScaffold extends StatelessWidget {
   final bool hasBottomNavigationBar;
   final Widget? navigationBar;
   final bool hasDrawer;
+  final List<Widget>? persistentFooterButtons;
+  final Widget? floatingActionButton;
+  final Widget? bottomSheet;
+  final bool resizeToAvoidBottomInset;
+
   const MinbarScaffold(
       {Key? key,
       this.selectedIndex = 0,
@@ -19,15 +24,30 @@ class MinbarScaffold extends StatelessWidget {
       this.withSafeArea = true,
       this.hasBottomNavigationBar = false,
       this.hasDrawer = false,
-      this.navigationBar})
+      this.navigationBar,
+      this.resizeToAvoidBottomInset = true,
+      this.persistentFooterButtons,
+      this.floatingActionButton,
+      this.bottomSheet})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Widget _body = bottomSheet != null
+        ? Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+            body,
+            if (floatingActionButton != null) floatingActionButton as Widget,
+            bottomSheet as Widget,
+          ])
+        : body;
+
     return Scaffold(
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
       drawer: hasDrawer ? SettingsLayout() : null,
       backgroundColor: DColors.white,
       extendBody: true,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomNavigationBar: navigationBar ??
           ((hasBottomNavigationBar)
               ? NavigationBar(
@@ -36,7 +56,7 @@ class MinbarScaffold extends StatelessWidget {
                   items: navigationItems,
                 )
               : null),
-      body: withSafeArea ? SafeArea(bottom: false, child: body) : body,
+      body: withSafeArea ? SafeArea(bottom: false, child: _body) : _body,
     );
   }
 }
