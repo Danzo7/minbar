@@ -69,72 +69,68 @@ class _BroadcastsPageState extends State<BroadcastsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MinbarScaffold(
-      selectedIndex: 0,
-      withSafeArea: true,
-      body: Container(
-        child: RefreshContentPage(
-          physics: SnapScrollPhysics(parent: BouncingScrollPhysics(), snaps: [
-            Snap(173,
-                distance:
-                    50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
-            Snap(173,
-                leadingDistance:
-                    50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
-            Snap(173,
-                trailingDistance:
-                    50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-            Snap(173,
-                trailingDistance:
-                    50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-            Snap.avoidZone(0,
-                173), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
-            Snap.avoidZone(0, 173,
-                delimiter:
-                    50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
-          ]),
-          refreshController: _refreshController,
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          header: SliverHeaderCarousel(
-            carousel: CarouselSlider(
-                options: CarouselOptions(
-                    enableInfiniteScroll: false, height: 116.0, reverse: true),
-                items: FakeData.casts
-                    .map((e) => Container(
-                        height: 113, width: 265, child: BroadcastBox(e)))
-                    .toList()),
-            title: Text("الاكثر استماعا", style: DTextStyle.bg20s),
-            minHeight: 0,
-            maxHeight: 173,
-          ),
-          beforeRefreshSlivers: [
-            StickyChipTag(items: FakeData.fields),
-            SliverPersistentHeader(
-                delegate: SliverHeaderContainer(
-              maxHeight: 70,
-              child: Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    const Text("يبث الان", style: DTextStyle.bg20s),
-                    const IconBuilder("live", color: DColors.sadRed),
-                  ],
-                ),
-              ),
-            )),
-          ],
-          afterRefreshSlivers: [
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (context, index) => Padding(
-                        padding: const EdgeInsets.only(
-                            left: 33, bottom: 10, right: 33),
-                        child: BroadcastBox(FakeData.casts[index],
-                            key: Key('key-$index'))),
-                    childCount: FakeData.casts.length)),
-          ],
+    return Container(
+      child: RefreshContentPage(
+        physics: SnapScrollPhysics(parent: BouncingScrollPhysics(), snaps: [
+          Snap(173,
+              distance:
+                  50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
+          Snap(173,
+              leadingDistance:
+                  50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
+          Snap(173,
+              trailingDistance:
+                  50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
+          Snap(173,
+              trailingDistance:
+                  50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
+          Snap.avoidZone(0,
+              173), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
+          Snap.avoidZone(0, 173,
+              delimiter:
+                  50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
+        ]),
+        refreshController: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        header: SliverHeaderCarousel(
+          carousel: CarouselSlider(
+              options: CarouselOptions(
+                  enableInfiniteScroll: false, height: 116.0, reverse: true),
+              items: FakeData.casts
+                  .map((e) => Container(
+                      height: 113, width: 265, child: BroadcastBox(e)))
+                  .toList()),
+          title: Text("الاكثر استماعا", style: DTextStyle.bg20s),
+          minHeight: 0,
+          maxHeight: 173,
         ),
+        beforeRefreshSlivers: [
+          StickyChipTag(items: FakeData.fields),
+          SliverPersistentHeader(
+              delegate: SliverHeaderContainer(
+            maxHeight: 70,
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const Text("يبث الان", style: DTextStyle.bg20s),
+                  const IconBuilder("live", color: DColors.sadRed),
+                ],
+              ),
+            ),
+          )),
+        ],
+        afterRefreshSlivers: [
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (context, index) => Padding(
+                      padding: const EdgeInsets.only(
+                          left: 33, bottom: 10, right: 33),
+                      child: BroadcastBox(FakeData.casts[index],
+                          key: Key('key-$index'))),
+                  childCount: FakeData.casts.length)),
+        ],
       ),
     );
   }
