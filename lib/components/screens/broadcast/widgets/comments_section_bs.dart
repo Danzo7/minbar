@@ -13,41 +13,17 @@ class CommentSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController _textEditingController =
         TextEditingController();
-    final MinbarBottomSheetController panelController =
+    final MinbarBottomSheetController commentSheetController =
         MinbarBottomSheetController();
     return Container(
         child: MinbarBottomSheet(
-      controller: panelController,
+      controller: commentSheetController,
       collapseHeight: 120,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: DColors.blueGray,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(7),
-                        topRight: Radius.circular(7))),
-                height: 50,
-                width: 40,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconBuilder(
-                      "comment",
-                      fit: BoxFit.scaleDown,
-                    ),
-                    Icon(
-                      SodaIcons.arrowUp,
-                      size: 10,
-                      color: DColors.white,
-                    ),
-                  ],
-                ),
-              )),
+          _ShowCommentsButton(commentSheetController: commentSheetController),
           Container(
             child: GestureDetector(
               onTap: () {
@@ -98,6 +74,54 @@ class CommentSection extends StatelessWidget {
         ],
       ),
     ));
+  }
+}
+
+class _ShowCommentsButton extends StatefulWidget {
+  const _ShowCommentsButton({
+    Key? key,
+    required this.commentSheetController,
+  }) : super(key: key);
+
+  final MinbarBottomSheetController commentSheetController;
+
+  @override
+  State<_ShowCommentsButton> createState() => _ShowCommentsButtonState();
+}
+
+class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
+  bool arrowDirUp = true;
+  @override
+  void initState() {
+    widget.commentSheetController.addListener(() => setState(() {
+          arrowDirUp = widget.commentSheetController.isClosed;
+        }));
+    super.initState();
+  }
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: widget.commentSheetController.isClosed
+            ? widget.commentSheetController.expand
+            : widget.commentSheetController.close,
+        child: Container(
+            decoration: BoxDecoration(
+                color: DColors.blueGray,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(7), topRight: Radius.circular(7))),
+            height: 40,
+            width: 40,
+            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+              IconBuilder(
+                "comment",
+                fit: BoxFit.scaleDown,
+              ),
+              Icon(
+                arrowDirUp ? SodaIcons.arrowUp : SodaIcons.arrowDown,
+                size: 10,
+                color: DColors.white,
+              ),
+            ])));
   }
 }
 
