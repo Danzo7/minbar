@@ -24,7 +24,7 @@ class _PageNavigationState extends State<PageNavigation> {
   @override
   void initState() {
     super.initState();
-    controller = Pager.pushActor(this);
+    controller = PageController(initialPage: 0);
   }
 
   Widget build(BuildContext context) {
@@ -41,14 +41,6 @@ class _PageNavigationState extends State<PageNavigation> {
 }
 
 class Pager {
-  static List<_PageNavigationState> _actors = [];
-
-  static PageController pushActor(_PageNavigationState actor) {
-    PageController _controller = PageController(initialPage: 0);
-    _actors.add(actor);
-    return _controller;
-  }
-
   static Future navigateToRoute<TO extends Object?>(
       BuildContext context, String routeName) {
     _PageNavigationState? state =
