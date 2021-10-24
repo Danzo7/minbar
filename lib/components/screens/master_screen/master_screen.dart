@@ -14,26 +14,19 @@ import 'pages/pages.dart';
 export 'pages/pages.dart';
 
 class MasterScreen extends StatelessWidget {
-  final MinbarBottomSheetController controller = MinbarBottomSheetController();
-
   MasterScreen({Key? key}) : super(key: key);
+  final MinbarBottomSheetController controller = MinbarBottomSheetController();
   Widget build(BuildContext context) {
     return MinbarScaffold(
-      hasDrawer: true,
-      body: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          PageNavigation(pages: {
-            BroadcastsPage.route: BroadcastsPage(),
-            HomePage.route: HomePage(),
-            ProfilePage.route: ProfilePage(),
-            SettingsScreen.route: SettingsScreen(),
-          }),
-          startBroadcasting(),
-          BroadcastBottomSheet(controller: controller)
-        ],
-      ),
-    );
+        bottomSheet: BroadcastBottomSheet(controller: controller),
+        floatingActionButton: startBroadcasting(controller),
+        hasDrawer: true,
+        body: PageNavigation(pages: {
+          BroadcastsPage.route: BroadcastsPage(),
+          HomePage.route: HomePage(),
+          ProfilePage.route: ProfilePage(),
+          SettingsScreen.route: SettingsScreen(),
+        }));
   }
 
   Container currentlyListeningField() {
@@ -69,13 +62,13 @@ class MasterScreen extends StatelessWidget {
     );
   }
 
-  Container startBroadcasting() {
-    return Container(
-        alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.only(bottom: 25),
-        child: FlatIconButton(
-            onTap: () => controller.show(),
-            icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
-            backgroundColor: DColors.sadRed));
+  Widget startBroadcasting(MinbarBottomSheetController controller) {
+    return Padding(
+      padding: const EdgeInsets.all(25),
+      child: FlatIconButton(
+          onTap: () => controller.show(),
+          icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
+          backgroundColor: DColors.sadRed),
+    );
   }
 }
