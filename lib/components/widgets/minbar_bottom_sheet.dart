@@ -385,8 +385,8 @@ class DragController extends ValueNotifier<_DragDetails> {
 ///Control [MinbarBottomSheet] status.
 class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
     with MinbarBottomSheetInstances {
-  ///if ``true`` this controller will be conciderd an instance.
-  ///this mean that it will be added to a list of controllers(instances).
+  ///if ``true`` the controller is an instance.
+  ///this mean that it will be added to a list of instances.
   ///This will allow to link all instances so it will be possible to Pop every [MinbarBottomSheet] one by one.
   ///by using mayPop() every [MinbarBottomSheet] will go from it status down until its closed `Expand->show->closed`.
   final bool isInstance;
@@ -427,79 +427,75 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   bool get isExpanded => value == MinbarBottomSheetStatus.expanded;
   bool get isClosed => value == MinbarBottomSheetStatus.disabled;
 
-  ///Only use if ``isInstance=true`` otherwise it will throw an error.
-  ///
-  ///Every [MinbarBottomSheet] that is linked with a controller that is an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Show->Closed`.
-  ///
-  ///Starting by the lastest added instance.
-  ///this will return ``false`` if all instances is closed.
-  ///will return ``true`` otherwise.
-
+  ///[MinbarBottomSheet] will go from it current status down until it closed `Expanded->Show->Closed`.
+  ///return isClosed
   bool mayPop() {
-    if (!isInstance)
-      throw ErrorSummary("This controller does not support instances");
-    if (latestInstance.isShown) {
-      latestInstance.close();
+    if (isShown) {
+      close();
       return true;
     }
 
-    if (latestInstance.isExpanded) {
-      latestInstance.show();
+    if (isExpanded) {
+      show();
       return true;
     } else
       return false;
   }
 
-  ///if `isInstance=true` otherwise it will throw an error.
-  ///this will remove the controller frome instances list.
+  ///this will remove the instance frome instances list.
   ///controllers will be removed automatically if [MinbarBottomSheet] is disabled .
-  void _removeFromInstances() => (isInstance)
-      ? (MinbarBottomSheetInstances._instances.remove(this))
-      : throw ErrorHint("This controller does not support instance");
+  void _removeFromInstances() =>
+      MinbarBottomSheetInstances._instances.remove(this);
 
-  ///this will add the controller to instances.
+  ///this will add the instance to instances.
   ///instances are used for  the mayPop() function.
   ///controllers will be added automatically if and [MinbarBottomSheet] is not disabled .
-  void _addToInstances() => (isInstance)
-      ? (MinbarBottomSheetInstances._instances
-        ..remove(this)
-        ..add(this))
-      : throw ErrorHint("This controller does not support instance");
+  void _addToInstances() => MinbarBottomSheetInstances._instances
+    ..remove(this)
+    ..add(this);
+}
 
-  MinbarBottomSheetController get latestInstance => (isInstance)
-      ? (MinbarBottomSheetInstances._instances.isNotEmpty
-          ? MinbarBottomSheetInstances._instances.last
-          : this)
-      : throw ErrorHint("This controller does not support instance");
+///[MinbarBottomSheetController] is an instance if ``isInstance=true``
+///
+///Each [MinbarBottomSheetController] that is an instance will be a part of ListOfInstances if its not closed.
+///
+///provide static call to `mayPop()` on the latest instance in ListOfInstances.
+///an instance is no longer in ListOfInstances if it closed.
+class MinbarBottomSheetInstances {
+  static List<MinbarBottomSheetController> _instances = [];
 
-  ///get latestController if any.
-  static MinbarBottomSheetController? get _lasestController =>
+  ///get last added instance if any.
+  static MinbarBottomSheetController? get _lasestInstance =>
       MinbarBottomSheetInstances._instances.isNotEmpty
           ? MinbarBottomSheetInstances._instances.last
           : null;
 
-  ///Every [MinbarBottomSheet] that is linked with a controller that is an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Show->Closed`.
+  ///Will call `mayPop()` on the latest instance.
   ///
-  ///Starting by the lastest added instance.
-  ///this will return ``false`` if all instances is closed or latestInstance is ``null``.
-  ///will return ``true`` otherwise.
-  static bool _mayPopInstance() {
-    if (_lasestController != null)
-      return _lasestController!.mayPop();
+  ///it returns ``false`` if there is no latest instance ``listOfInstances.length=0``,
+  ///and ``true`` otherwise.
+  ///
+  ///Here we are using it with WillPop() Widget to handle android backButton.
+  ///
+  ///```
+  ///WillPopScope(
+  /// onWillPop: () async {
+  ///   if (MinbarBottomSheetInstances.mayPop())
+  ///    return false;
+  ///   else {return _handleBackButton()},
+  /// child:App()
+  /// ...
+  /// )
+  ///```
+  ///Every [MinbarBottomSheet] that is linked with an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Shown->Closed`.
+  ///starting from latest intance until all intances are closed.
+
+  static bool mayPop() {
+    if (_lasestInstance != null)
+      return _lasestInstance!.mayPop();
     else
       return false;
   }
-}
-
-class MinbarBottomSheetInstances {
-  static List<MinbarBottomSheetController> _instances = [];
-
-  ///Every [MinbarBottomSheet] that is linked with a controller that is an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Show->Closed`.
-  ///
-  ///Starting by the lastest added instance.
-  ///this will return ``false`` if all instances is closed or latestInstance is ``null``.
-  ///will return ``true`` otherwise.
-  static bool mayPop() => MinbarBottomSheetController._mayPopInstance();
 }
 
 enum MinbarBottomSheetStatus { shown, expanded, disabled }
