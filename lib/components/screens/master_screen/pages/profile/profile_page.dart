@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/theme/snaps.dart';
-import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
 import 'package:minbar_fl/components/widgets/post/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';

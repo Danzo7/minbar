@@ -14,11 +14,11 @@ class CommentSection extends StatelessWidget {
     final TextEditingController _textEditingController =
         TextEditingController();
     final MinbarBottomSheetController commentSheetController =
-        MinbarBottomSheetController();
+        MinbarBottomSheetController(isInstance: true);
     return Container(
         child: MinbarBottomSheet(
       controller: commentSheetController,
-      collapseHeight: 120,
+      collapseHeight: 90,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -102,7 +102,7 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: widget.commentSheetController.isClosed
-            ? widget.commentSheetController.expand
+            ? widget.commentSheetController.show
             : widget.commentSheetController.close,
         child: Container(
             decoration: BoxDecoration(

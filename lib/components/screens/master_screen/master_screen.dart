@@ -9,24 +9,33 @@ import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/text_play.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
-
 import 'pages/pages.dart';
 export 'pages/pages.dart';
 
 class MasterScreen extends StatelessWidget {
   MasterScreen({Key? key}) : super(key: key);
-  final MinbarBottomSheetController controller = MinbarBottomSheetController();
+  final MinbarBottomSheetController controller =
+      MinbarBottomSheetController(isInstance: true);
   Widget build(BuildContext context) {
-    return MinbarScaffold(
-        bottomSheet: BroadcastBottomSheet(controller: controller),
-        floatingActionButton: startBroadcasting(controller),
-        hasDrawer: true,
-        body: PageNavigation(pages: {
-          BroadcastsPage.route: BroadcastsPage(),
-          HomePage.route: HomePage(),
-          ProfilePage.route: ProfilePage(),
-          SettingsScreen.route: SettingsScreen(),
-        }));
+    return WillPopScope(
+      onWillPop: () async {
+        if (MinbarBottomSheetInstances.mayPop())
+          return false;
+        else {
+          return false;
+        }
+      },
+      child: MinbarScaffold(
+          bottomSheet: BroadcastBottomSheet(controller: controller),
+          floatingActionButton: startBroadcasting(controller),
+          hasDrawer: true,
+          body: PageNavigation(pages: {
+            BroadcastsPage.route: BroadcastsPage(),
+            HomePage.route: HomePage(),
+            ProfilePage.route: ProfilePage(),
+            SettingsScreen.route: SettingsScreen(),
+          })),
+    );
   }
 
   Container currentlyListeningField() {
