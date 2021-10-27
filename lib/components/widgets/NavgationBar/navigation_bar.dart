@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
+import 'package:minbar_fl/misc/page_navigation.dart';
 
 import 'navigation_item.dart';
 import 'navigation_painter.dart';
@@ -16,28 +17,40 @@ class NavigationBar extends StatefulWidget {
   final NavType type;
   final int selectedIndex;
   final List<NavigatonItem> items;
+  final NavgationController? navigationController;
   const NavigationBar({
     Key? key,
     this.type = NavType.idle,
     required this.selectedIndex,
     required this.items,
+    this.navigationController,
   })  : assert(items.length % 2 == 0),
         super(key: key);
 
   @override
-  _NavigationBarState createState() => _NavigationBarState(selectedIndex);
+  _NavigationBarState createState() => _NavigationBarState();
 }
 
 class _NavigationBarState extends State<NavigationBar> {
-  int currentIndex;
-  _NavigationBarState(this.currentIndex);
+  int currentIndex = 0;
+  @override
+  void initState() {
+    currentIndex = widget.selectedIndex;
+    super.initState();
+    widget.navigationController?.addChangeListener(setBottomBarIndex);
+  }
+
+  @override
+  void didUpdateWidget(covariant NavigationBar oldWidget) {
+    widget.navigationController?.addChangeListener(setBottomBarIndex);
+    super.didUpdateWidget(oldWidget);
+  }
+
   setBottomBarIndex(index) {
     if (currentIndex != index)
-      app<MinbarNavigator>()
-          .navigateTo(context, index)
-          .then((dynamic) => setState(() {
-                currentIndex = index;
-              }));
+      setState(() {
+        currentIndex = index;
+      });
   }
 
   @override
@@ -83,7 +96,11 @@ class _NavigationBarState extends State<NavigationBar> {
                                   : e.afterIcon,
                               onPressed: () {
                                 if (currentIndex != widget.items.indexOf(e)) {
-                                  setBottomBarIndex(widget.items.indexOf(e));
+                                  widget.navigationController != null
+                                      ? widget.navigationController
+                                          ?.navigateTo(widget.items.indexOf(e))
+                                      : app<MinbarNavigator>().navigateTo(
+                                          context, widget.items.indexOf(e));
                                 }
                               })
                         ])
