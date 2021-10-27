@@ -40,7 +40,6 @@ class MinbarApp extends StatelessWidget {
           minbarRouteObserver,
         ],
         navigatorKey: app<MinbarNavigator>().key,
-
         onGenerateRoute: onGenerateRoute,
         home: MasterScreen(),
       ),

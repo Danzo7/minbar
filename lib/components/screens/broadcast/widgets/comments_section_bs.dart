@@ -27,11 +27,7 @@ class CommentSection extends StatelessWidget {
           Container(
             child: GestureDetector(
               onTap: () {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.unfocus();
-                }
+                FocusScope.of(context).requestFocus(new FocusNode());
               },
               child: Container(
                   height: 250,

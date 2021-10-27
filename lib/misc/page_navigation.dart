@@ -103,8 +103,6 @@ class NavgationController extends PageController {
   }
 
   void _pushToHistory(int page) {
-    print([page, predectedPage]);
-
     history.remove(page);
     history.addLast(page);
 
