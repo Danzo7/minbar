@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 ///default duration equal to `400ms`
+
 const Duration _kDefaultTiming = Duration(milliseconds: 400);
 Widget createLayout(body, bottomSheet) {
   return Stack(
@@ -153,6 +154,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   void dispose() {
     widget.controller.dispose();
     _animationController.dispose();
+    if (widget.controller.isInstance) widget.controller._removeFromInstances();
     super.dispose();
   }
 
@@ -380,17 +382,24 @@ class DragController extends ValueNotifier<_DragDetails> {
       _drag = _DragDetails(velocity: details.velocity.pixelsPerSecond.dy);
 }
 
-class MinbarBottomSheetController
-    extends ValueNotifier<MinbarBottomSheetStatus> {
-  MinbarBottomSheetController({MinbarBottomSheetStatus? value})
+///Control [MinbarBottomSheet] status.
+class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
+    with MinbarBottomSheetInstances {
+  ///if ``true`` this controller will be conciderd an instance.
+  ///this mean that it will be added to a list of controllers(instances).
+  ///This will allow to link all instances so it will be possible to Pop every [MinbarBottomSheet] one by one.
+  ///by using mayPop() every [MinbarBottomSheet] will go from it status down until its closed `Expand->show->closed`.
+  final bool isInstance;
+  MinbarBottomSheetController(
+      {MinbarBottomSheetStatus? value, this.isInstance = false})
       : super(value != null ? value : MinbarBottomSheetStatus.disabled);
   MinbarBottomSheetStatus get status => value;
 
   ///Slide [MinbarBottomSheet] until become invisible then remove it content.
   void close() {
     if (isClosed) notifyListeners();
-
     value = MinbarBottomSheetStatus.disabled;
+    if (isInstance) _removeFromInstances();
   }
 
   ///slide  [MinbarBottomSheet] to `minHeight` ,if `minHeight=null` same as ``controller.expand()``
@@ -398,12 +407,15 @@ class MinbarBottomSheetController
     if (isShown) notifyListeners();
 
     value = MinbarBottomSheetStatus.shown;
+    if (isInstance) _addToInstances();
   }
 
   ///slide [MinbarBottomSheet] to `maxHeight` if `minHeight=null` slide to whole screen.
   void expand() {
     if (isExpanded) notifyListeners();
     value = MinbarBottomSheetStatus.expanded;
+
+    if (isInstance) _addToInstances();
   }
 
   ///add listener if its the only one.
@@ -414,6 +426,80 @@ class MinbarBottomSheetController
   bool get isShown => value == MinbarBottomSheetStatus.shown;
   bool get isExpanded => value == MinbarBottomSheetStatus.expanded;
   bool get isClosed => value == MinbarBottomSheetStatus.disabled;
+
+  ///Only use if ``isInstance=true`` otherwise it will throw an error.
+  ///
+  ///Every [MinbarBottomSheet] that is linked with a controller that is an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Show->Closed`.
+  ///
+  ///Starting by the lastest added instance.
+  ///this will return ``false`` if all instances is closed.
+  ///will return ``true`` otherwise.
+
+  bool mayPop() {
+    if (!isInstance)
+      throw ErrorSummary("This controller does not support instances");
+    if (latestInstance.isShown) {
+      latestInstance.close();
+      return true;
+    }
+
+    if (latestInstance.isExpanded) {
+      latestInstance.show();
+      return true;
+    } else
+      return false;
+  }
+
+  ///if `isInstance=true` otherwise it will throw an error.
+  ///this will remove the controller frome instances list.
+  ///controllers will be removed automatically if [MinbarBottomSheet] is disabled .
+  void _removeFromInstances() => (isInstance)
+      ? (MinbarBottomSheetInstances._instances.remove(this))
+      : throw ErrorHint("This controller does not support instance");
+
+  ///this will add the controller to instances.
+  ///instances are used for  the mayPop() function.
+  ///controllers will be added automatically if and [MinbarBottomSheet] is not disabled .
+  void _addToInstances() => (isInstance)
+      ? (MinbarBottomSheetInstances._instances
+        ..remove(this)
+        ..add(this))
+      : throw ErrorHint("This controller does not support instance");
+
+  MinbarBottomSheetController get latestInstance => (isInstance)
+      ? (MinbarBottomSheetInstances._instances.isNotEmpty
+          ? MinbarBottomSheetInstances._instances.last
+          : this)
+      : throw ErrorHint("This controller does not support instance");
+
+  ///get latestController if any.
+  static MinbarBottomSheetController? get _lasestController =>
+      MinbarBottomSheetInstances._instances.isNotEmpty
+          ? MinbarBottomSheetInstances._instances.last
+          : null;
+
+  ///Every [MinbarBottomSheet] that is linked with a controller that is an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Show->Closed`.
+  ///
+  ///Starting by the lastest added instance.
+  ///this will return ``false`` if all instances is closed or latestInstance is ``null``.
+  ///will return ``true`` otherwise.
+  static bool _mayPopInstance() {
+    if (_lasestController != null)
+      return _lasestController!.mayPop();
+    else
+      return false;
+  }
+}
+
+class MinbarBottomSheetInstances {
+  static List<MinbarBottomSheetController> _instances = [];
+
+  ///Every [MinbarBottomSheet] that is linked with a controller that is an instance `isInstance=true`, will go from it current status down until it closed `Expanded->Show->Closed`.
+  ///
+  ///Starting by the lastest added instance.
+  ///this will return ``false`` if all instances is closed or latestInstance is ``null``.
+  ///will return ``true`` otherwise.
+  static bool mayPop() => MinbarBottomSheetController._mayPopInstance();
 }
 
 enum MinbarBottomSheetStatus { shown, expanded, disabled }
