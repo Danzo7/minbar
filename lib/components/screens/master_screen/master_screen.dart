@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:marquee/marquee.dart';
 import 'package:minbar_fl/components/screens/broadcast/broadcast_bottom_sheet.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
@@ -11,30 +11,51 @@ import 'package:minbar_fl/components/widgets/text_play.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'pages/pages.dart';
 export 'pages/pages.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MasterScreen extends StatelessWidget {
   MasterScreen({Key? key}) : super(key: key);
+
   final MinbarBottomSheetController controller =
       MinbarBottomSheetController(isInstance: true);
+  final NavgationController navgationController = NavgationController();
   Widget build(BuildContext context) {
+    DateTime timeBackPressed = DateTime.now();
     return WillPopScope(
       onWillPop: () async {
         if (MinbarBottomSheetInstances.mayPop())
           return false;
-        else {
+        else if (navgationController.mayPop())
           return false;
+        else {
+          final differeance = DateTime.now().difference(timeBackPressed);
+          timeBackPressed = DateTime.now();
+          if (differeance >= Duration(seconds: 2)) {
+            final String msg = 'اضغط مرة اخرى للخروج';
+            Fluttertoast.showToast(
+              msg: msg,
+            );
+            return false;
+          } else {
+            Fluttertoast.cancel();
+            SystemNavigator.pop();
+            return true;
+          }
         }
       },
       child: MinbarScaffold(
           bottomSheet: BroadcastBottomSheet(controller: controller),
           floatingActionButton: startBroadcasting(controller),
           hasDrawer: true,
-          body: PageNavigation(pages: {
-            BroadcastsPage.route: BroadcastsPage(),
-            HomePage.route: HomePage(),
-            ProfilePage.route: ProfilePage(),
-            SettingsScreen.route: SettingsScreen(),
-          })),
+          body: PageNavigation(
+              navgationController: navgationController,
+              slidable: true,
+              pages: {
+                BroadcastsPage.route: BroadcastsPage(),
+                HomePage.route: HomePage(),
+                ProfilePage.route: ProfilePage(),
+                SettingsScreen.route: SettingsScreen(),
+              })),
     );
   }
 

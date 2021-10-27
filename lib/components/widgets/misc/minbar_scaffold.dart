@@ -4,6 +4,7 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
+import 'package:minbar_fl/misc/page_navigation.dart';
 
 class MinbarScaffold extends StatelessWidget {
   final int selectedIndex;
@@ -16,6 +17,7 @@ class MinbarScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final Widget? bottomSheet;
   final bool resizeToAvoidBottomInset;
+  final NavgationController? navgationController;
 
   const MinbarScaffold(
       {Key? key,
@@ -28,7 +30,8 @@ class MinbarScaffold extends StatelessWidget {
       this.resizeToAvoidBottomInset = true,
       this.persistentFooterButtons,
       this.floatingActionButton,
-      this.bottomSheet})
+      this.bottomSheet,
+      this.navgationController})
       : super(key: key);
 
   @override
@@ -54,6 +57,7 @@ class MinbarScaffold extends StatelessWidget {
                   selectedIndex: selectedIndex,
                   type: NavType.broadcastable,
                   items: navigationItems,
+                  navigationController: navgationController,
                 )
               : null),
       body: withSafeArea ? SafeArea(bottom: false, child: _body) : _body,
