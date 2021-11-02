@@ -32,10 +32,14 @@ class HomePage extends StatelessWidget {
           SliverHeaderCarousel(
             carousel: CarouselSlider(
                 options: CarouselOptions(
-                    enableInfiniteScroll: false, height: 116.0, reverse: true),
+                    disableCenter: true,
+                    enableInfiniteScroll: false,
+                    height: 116.0,
+                    reverse: true),
                 items: FakeData.casts
-                    .map((e) => Container(
-                        height: 113, width: 265, child: BroadcastBox(e)))
+                    .map((e) => Padding(
+                        padding: EdgeInsets.only(right: 30),
+                        child: BroadcastBox(e)))
                     .toList()),
             title: Text("يبث الان", style: DTextStyle.bg20s),
             minHeight: 0,
