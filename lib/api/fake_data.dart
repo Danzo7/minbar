@@ -170,4 +170,17 @@ class FakeData {
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
   ];
   static const List<String> fields = ["الكل", "درس", "خطبة", "حوار"];
+  static List<String> commentList = [
+    "شكرا",
+    "الحمد لله",
+    "اهلا",
+    "شكرا",
+    "اهلا",
+    "اهلا",
+    "منافق",
+    " لا",
+    "اكتب سبحان الله",
+    "كذاب",
+    "اهلا",
+  ];
 }
