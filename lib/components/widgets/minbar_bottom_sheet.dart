@@ -25,6 +25,7 @@ class MinbarBottomSheet extends StatefulWidget {
   final bool allowSlideInExpanded;
 
   final bool slideToExpand;
+  final bool snapToExpand;
 
   /// its better to pass the [MinbarBottomSheetController] to child to be able to manipulate [MinbarBottomSheet] from the child itself
   final Widget child;
@@ -34,12 +35,19 @@ class MinbarBottomSheet extends StatefulWidget {
   ///take the value of mnHeight in case of ``null``
   final double? minHeight;
 
+  ///between 0 to maxFraction with 0 is fully hidden.
+
+  final double? minFraction;
+
   ///maximum height that [MinbarBottomSheet] could be expanded to.
   ///
   ///used when called `MinbarBottomSheetController.expand()`
   ///
   ///take child height in case of `null`.
   final double? maxHeight;
+
+  ///between minFraction to 1 with 1 is fully expanded
+  final double? maxFraction;
 
   /// ***beta***
   ///
@@ -50,6 +58,13 @@ class MinbarBottomSheet extends StatefulWidget {
 
   /// a [BorderRaduis] with raduis of ``radiusWhenNotExpanded`` will be aplied when [MinbarBottomSheet] is not expanded and desapear when it expanded.
   final double radiusWhenNotExpanded;
+
+  final bool constraint;
+
+  ///enable Translucent behavoir of gestionDetector.
+  ///
+  ///set to false to disable any other GestionDetector behind [MinbarBottomSheet] if it is in range maxHeight.
+  final bool isTranslucent;
 
   const MinbarBottomSheet({
     Key? key,
@@ -64,7 +79,22 @@ class MinbarBottomSheet extends StatefulWidget {
     this.closeWhenLoseFocus = true,
     this.collapseHeight = 0,
     this.dragController,
-  }) : super(key: key);
+    this.constraint = true,
+    this.snapToExpand = true,
+    this.minFraction,
+    this.maxFraction,
+    this.isTranslucent = true,
+  })  : assert(
+            (minHeight == null || minFraction == null) &&
+                (maxFraction == null || maxHeight == null),
+            "Specifiying fraction will override Height limitation so you should ether provide a fraction or a height limitation."),
+        assert(minFraction == null || minFraction >= 0),
+        assert(maxFraction == null || maxFraction <= 1),
+        assert(
+            (minFraction == null || maxFraction == null) ||
+                (minFraction < maxFraction),
+            "make sure that minFraction is smaller than maxFraction."),
+        super(key: key);
   @override
   State<MinbarBottomSheet> createState() => _MinbarBottomSheetState();
 }
@@ -80,6 +110,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   double _collapseFraction = 0.0;
   double _radius = 0;
   bool firstRun = true;
+
   final GlobalKey _childKey =
       GlobalKey(debugLabel: 'MinbarbottomSheet${Random(100).nextInt(100)}');
 
@@ -93,19 +124,24 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     }
   }
 
+  void _initFraction() {
+    _minFraction = widget.minFraction ??
+        (widget.minHeight ??
+                widget.maxHeight ??
+                MediaQuery.of(context).size.height) /
+            MediaQuery.of(context).size.height;
+    _maxFraction = widget.maxFraction ??
+        (widget.maxHeight ?? MediaQuery.of(context).size.height) /
+            MediaQuery.of(context).size.height;
+    _collapseFraction =
+        widget.collapseHeight / MediaQuery.of(context).size.height;
+  }
+
   void _initialize(BuildContext context) {
+    _initFraction();
     if (mounted) {
       _radius = widget.radiusWhenNotExpanded;
-      _minFraction = (widget.minHeight ??
-              widget.maxHeight ??
-              MediaQuery.of(context).size.height) /
-          MediaQuery.of(context).size.height;
-      _maxFraction = (widget.maxHeight ??
-              _childHeight ??
-              MediaQuery.of(context).size.height) /
-          MediaQuery.of(context).size.height;
-      _collapseFraction =
-          widget.collapseHeight / MediaQuery.of(context).size.height;
+
       switch (widget.controller.value) {
         case MinbarBottomSheetStatus.disabled:
           _enable = _collapseFraction != 0;
@@ -166,55 +202,50 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     }
     return _enable
         ? GestureDetector(
-            child: Material(
-              color: Colors.transparent,
-              child: MediaQuery.removePadding(
-                context: context,
-                removeTop: false,
-                removeBottom: true,
-                child: SafeArea(
-                  child: AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (BuildContext context, Widget? child) {
-                      return SlideTransition(
-                        child: child,
-                        position: animation,
-                      );
-                    },
-                    child: GestureDetector(
-                      onVerticalDragEnd: (details) => _onVerticalDragEnd(
-                          details.velocity.pixelsPerSecond.dy),
-                      onVerticalDragUpdate: !(!widget.allowSlideInExpanded &&
-                              widget.controller.value ==
-                                  MinbarBottomSheetStatus.expanded)
-                          ? (details) =>
-                              _onVerticalDragUpdate(details.primaryDelta)
-                          : null,
-                      onTap: () => {},
-                      excludeFromSemantics: true,
-                      child: Material(
-                        key: _childKey,
-                        color: Colors.transparent,
-                        elevation: widget.elevation,
-                        child: AnimatedContainer(
-                          clipBehavior: Clip.hardEdge,
-                          duration: Duration(milliseconds: 150),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(_radius),
-                                  bottom: Radius.circular(
-                                      widget.radiusWhenNotExpanded))),
-                          child: SizedBox(
-                              height: widget.maxHeight ?? _childHeight,
-                              child: widget.child),
-                        ),
-                      ),
+            onTap: widget.closeWhenLoseFocus ? _clickOutsideClose : null,
+            behavior: widget.isTranslucent ? HitTestBehavior.translucent : null,
+            child: SafeArea(
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (BuildContext context, Widget? child) {
+                  return SlideTransition(
+                    child: child,
+                    position: animation,
+                  );
+                },
+                child: GestureDetector(
+                  onVerticalDragEnd: (details) => !(!widget
+                              .allowSlideInExpanded &&
+                          widget.controller.value ==
+                              MinbarBottomSheetStatus.expanded)
+                      ? _onVerticalDragEnd(details.velocity.pixelsPerSecond.dy)
+                      : null,
+                  onVerticalDragUpdate: !(!widget.allowSlideInExpanded &&
+                          widget.controller.value ==
+                              MinbarBottomSheetStatus.expanded)
+                      ? (details) => _onVerticalDragUpdate(details.primaryDelta)
+                      : null,
+                  onTap: () => {},
+                  excludeFromSemantics: true,
+                  child: Material(
+                    key: _childKey,
+                    color: Colors.transparent,
+                    elevation: widget.elevation,
+                    child: AnimatedContainer(
+                      clipBehavior: Clip.hardEdge,
+                      duration: Duration(milliseconds: 150),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(_radius),
+                      )),
+                      height: widget.maxHeight ??
+                          (!widget.constraint ? (_childHeight) : null),
+                      child: widget.child,
                     ),
                   ),
                 ),
               ),
             ),
-            onTap: widget.closeWhenLoseFocus ? _clickOutsideClose : null,
           )
         : SizedBox();
   }
@@ -280,21 +311,20 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
 
   void _onVerticalDragEnd(double velocity) {
     double _snapByVelocity = max(0, _snapByDitance - (velocity / 10000));
-
     if (_animationController.value <= _minFraction)
       (!widget.controller.isClosed &&
               _animationController.value < _minFraction - _snapByVelocity)
           ? widget.controller.close()
           : widget.controller.show();
-    else {
+    else if (widget.snapToExpand)
       (widget.controller.isExpanded &&
               _animationController.value < _maxFraction - _snapByVelocity)
           ? widget.controller.close()
           : widget.controller.expand();
-    }
   }
 
   void _expand() {
+    print(_maxFraction);
     if (_animationController.value != _maxFraction) {
       _enable = true;
       _animationController.animateTo(_maxFraction,
