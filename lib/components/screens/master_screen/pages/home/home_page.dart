@@ -49,6 +49,7 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Post(FakeData.pub[index])),
                       childCount: FakeData.pub.length))),
+          SliverPadding(padding: EdgeInsets.only(bottom: 100))
         ],
       ),
     );
