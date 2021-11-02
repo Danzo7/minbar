@@ -1,75 +1,138 @@
-import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/api/fake_data.dart';
+import 'package:minbar_fl/components/screens/broadcast/widgets/comment_field.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
+import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
+import 'package:minbar_fl/components/widgets/slivers/sliver_header_container.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CommentSection extends StatelessWidget {
-  const CommentSection(
-      {Key? key, MinbarBottomSheetController? parentController})
+import 'comment.dart';
+
+class CommentSection extends StatefulWidget {
+  CommentSection({Key? key, MinbarBottomSheetController? parentController})
       : super(key: key);
 
   @override
+  State<CommentSection> createState() => _CommentSectionState();
+}
+
+class _CommentSectionState extends State<CommentSection> {
+  final TextEditingController _textEditingController = TextEditingController();
+  final _refreshController = new RefreshController();
+
+  @override
+  void initState() {
+    _textEditingController.addListener(() {
+      print(_textEditingController.value.text);
+    });
+    super.initState();
+  }
+
+  final MinbarBottomSheetController commentSheetController =
+      MinbarBottomSheetController(isInstance: true);
+  addToComments(comment) {
+    if (mounted)
+      setState(() {
+        FakeData.commentList = [comment, ...FakeData.commentList];
+      });
+  }
+
+  loadToComment(String comment) {
+    if (mounted)
+      setState(() {
+        FakeData.commentList.add(comment);
+      });
+  }
+
+  void _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 3000), () {
+      addToComments("test");
+    });
+    _refreshController.refreshCompleted();
+  }
+
+  void _onload() async {
+    await Future.delayed(Duration(milliseconds: 3000), () {
+      for (var i = 0; i < 5; i++) {
+        loadToComment("test $i");
+      }
+    });
+    _refreshController.loadComplete();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController _textEditingController =
-        TextEditingController();
-    final MinbarBottomSheetController commentSheetController =
-        MinbarBottomSheetController(isInstance: true);
+    double height = MediaQuery.of(context).size.height;
+    print(height);
     return Container(
+        height: height * 4 / 6,
         child: MinbarBottomSheet(
-      controller: commentSheetController,
-      collapseHeight: 90,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _ShowCommentsButton(commentSheetController: commentSheetController),
-          Container(
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-              child: Container(
-                  height: 250,
-                  width: double.infinity,
-                  alignment: Alignment.bottomCenter,
-                  padding: EdgeInsets.symmetric(horizontal: 17.5, vertical: 10),
-                  decoration: BoxDecoration(
-                      color: DColors.blueGray,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(7),
-                          topRight: Radius.circular(7))),
-                  child: Wrap(runSpacing: 10, children: [
-                    Comment("العرب"),
-                    AutoSizeTextField(
-                      controller: _textEditingController,
-                      style: DTextStyle.w12,
-                      maxLines: 4,
-                      minLines: 1,
-                      maxLength: 152,
-                      decoration: InputDecoration(
-                          hintText: "تعليق",
-                          hintStyle: DTextStyle.w12,
-                          filled: true,
-                          fillColor: DColors.blueSaidGray,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(22),
-                            borderSide:
-                                const BorderSide(color: DColors.blueSaidGray),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(22),
-                            borderSide:
-                                const BorderSide(color: DColors.blueSaidGray),
-                          ),
-                          contentPadding: const EdgeInsets.all(10)),
-                    )
-                  ])),
-            ),
+          controller: commentSheetController,
+          collapseHeight: 60,
+          minHeight: height / 2,
+          snapToExpand: false,
+          closeWhenLoseFocus: false,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              _ShowCommentsButton(
+                  commentSheetController: commentSheetController),
+              Container(
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(new FocusNode());
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.bottomCenter,
+                    height: 500,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 17.5, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: DColors.blueGray,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(7),
+                            topRight: Radius.circular(7))),
+                    child: RefreshContentPage(
+                      bottomPadding: height / 2 - 80,
+                      physics: BouncingScrollPhysics(),
+                      onRefresh: _onRefresh,
+                      onLoading: _onload,
+                      refreshController: _refreshController,
+                      header: SliverPersistentHeader(
+                          floating: true,
+                          delegate: SliverHeaderContainer(
+                              child: CommentField(
+                                  controller: _textEditingController,
+                                  onSubmit: () {
+                                    if (_textEditingController.text.length >
+                                        0) {
+                                      addToComments(
+                                          _textEditingController.text);
+                                      _textEditingController.clear();
+                                    }
+                                  }),
+                              maxHeight: 90)),
+                      afterRefreshSlivers: [
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                          (context, index) => Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Comment(FakeData.commentList[index])),
+                          childCount: FakeData.commentList.length,
+                          addAutomaticKeepAlives: true,
+                          addRepaintBoundaries: true,
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
@@ -88,6 +151,13 @@ class _ShowCommentsButton extends StatefulWidget {
 class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
   bool arrowDirUp = true;
   @override
+  void didUpdateWidget(covariant _ShowCommentsButton oldWidget) {
+    widget.commentSheetController.addListener(() => setState(() {
+          arrowDirUp = widget.commentSheetController.isClosed;
+        }));
+    super.didUpdateWidget(oldWidget);
+  }
+
   void initState() {
     widget.commentSheetController.addListener(() => setState(() {
           arrowDirUp = widget.commentSheetController.isClosed;
@@ -118,24 +188,5 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
                 color: DColors.white,
               ),
             ])));
-  }
-}
-
-class Comment extends StatelessWidget {
-  final String text;
-  const Comment(
-    this.text, {
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: DColors.sadRed, borderRadius: BorderRadius.circular(15)),
-      child: Text(text, style: DTextStyle.w12),
-    );
   }
 }

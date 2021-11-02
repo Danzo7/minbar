@@ -5,11 +5,18 @@ import 'package:minbar_fl/components/theme/default_text_styles.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
+import 'package:scroll_when_needed/scroll_when_needed.dart';
 import 'widgets/comments_section_bs.dart';
 
 class BroadcastPage extends StatelessWidget {
+  final bool hasComments;
+
   const BroadcastPage(
-      {Key? key, this.controller, this.height, this.dragController})
+      {Key? key,
+      this.controller,
+      this.height,
+      this.dragController,
+      this.hasComments = false})
       : super(key: key);
   final double? height;
   final MinbarBottomSheetController? controller;
@@ -22,14 +29,19 @@ class BroadcastPage extends StatelessWidget {
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Container(
+            width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.topCenter,
             decoration: BoxDecoration(
                 image: DecorationImage(
-              fit: BoxFit.fitHeight,
+              fit: MediaQuery.of(context).size.height >
+                      MediaQuery.of(context).size.width
+                  ? BoxFit.fitHeight
+                  : BoxFit.fitWidth,
               image: const AssetImage('assets/images/cover.png'),
             )),
-            child: Column(
+            child: Wrap(
+              alignment: WrapAlignment.center,
               children: [
                 drager(context),
                 headerInfo(context),
@@ -37,7 +49,7 @@ class BroadcastPage extends StatelessWidget {
               ],
             ),
           ),
-          CommentSection(),
+          if (hasComments) CommentSection(),
         ],
       ),
     );
@@ -67,7 +79,7 @@ class BroadcastPage extends StatelessWidget {
     );
   }
 
-  Wrap content() {
+  Widget content() {
     return Wrap(
       spacing: 10,
       direction: Axis.vertical,
@@ -98,8 +110,8 @@ class BroadcastPage extends StatelessWidget {
               "راشد الشافعي",
               style: DTextStyle.w18,
             ),
-            IconButton(
-              onPressed: () => {print("owww")},
+            FlatIconButton(
+              onTap: () => {print("owww")},
               icon: Icon(
                 SodaIcons.heart,
                 color: DColors.sadRed,
@@ -118,7 +130,9 @@ class BroadcastPage extends StatelessWidget {
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              IconBuilder("deafen"),
+              IconButton(
+                  onPressed: () => {print("owww")},
+                  icon: IconBuilder("deafen")),
               Text(
                 "01:09:15",
                 style: DTextStyle.w18.copyWith(fontSize: 17),
@@ -126,7 +140,7 @@ class BroadcastPage extends StatelessWidget {
               IconBuilder("recording")
             ],
           ),
-        )
+        ),
       ],
     );
   }
