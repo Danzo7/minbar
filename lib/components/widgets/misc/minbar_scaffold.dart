@@ -36,11 +36,11 @@ class MinbarScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _body = bottomSheet != null
+    Widget _body = bottomSheet != null || floatingActionButton != null
         ? Stack(alignment: AlignmentDirectional.bottomCenter, children: [
             body,
             if (floatingActionButton != null) floatingActionButton as Widget,
-            bottomSheet as Widget,
+            if (bottomSheet != null) bottomSheet as Widget,
           ])
         : body;
 
