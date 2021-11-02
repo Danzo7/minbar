@@ -29,7 +29,6 @@ class RefreshContentPage extends StatelessWidget {
         releaseText: "افلت للتحميل",
       );
   Widget _loadIndicator() => ClassicFooter(
-        height: 80,
         failedText: "حدث خطأأثناءالتحميل",
         noDataText: "نهاية الصفحة",
         idleText: "",
