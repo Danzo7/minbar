@@ -7,7 +7,8 @@ class RefreshContentPage extends StatelessWidget {
   final Widget? header;
   final List<Widget> beforeRefreshSlivers;
   final List<Widget> afterRefreshSlivers;
-  final SnapScrollPhysics? physics;
+  final ScrollPhysics? physics;
+  final double bottomPadding;
   RefreshContentPage({
     Key? key,
     this.onLoading,
@@ -17,6 +18,7 @@ class RefreshContentPage extends StatelessWidget {
     this.beforeRefreshSlivers = const <Widget>[],
     this.afterRefreshSlivers = const <Widget>[],
     this.physics,
+    this.bottomPadding = 100,
   }) : super(key: key);
   final refreshController;
   Widget _refreshIndicator() => ClassicHeader(
@@ -27,6 +29,7 @@ class RefreshContentPage extends StatelessWidget {
         releaseText: "افلت للتحميل",
       );
   Widget _loadIndicator() => ClassicFooter(
+        height: 80,
         failedText: "حدث خطأأثناءالتحميل",
         noDataText: "نهاية الصفحة",
         idleText: "",
@@ -46,7 +49,7 @@ class RefreshContentPage extends StatelessWidget {
         if (header != null) _refreshIndicator(),
         ...afterRefreshSlivers,
         _loadIndicator(),
-        SliverPadding(padding: EdgeInsets.only(bottom: 80))
+        SliverPadding(padding: EdgeInsets.only(bottom: bottomPadding))
       ]),
     );
   }
