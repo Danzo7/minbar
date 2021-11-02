@@ -5,7 +5,6 @@ import 'package:minbar_fl/components/theme/default_text_styles.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
-import 'package:scroll_when_needed/scroll_when_needed.dart';
 import 'widgets/comments_section_bs.dart';
 
 class BroadcastPage extends StatelessWidget {

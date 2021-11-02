@@ -43,7 +43,10 @@ class CommentField extends StatelessWidget {
             ),
             FlatIconButton(
               onTap: onSubmit,
-              icon: Icon(Icons.send),
+              icon: Icon(
+                Icons.send,
+                color: DColors.white,
+              ),
               size: 50,
             ),
           ],
