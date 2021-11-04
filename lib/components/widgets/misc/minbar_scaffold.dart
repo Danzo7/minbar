@@ -19,6 +19,8 @@ class MinbarScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   final NavgationController? navgationController;
 
+  final Color? backgroundColor;
+
   const MinbarScaffold(
       {Key? key,
       this.selectedIndex = 0,
@@ -31,7 +33,8 @@ class MinbarScaffold extends StatelessWidget {
       this.persistentFooterButtons,
       this.floatingActionButton,
       this.bottomSheet,
-      this.navgationController})
+      this.navgationController,
+      this.backgroundColor})
       : super(key: key);
 
   @override
@@ -48,7 +51,7 @@ class MinbarScaffold extends StatelessWidget {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
       drawer: hasDrawer ? SettingsLayout() : null,
-      backgroundColor: DColors.white,
+      backgroundColor: backgroundColor ?? DColors.white,
       extendBody: true,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomNavigationBar: navigationBar ??
