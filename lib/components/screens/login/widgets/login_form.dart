@@ -3,6 +3,7 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/formFields/input_box.dart';
+import 'package:minbar_fl/model/setting_data_presentation.dart';
 
 class LoginForm extends StatelessWidget {
   final Function? callback;
@@ -21,7 +22,7 @@ class LoginForm extends StatelessWidget {
             Column(children: [
               InputBox(
                 label: "البريد الالكتروني",
-                type: boxType.text,
+                type: TextFieldType.text,
                 icon: SodaIcons.email,
               ),
               InputBox(

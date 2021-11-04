@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-
-enum boxType { password, date, text }
+import 'package:minbar_fl/model/setting_data_presentation.dart';
 
 class InputBox extends StatefulWidget {
   final String hint, helper, label;
   final TextDirection willingDir;
   final IconData? icon;
-  final boxType type;
+  final TextFieldType type;
   InputBox(
       {this.hint = "",
       this.helper = "",
       this.label = "",
-      this.type = boxType.password,
+      this.type = TextFieldType.password,
       this.icon,
       this.willingDir = TextDirection.ltr});
 
@@ -46,7 +45,7 @@ class _InputBoxState extends State<InputBox> {
             : (_obscureText
                 ? Icon(SodaIcons.visibility, size: 21)
                 : Icon(SodaIcons.visibility_off, size: 21)));
-    Widget? prefix = widget.type == boxType.password
+    Widget? prefix = widget.type == TextFieldType.password
         ? InkWell(
             onTap: _toggle,
             child: iconContainer,
@@ -64,11 +63,11 @@ class _InputBoxState extends State<InputBox> {
                     textAlign: hasFocus ? TextAlign.left : TextAlign.right,
 
                     //IF PASSWORDFIELD
-                    obscureText: (widget.type == boxType.password)
+                    obscureText: (widget.type == TextFieldType.password)
                         ? _obscureText
                         : false,
-                    enableSuggestions: !(widget.type == boxType.password),
-                    autocorrect: !(widget.type == boxType.password),
+                    enableSuggestions: !(widget.type == TextFieldType.password),
+                    autocorrect: !(widget.type == TextFieldType.password),
 
                     //INSTANTS
                     style: const TextStyle(
