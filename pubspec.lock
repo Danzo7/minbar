@@ -144,13 +144,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.4"
-  flutter_sliding_up_panel:
-    dependency: "direct main"
-    description:
-      name: flutter_sliding_up_panel
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -182,27 +175,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.2.0"
-  graphs:
-    dependency: transitive
-    description:
-      name: graphs
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.4"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   image:
     dependency: transitive
     description:
@@ -252,15 +224,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
-  modal_bottom_sheet:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "36edb5950d0ded8ba7a09b7268aae1471c804bf0"
-      url: "https://github.com/Danzo7/modal_bottom_sheet"
-    source: git
-    version: "2.0.0-nullsafety.1"
   path:
     dependency: transitive
     description:
@@ -303,13 +266,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  rive:
-    dependency: "direct main"
-    description:
-      name: rive
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.31"
   scroll_to_index:
     dependency: "direct main"
     description:
@@ -329,20 +285,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sliding_up_panel:
-    dependency: "direct main"
-    description:
-      name: sliding_up_panel
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0+1"
-  sliver_header_delegate:
-    dependency: "direct main"
-    description:
-      name: sliver_header_delegate
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5"
   snap_scroll_physics:
     dependency: "direct main"
     description:
