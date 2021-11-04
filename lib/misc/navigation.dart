@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
-import 'package:minbar_fl/model/setting_data_presentation.dart';
 
 /// A [Navigator] observer that is used to notify [RouteAware]s of changes to
 /// the state of their [Route].
