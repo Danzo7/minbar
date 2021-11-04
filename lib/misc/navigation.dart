@@ -48,6 +48,13 @@ class MinbarNavigator {
       },
     );
   }
+
+  Future pushToParameterScreen(String route,
+          {Map<String, dynamic>? arguments, required SettingArgs options}) =>
+      state.pushNamed<void>(
+        route,
+        arguments: <String, dynamic>{...?arguments, "options": options},
+      );
 }
 
 /// [onGenerateRoute] is called whenever a new named route is being pushed to
@@ -62,7 +69,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
   final arguments =
       settings.arguments as Map<String, dynamic>? ?? <String, dynamic>{};
-  final settingParams = arguments['settingParams'] as List<Param>?;
+  final settingParams = arguments['options'] as SettingArgs?;
   Widget screen;
 
   switch (routeName) {
