@@ -3,6 +3,8 @@ import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/slivers/profile_header.dart';
+import 'package:minbar_fl/core/services/service_locator.dart';
+import 'package:minbar_fl/misc/navigation.dart';
 import 'package:minbar_fl/model/setting_data_presentation.dart';
 import 'widgets/settings_tree.dart';
 import 'widgets/tree_leaf.dart';
@@ -42,9 +44,14 @@ class SettingsLayout extends StatelessWidget {
                           .map((leaf) => TreeLeaf(
                                 icon: leaf.icon,
                                 text: leaf.text,
-                                onPressed: () => Navigator.pushNamed(
-                                    context, ParametersScreen.route,
-                                    arguments: {"settingParams": leaf.params}),
+                                onPressed: () => {
+                                  if (leaf.paramGroups != null)
+                                    app<MinbarNavigator>()
+                                        .pushToParameterScreen(
+                                            ParametersScreen.route,
+                                            options: SettingArgs(leaf.text,
+                                                parameters: leaf.paramGroups!))
+                                },
                               ))
                           .toList()
                     ].toList(),
