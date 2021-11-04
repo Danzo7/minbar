@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
 class RefreshContentPage extends StatelessWidget {
   final Function()? onLoading, onRefresh;
