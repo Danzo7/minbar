@@ -50,6 +50,7 @@ dependencies:
   flutter_sliding_up_panel: ^2.0.1
   auto_size_text_field: ^1.0.1
   fluttertoast: ^8.0.8
+  sliver_header_delegate: ^0.0.5
 dev_dependencies:
   flutter_lints: ^1.0.0  
   flutter_test:

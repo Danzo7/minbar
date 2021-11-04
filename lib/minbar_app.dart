@@ -24,7 +24,11 @@ class MinbarApp extends StatelessWidget {
                 headline1: TextStyle(fontWeight: FontWeight.w200),
                 headline6: TextStyle(fontWeight: FontWeight.w200),
                 bodyText2: TextStyle(fontWeight: FontWeight.w200),
-                button: TextStyle(fontWeight: FontWeight.w200))),
+                button: TextStyle(fontWeight: FontWeight.w200)),
+            checkboxTheme: CheckboxThemeData(
+              fillColor: MaterialStateProperty.resolveWith<Color?>(
+                  (states) => DColors.green),
+            )),
         color: DColors.white,
         localizationsDelegates: [
           GlobalCupertinoLocalizations.delegate,

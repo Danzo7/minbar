@@ -336,6 +336,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0+1"
+  sliver_header_delegate:
+    dependency: "direct main"
+    description:
+      name: sliver_header_delegate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   snap_scroll_physics:
     dependency: "direct main"
     description:
