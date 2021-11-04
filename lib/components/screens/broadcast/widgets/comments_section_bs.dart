@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/screens/broadcast/widgets/comment_field.dart';
@@ -182,10 +184,19 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
                 "comment",
                 fit: BoxFit.scaleDown,
               ),
-              Icon(
-                arrowDirUp ? SodaIcons.arrowUp : SodaIcons.arrowDown,
-                size: 10,
-                color: DColors.white,
+              TweenAnimationBuilder(
+                duration: const Duration(milliseconds: 400),
+                tween: Tween<double>(begin: 0, end: arrowDirUp ? 180 : 0),
+                builder: (BuildContext context, double value, Widget? child) {
+                  return Transform.rotate(
+                    angle: value * pi / 180,
+                    child: Icon(
+                      SodaIcons.arrowDown,
+                      size: 10,
+                      color: DColors.white,
+                    ),
+                  );
+                },
               ),
             ])));
   }
