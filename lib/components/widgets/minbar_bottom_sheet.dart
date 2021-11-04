@@ -188,7 +188,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
 
   @override
   void dispose() {
-    widget.controller.dispose();
+    //widget.controller.dispose();
     _animationController.dispose();
     if (widget.controller.isInstance) widget.controller._removeFromInstances();
     super.dispose();
