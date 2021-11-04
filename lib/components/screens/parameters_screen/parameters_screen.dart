@@ -12,12 +12,17 @@ class SettingArgs {
   SettingArgs(this.name, {required this.parameters, this.arguments});
 }
 
-class ParametersScreen extends StatelessWidget {
+class ParametersScreen extends StatefulWidget {
   static const String route = "params";
 
   final SettingArgs arguments;
   const ParametersScreen({Key? key, required this.arguments}) : super(key: key);
 
+  @override
+  State<ParametersScreen> createState() => _ParametersScreenState();
+}
+
+class _ParametersScreenState extends State<ParametersScreen> {
   @override
   Widget build(BuildContext context) {
     return MinbarScaffold(
@@ -45,9 +50,15 @@ class ParametersScreen extends StatelessWidget {
             floating: true, pinned: true,
             expandedHeight: 50,
           ),
-          ...arguments.parameters
+          ...widget.arguments.parameters
               .map((arg) => buildParamGroups(arg))
-              .expand((i) => i)
+              .expand((i) => i),
+          ...widget.arguments.parameters
+              .map((arg) => buildParamGroups(arg))
+              .expand((i) => i),
+          ...widget.arguments.parameters
+              .map((arg) => buildParamGroups(arg))
+              .expand((i) => i),
         ],
       ),
     );
@@ -178,6 +189,7 @@ class ParametersScreen extends StatelessWidget {
           }
         }, childCount: param.options.length))
       ];
+
   List<Widget> buildRadioGroups(RadioGroupOptions param) => [
         SliverToBoxAdapter(
           child: ListTile(
@@ -205,7 +217,11 @@ class ParametersScreen extends StatelessWidget {
           style: DTextStyle.w12,
         ),
         value: option.userValue,
-        onChanged: (value) => {});
+        onChanged: (value) => {
+              setState(() {
+                option.userValue = !option.userValue;
+              })
+            });
   }
 
   Widget createRadioOption<T>(RadioParam option, int index,
@@ -223,7 +239,9 @@ class ParametersScreen extends StatelessWidget {
               style: DTextStyle.w12,
             ),
             value: index,
-            onChanged: (int? v) => setCurrentSelectedItem(v ?? 0)),
+            onChanged: (int? v) => setState(() {
+                  setCurrentSelectedItem(v ?? 0);
+                })),
       ],
     );
   }
