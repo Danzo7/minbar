@@ -24,14 +24,6 @@ class _CommentSectionState extends State<CommentSection> {
   final TextEditingController _textEditingController = TextEditingController();
   final _refreshController = new RefreshController();
 
-  @override
-  void initState() {
-    _textEditingController.addListener(() {
-      print(_textEditingController.value.text);
-    });
-    super.initState();
-  }
-
   final MinbarBottomSheetController commentSheetController =
       MinbarBottomSheetController(isInstance: true);
   addToComments(comment) {
@@ -67,7 +59,6 @@ class _CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    print(height);
     return Container(
         height: height * 4 / 6,
         child: MinbarBottomSheet(

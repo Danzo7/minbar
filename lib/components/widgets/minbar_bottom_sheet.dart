@@ -324,7 +324,6 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void _expand() {
-    print(_maxFraction);
     if (_animationController.value != _maxFraction) {
       _enable = true;
       _animationController.animateTo(_maxFraction,
