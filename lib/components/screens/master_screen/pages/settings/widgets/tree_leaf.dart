@@ -38,7 +38,7 @@ class TreeLeaf extends StatelessWidget {
                 Flexible(
                     child: Icon(
                   SodaIcons.arrowLeft,
-                  color: DColors.blueGray,
+                  color: minbarTheme.primary,
                 ))
               ]),
         ),

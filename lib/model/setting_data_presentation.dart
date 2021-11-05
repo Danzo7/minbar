@@ -6,22 +6,24 @@ List<SettingTree> kDefaultSetting = [
     const SettingLeaf("المعلومات الشخصية", Icons.person, paramGroups: const []),
     SettingLeaf("الحماية والخصوصية", SodaIcons.security, paramGroups: [
       ParamGroups([
-        ParamOptions([
-          CheckBoxParam(true,
+        CheckboxOptionGroup([
+          CheckboxOption(true,
               description: "الجميع.", detail: "يمكن للجميع متابعة تثبيتاتك"),
-          CheckBoxParam(true,
+          CheckboxOption(true,
               description: "المرخصون فقط.",
               detail: "يمكن للمتابعين المرخصين من قبلك برؤية منشوراتك "),
-          CheckBoxParam(true,
+          CheckboxOption(true,
               description: " تعطيل الصفحة الشخصية.",
               detail:
                   "ازالة خاصي التثبيتات بحيث لا يمكن لك تثبيت اي منشور ولا الحصول على صفحة شخصية.")
         ], description: "اظهار الحساب الشخصي"),
-        RadioGroupOptions([
-          RadioParam(true, description: "الجميع."),
-          RadioParam(false, description: "الاصدقاء فقط."),
-          RadioParam(false, description: "لا احد.")
-        ], description: "اظهار الحساب الشخصي.")
+        RadioOptionGroup([
+          RadioOption(true, description: "الجميع."),
+          RadioOption(false, description: "الاصدقاء فقط."),
+          RadioOption(false, description: "لا احد.")
+        ], description: "اظهار الحساب الشخصي."),
+        InputOption("المتنبي", TextFieldType.username,
+            description: "اسم المستخدم")
       ])
     ])
   ]),
@@ -46,7 +48,7 @@ class SettingLeaf {
   const SettingLeaf(this.text, this.icon, {this.paramGroups});
 }
 
-enum ParamType {
+enum OptionType {
   datePicker,
   textField,
   toggle,
@@ -54,66 +56,64 @@ enum ParamType {
   radio,
 }
 
-class ParamOptions extends ParamOptionNural {
-  List<Param> options;
-  ParamOptions(this.options, {description}) : super(description: description);
+class CheckboxOptionGroup extends Options {
+  List<CheckboxOption> options;
+  CheckboxOptionGroup(this.options, {description})
+      : super(type: OptionType.checkbox, description: description);
 }
 
-abstract class ParamOptionNural {
+abstract class Options {
   String? description;
-  bool isRadioGroup;
-
-  ParamOptionNural({this.description, this.isRadioGroup = false});
+  final OptionType type;
+  Options({required this.type, this.description});
 }
 
-class RadioGroupOptions extends ParamOptionNural {
+class RadioOptionGroup extends Options {
   void setCurrentSelectedItem(int index) {
     options.forEach((element) {
       element.isSelected = options.indexOf(element) == index;
     });
   }
 
-  List<RadioParam> options;
-  RadioGroupOptions(this.options, {description})
-      : super(description: description, isRadioGroup: true);
+  List<RadioOption> options;
+  RadioOptionGroup(this.options, {description})
+      : super(type: OptionType.radio, description: description);
 }
 
 class ParamGroups {
-  List<ParamOptionNural> params;
+  List<Options> params;
   String? title;
   ParamGroups(this.params, {this.title});
 }
 
-abstract class Param {
-  final ParamType type;
+abstract class Option {
   final String? detail;
   final String? description;
-  const Param({required this.type, this.description, this.detail});
+  const Option({this.description, this.detail});
 }
 
-class CheckBoxParam extends Param {
+class CheckboxOption extends Option {
   bool userValue;
-  CheckBoxParam(this.userValue, {required String description, String? detail})
-      : super(
-            type: ParamType.checkbox, description: description, detail: detail);
+  CheckboxOption(this.userValue, {required String description, String? detail})
+      : super(description: description, detail: detail);
 }
 
-class ToggleParam extends Param {
+class ToggleOption extends Option {
   bool userValue;
-  ToggleParam(this.userValue) : super(type: ParamType.checkbox);
+  ToggleOption(this.userValue) : super();
 }
 
-class RadioParam extends Param {
+class RadioOption extends Option {
   bool isSelected;
-  RadioParam(this.isSelected, {required String description, String? detail})
-      : super(type: ParamType.radio, description: description, detail: detail);
+  RadioOption(this.isSelected, {required String description, String? detail})
+      : super(description: description, detail: detail);
 }
 
-class InputBoxParam extends Param {
+class InputOption extends Options {
   final TextFieldType fieldType;
   String userValue;
-  InputBoxParam(this.userValue, this.fieldType)
-      : super(type: ParamType.checkbox);
+  InputOption(this.userValue, this.fieldType, {String? description})
+      : super(type: OptionType.textField, description: description);
 }
 
-enum TextFieldType { password, date, text }
+enum TextFieldType { password, date, username, email, other }
