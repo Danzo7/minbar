@@ -47,23 +47,25 @@ class MinbarScaffold extends StatelessWidget {
           ])
         : body;
 
-    return Scaffold(
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
-      drawer: hasDrawer ? SettingsLayout() : null,
-      backgroundColor: backgroundColor ?? DColors.white,
-      extendBody: true,
-      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      bottomNavigationBar: navigationBar ??
-          ((hasBottomNavigationBar)
-              ? NavigationBar(
-                  selectedIndex: selectedIndex,
-                  type: NavType.broadcastable,
-                  items: navigationItems,
-                  navigationController: navgationController,
-                )
-              : null),
-      body: withSafeArea ? SafeArea(bottom: false, child: _body) : _body,
-    );
+    return GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniCenterDocked,
+          drawer: hasDrawer ? SettingsLayout() : null,
+          backgroundColor: backgroundColor ?? DColors.white,
+          extendBody: true,
+          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          bottomNavigationBar: navigationBar ??
+              ((hasBottomNavigationBar)
+                  ? NavigationBar(
+                      selectedIndex: selectedIndex,
+                      type: NavType.broadcastable,
+                      items: navigationItems,
+                      navigationController: navgationController,
+                    )
+                  : null),
+          body: withSafeArea ? SafeArea(bottom: false, child: _body) : _body,
+        ));
   }
 }

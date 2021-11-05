@@ -66,7 +66,7 @@ class MasterScreen extends StatelessWidget {
       child: Wrap(
         children: [
           FlatIconButton(
-            backgroundColor: DColors.blueGray,
+            backgroundColor: minbarTheme.primary,
             icon: Icon(SodaIcons.listening, size: 24, color: DColors.white),
             onTap: () => {},
           ),
@@ -78,12 +78,12 @@ class MasterScreen extends StatelessWidget {
                   showFadingOnlyWhenScrolling: true,
                   fadingEdgeEndFraction: 0.1,
                   text: "سوء الضنا الضنا الضنا",
-                  style: TextStyle(color: DColors.white, fontSize: 12),
+                  style: DTextStyle.w12,
                   blankSpace: 50,
                   velocity: 20.0,
                 )),
             Divider(
-              color: DColors.white,
+              color: minbarTheme.onPrimary,
               thickness: 2,
             )
           ])
@@ -98,7 +98,7 @@ class MasterScreen extends StatelessWidget {
       child: FlatIconButton(
           onTap: () => controller.show(),
           icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
-          backgroundColor: DColors.sadRed),
+          backgroundColor: minbarTheme.actionHot),
     );
   }
 }

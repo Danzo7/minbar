@@ -14,7 +14,7 @@ class CommentField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: DColors.blueGray,
+        color: minbarTheme.primary,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -29,14 +29,14 @@ class CommentField extends StatelessWidget {
                     hintText: "تعليق",
                     hintStyle: DTextStyle.w12,
                     filled: true,
-                    fillColor: DColors.blueSaidGray,
+                    fillColor: minbarTheme.primaryVariant,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22),
-                      borderSide: const BorderSide(color: DColors.blueSaidGray),
+                      borderSide: BorderSide(color: minbarTheme.primaryVariant),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22),
-                      borderSide: const BorderSide(color: DColors.blueSaidGray),
+                      borderSide: BorderSide(color: minbarTheme.primaryVariant),
                     ),
                     contentPadding: const EdgeInsets.all(10)),
               ),

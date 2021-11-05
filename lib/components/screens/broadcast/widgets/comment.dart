@@ -14,7 +14,8 @@ class Comment extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: double.infinity,
       decoration: BoxDecoration(
-          color: DColors.blueSaidGray, borderRadius: BorderRadius.circular(15)),
+          color: minbarTheme.primaryVariant,
+          borderRadius: BorderRadius.circular(15)),
       child: Text(text, style: DTextStyle.w12),
     );
   }

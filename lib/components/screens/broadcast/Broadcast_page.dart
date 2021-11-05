@@ -87,7 +87,7 @@ class BroadcastPage extends StatelessWidget {
       children: [
         NotAButton(
           child: Text("درس", style: DTextStyle.w18),
-          backgroundColor: DColors.orange,
+          backgroundColor: minbarTheme.actionWarm,
           raduis: 7,
           spacing: 5,
         ),
@@ -113,7 +113,7 @@ class BroadcastPage extends StatelessWidget {
               onTap: () => {print("owww")},
               icon: Icon(
                 SodaIcons.heart,
-                color: DColors.sadRed,
+                color: minbarTheme.actionHot,
               ),
             ),
           ],
@@ -123,7 +123,8 @@ class BroadcastPage extends StatelessWidget {
           height: 60,
           padding: EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50), color: DColors.green),
+              borderRadius: BorderRadius.circular(50),
+              color: minbarTheme.actionCold),
           child: Wrap(
             spacing: 12,
             alignment: WrapAlignment.center,

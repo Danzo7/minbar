@@ -22,7 +22,7 @@ class LoginForm extends StatelessWidget {
             Column(children: [
               InputBox(
                 label: "البريد الالكتروني",
-                type: TextFieldType.text,
+                type: TextFieldType.email,
                 icon: SodaIcons.email,
               ),
               InputBox(
@@ -42,7 +42,7 @@ class LoginForm extends StatelessWidget {
                 'انشاء حساب',
                 style: DTextStyle.w12,
               ),
-              color: DColors.orange,
+              color: minbarTheme.actionWarm,
               width: double.infinity,
               height: 50,
             ),
