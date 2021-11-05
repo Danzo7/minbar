@@ -11,6 +11,7 @@ class DColors {
   static const Color sailBlue = Color(0xff5F95BA);
   static const Color coldGray = Color(0xffEEEEEE);
   static const Color blueSaidGray = Color(0xff6D7D89);
+  static const Color sailBlueDark = Color(0xff2B5367);
+
   static const Color white = Colors.white;
-  
 }
