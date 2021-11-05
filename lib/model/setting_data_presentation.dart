@@ -7,19 +7,23 @@ List<SettingTree> kDefaultSetting = [
     SettingLeaf("الحماية والخصوصية", SodaIcons.security, paramGroups: [
       ParamGroups([
         ParamOptions([
-          CheckBoxParam(true, description: "الجميع."),
-          CheckBoxParam(true, description: "الاصدقاء فقط."),
-          CheckBoxParam(true, description: "لا احد.")
-        ], description: ".اظهار الحساب الشخصي")
-      ], title: "الاعدادات العامة"),
-      ParamGroups([
+          CheckBoxParam(true,
+              description: "الجميع.", detail: "يمكن للجميع متابعة تثبيتاتك"),
+          CheckBoxParam(true,
+              description: "المرخصون فقط.",
+              detail: "يمكن للمتابعين المرخصين من قبلك برؤية منشوراتك "),
+          CheckBoxParam(true,
+              description: " تعطيل الصفحة الشخصية.",
+              detail:
+                  "ازالة خاصي التثبيتات بحيث لا يمكن لك تثبيت اي منشور ولا الحصول على صفحة شخصية.")
+        ], description: "اظهار الحساب الشخصي"),
         RadioGroupOptions([
           RadioParam(true, description: "الجميع."),
           RadioParam(false, description: "الاصدقاء فقط."),
           RadioParam(false, description: "لا احد.")
-        ], description: ".لا احد")
-      ], title: "الاعدادات العامة")
-    ]),
+        ], description: "اظهار الحساب الشخصي.")
+      ])
+    ])
   ]),
   SettingTree(name: "اعدادات التطبيق", leafs: [
     const SettingLeaf("المظهر", SodaIcons.appearance),
@@ -101,8 +105,8 @@ class ToggleParam extends Param {
 
 class RadioParam extends Param {
   bool isSelected;
-  RadioParam(this.isSelected, {required String description})
-      : super(type: ParamType.radio, description: description);
+  RadioParam(this.isSelected, {required String description, String? detail})
+      : super(type: ParamType.radio, description: description, detail: detail);
 }
 
 class InputBoxParam extends Param {

@@ -26,14 +26,14 @@ class _ParametersScreenState extends State<ParametersScreen> {
   @override
   Widget build(BuildContext context) {
     return MinbarScaffold(
-      backgroundColor: DColors.blueGray,
+      backgroundColor: DColors.white,
       hasBottomNavigationBar: false,
       body: CustomScrollView(
         physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             elevation: 0,
-            backgroundColor: DColors.blueSaidGray,
+            backgroundColor: DColors.blueGray,
             // Provide a standard title.
             title: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -41,8 +41,8 @@ class _ParametersScreenState extends State<ParametersScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "اعدادات الحساب",
-                      style: DTextStyle.w18b,
+                      widget.arguments.name,
+                      style: DTextStyle.w16s,
                     ),
                   ]),
             ),
@@ -53,169 +53,67 @@ class _ParametersScreenState extends State<ParametersScreen> {
           ...widget.arguments.parameters
               .map((arg) => buildParamGroups(arg))
               .expand((i) => i),
-          ...widget.arguments.parameters
-              .map((arg) => buildParamGroups(arg))
-              .expand((i) => i),
-          ...widget.arguments.parameters
-              .map((arg) => buildParamGroups(arg))
-              .expand((i) => i),
         ],
       ),
     );
   }
 
-  List<Widget> fa() => [
-        StickyTitles(
-          backgroundColor: DColors.blueGray,
-          shrink: false,
-          shrinkedColor: DColors.blueSaidGray,
-          title: ListTile(
-            title: Text(
-              "اعدادات",
-              style: DTextStyle.w15s,
-            ),
-          ),
-          maxHeight: 50,
-        ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          ListTile(
-            title: Text(
-              "الاختيار الاول",
-              style: DTextStyle.w15s,
-            ),
-            subtitle: Text(
-              "تفسير",
-              style: DTextStyle.w12,
-            ),
-            trailing: Checkbox(value: false, onChanged: (value) => {}),
-          )
-        ])),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          ListTile(
-            title: Text(
-              "الاختيار الاول",
-              style: DTextStyle.w15s,
-            ),
-            subtitle: Text(
-              "تفسير",
-              style: DTextStyle.w12,
-            ),
-            trailing: Checkbox(value: false, onChanged: (value) => {}),
-          )
-        ])),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          ListTile(
-            title: Text(
-              "الاختيار الاول",
-              style: DTextStyle.w15s,
-            ),
-            subtitle: Text(
-              "تفسير",
-              style: DTextStyle.w12,
-            ),
-            trailing: Checkbox(value: false, onChanged: (value) => {}),
-          )
-        ])),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          ListTile(
-            title: Text(
-              "الاختيار الاول",
-              style: DTextStyle.w15s,
-            ),
-            subtitle: Text(
-              "تفسير",
-              style: DTextStyle.w12,
-            ),
-            trailing: Checkbox(value: false, onChanged: (value) => {}),
-          )
-        ]))
-      ];
-
   List<Widget> buildParamGroups(ParamGroups group) => [
         if (group.title != null)
           StickyTitles(
-            backgroundColor: DColors.blueGray,
-            shrink: false,
+            backgroundColor: DColors.coldGray,
             shrinkedColor: DColors.blueSaidGray,
-            title: SizedBox(
-              height: 60,
-              child: ListTile(
-                title: Text(
-                  group.title!,
-                  style: DTextStyle.w18,
-                ),
-              ),
-            ),
+            shrinkTextStyle: DTextStyle.w15b,
+            textStyle: DTextStyle.b15b,
+            title: group.title!,
             maxHeight: 60,
           ),
         ...group.params
-            .map<List<Widget>>((paramOptions) => paramOptions.isRadioGroup
-                ? buildRadioGroups(paramOptions as RadioGroupOptions)
-                : buildParamOptions(paramOptions as ParamOptions))
+            .map<List<Widget>>(
+                (paramOptions) => buildParamOptions(paramOptions))
             .expand((i) => i)
       ];
 
-  List<Widget> buildParamOptions(ParamOptions param) => [
-        SliverToBoxAdapter(
-          child: ListTile(
-            title: Text(
-              param.description ?? "اعدادات",
-              style: DTextStyle.w12b,
-            ),
+  List<Widget> buildParamOptions(ParamOptionNural param) => [
+        if (param.description != null)
+          SliverToBoxAdapter(
+            child: groupTitle(param.description!),
           ),
-        ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate((_, index) {
-          switch (param.options[index].type) {
-            case ParamType.datePicker:
-              return createCheckBoxOption(
-                  param.options[index] as CheckBoxParam);
+        if (param.isRadioGroup)
+          SliverList(
+              delegate: SliverChildBuilderDelegate((_, index) {
+            return createRadioOption(
+                (param as RadioGroupOptions).options[index],
+                index,
+                param.setCurrentSelectedItem);
+          }, childCount: (param as RadioGroupOptions).options.length))
+        else
+          SliverList(
+              delegate: SliverChildBuilderDelegate((_, index) {
+            switch ((param as ParamOptions).options[index].type) {
+              case ParamType.datePicker:
+                return createCheckBoxOption(
+                    param.options[index] as CheckBoxParam);
 
-            case ParamType.textField:
-              return createCheckBoxOption(
-                  param.options[index] as CheckBoxParam);
-            case ParamType.toggle:
-              return createCheckBoxOption(
-                  param.options[index] as CheckBoxParam);
-            case ParamType.checkbox:
-              return createCheckBoxOption(
-                  param.options[index] as CheckBoxParam);
-            case ParamType.radio:
-              break;
-          }
-        }, childCount: param.options.length))
+              case ParamType.textField:
+                return createCheckBoxOption(
+                    param.options[index] as CheckBoxParam);
+              case ParamType.toggle:
+                return createCheckBoxOption(
+                    param.options[index] as CheckBoxParam);
+              case ParamType.checkbox:
+                return createCheckBoxOption(
+                    param.options[index] as CheckBoxParam);
+              case ParamType.radio:
+                break;
+            }
+          }, childCount: (param as ParamOptions).options.length))
       ];
 
-  List<Widget> buildRadioGroups(RadioGroupOptions param) => [
-        SliverToBoxAdapter(
-          child: ListTile(
-            title: Text(
-              param.description ?? "اعدادات",
-              style: DTextStyle.w12b,
-            ),
-          ),
-        ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate((_, index) {
-          return createRadioOption(
-              param.options[index], index, param.setCurrentSelectedItem);
-        }, childCount: param.options.length))
-      ];
-
-  Widget createCheckBoxOption<T>(CheckBoxParam option) {
-    return CheckboxListTile(
-        title: Text(
-          option.description ?? "",
-          style: DTextStyle.w15s,
-        ),
-        subtitle: Text(
-          option.detail ?? "",
-          style: DTextStyle.w12,
-        ),
+  Widget createCheckBoxOption(CheckBoxParam option) {
+    return SwitchListTile(
+        title: textOrNull(option.description, style: DTextStyle.bg12s),
+        subtitle: textOrNull(option.detail, style: DTextStyle.b10),
         value: option.userValue,
         onChanged: (value) => {
               setState(() {
@@ -224,33 +122,63 @@ class _ParametersScreenState extends State<ParametersScreen> {
             });
   }
 
-  Widget createRadioOption<T>(RadioParam option, int index,
+  Widget createRadioOption(RadioParam option, int index,
       void Function(int index) setCurrentSelectedItem) {
-    return Column(
-      children: [
-        RadioListTile(
-            groupValue: option.isSelected ? index : -1,
-            title: Text(
-              option.description ?? "",
-              style: DTextStyle.w15s,
-            ),
-            subtitle: Text(
-              option.detail ?? "",
-              style: DTextStyle.w12,
-            ),
-            value: index,
-            onChanged: (int? v) => setState(() {
-                  setCurrentSelectedItem(v ?? 0);
-                })),
-      ],
+    return RadioListTile(
+        title: textOrNull(option.description, style: DTextStyle.bg12s),
+        subtitle: textOrNull(option.detail, style: DTextStyle.b10),
+        groupValue: option.isSelected ? index : -1,
+        value: index,
+        onChanged: (int? v) => setState(() {
+              setCurrentSelectedItem(v ?? 0);
+            }));
+  }
+
+  Widget? textOrNull(
+    String? data, {
+    Key? key,
+    TextStyle? style,
+    StrutStyle? strutStyle,
+    TextAlign? textAlign,
+    TextDirection? textDirection,
+    Locale? locale,
+    bool? softWrap,
+    TextOverflow? overflow,
+    double? textScaleFactor,
+    int? maxLines,
+    String? semanticsLabel,
+    TextWidthBasis? textWidthBasis,
+    TextHeightBehavior? textHeightBehavior,
+  }) {
+    return data != null
+        ? Text(data,
+            key: key,
+            style: style,
+            semanticsLabel: semanticsLabel,
+            softWrap: softWrap,
+            strutStyle: strutStyle,
+            locale: locale,
+            textAlign: textAlign,
+            textDirection: textDirection,
+            textHeightBehavior: textHeightBehavior,
+            textScaleFactor: textScaleFactor,
+            textWidthBasis: textWidthBasis,
+            maxLines: maxLines,
+            overflow: overflow)
+        : null;
+  }
+
+  Widget groupTitle(String title) {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(right: 10),
+      child: Text(
+        title,
+        style: DTextStyle.bg12b,
+      ),
     );
   }
 }
-
-
-
-
-
 /*
   ...arguments
               .map((e) => Wrap(children: [
