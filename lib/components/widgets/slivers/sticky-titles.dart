@@ -6,21 +6,20 @@ import 'package:flutter/rendering.dart';
 class StickyTitles extends StatelessWidget {
   final double? minHeight;
   final double maxHeight;
-  final bool shrink;
   final Color? shrinkedColor;
   final Color? backgroundColor;
-  final Widget title;
+  final String title;
+  final TextStyle? shrinkTextStyle, textStyle;
 
-  final bool hasPopularity;
   const StickyTitles(
       {Key? key,
       this.minHeight,
       required this.maxHeight,
-      this.shrink = true,
-      this.hasPopularity = true,
       this.shrinkedColor,
       this.backgroundColor,
-      required this.title})
+      required this.title,
+      this.shrinkTextStyle,
+      this.textStyle})
       : super(key: key);
 
   @override
@@ -29,14 +28,13 @@ class StickyTitles extends StatelessWidget {
         pinned: true,
         floating: false,
         delegate: _SliverStickyTitles(
-          minHeight: minHeight,
-          maxHeight: maxHeight,
-          shrink: shrink,
-          hasPopularity: hasPopularity,
-          shrinkedColor: shrinkedColor,
-          backgroundColor: backgroundColor,
-          title: title,
-        ));
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+            shrinkedColor: shrinkedColor,
+            backgroundColor: backgroundColor,
+            title: title,
+            textStyle: textStyle,
+            shrinkTextStyle: shrinkTextStyle));
   }
 }
 
@@ -44,20 +42,20 @@ class _SliverStickyTitles extends SliverPersistentHeaderDelegate {
   final double? minHeight;
   final double maxHeight;
 
-  final bool shrink;
   final Color? shrinkedColor;
   final Color? backgroundColor;
-  final Widget title;
+  final String title;
 
-  final bool hasPopularity;
-  _SliverStickyTitles(
-      {this.minHeight,
-      required this.maxHeight,
-      required this.shrink,
-      required this.hasPopularity,
-      this.shrinkedColor,
-      this.backgroundColor,
-      required this.title});
+  final TextStyle? shrinkTextStyle, textStyle;
+  const _SliverStickyTitles({
+    this.minHeight,
+    required this.maxHeight,
+    required this.title,
+    this.shrinkedColor,
+    this.backgroundColor,
+    this.shrinkTextStyle,
+    this.textStyle,
+  });
 
   @override
   double get minExtent => minHeight ?? maxHeight;
@@ -73,7 +71,15 @@ class _SliverStickyTitles extends SliverPersistentHeaderDelegate {
             ? shrinkedColor ?? backgroundColor
             : backgroundColor,
         duration: Duration(milliseconds: 10),
-        child: title);
+        child: Container(
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.only(right: 20),
+          child: new Text(
+            title,
+            style: TextStyle()
+                .merge(overlapsContent ? shrinkTextStyle : textStyle),
+          ),
+        ));
   }
 
   @override
