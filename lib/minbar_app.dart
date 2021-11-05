@@ -13,22 +13,13 @@ class MinbarApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshConfiguration(
       // Configure default bottom indicator
-      headerTriggerDistance: 50.0, footerTriggerDistance: 1,
+      headerTriggerDistance: 50.0, footerTriggerDistance: 80,
       maxOverScrollExtent: 100,
       maxUnderScrollExtent: 100,
+
       child: MaterialApp(
         //showPerformanceOverlay: true,
-        theme: ThemeData(
-            fontFamily: 'Cairo',
-            textTheme: const TextTheme(
-                headline1: TextStyle(fontWeight: FontWeight.w200),
-                headline6: TextStyle(fontWeight: FontWeight.w200),
-                bodyText2: TextStyle(fontWeight: FontWeight.w200),
-                button: TextStyle(fontWeight: FontWeight.w200)),
-            checkboxTheme: CheckboxThemeData(
-              fillColor: MaterialStateProperty.resolveWith<Color?>(
-                  (states) => DColors.green),
-            )),
+        theme: minbarTheme.light(),
         color: DColors.white,
         localizationsDelegates: [
           GlobalCupertinoLocalizations.delegate,
