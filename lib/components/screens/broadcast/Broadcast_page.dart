@@ -110,7 +110,7 @@ class BroadcastPage extends StatelessWidget {
               style: DTextStyle.w18,
             ),
             FlatIconButton(
-              onTap: () => {print("owww")},
+              onTap: () => {},
               icon: Icon(
                 SodaIcons.heart,
                 color: minbarTheme.actionHot,
@@ -130,9 +130,7 @@ class BroadcastPage extends StatelessWidget {
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () => {print("owww")},
-                  icon: IconBuilder("deafen")),
+              IconButton(onPressed: () => {}, icon: IconBuilder("deafen")),
               Text(
                 "01:09:15",
                 style: DTextStyle.w18.copyWith(fontSize: 17),
