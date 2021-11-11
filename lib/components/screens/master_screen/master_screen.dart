@@ -45,7 +45,7 @@ class MasterScreen extends StatelessWidget {
       },
       child: MinbarScaffold(
           bottomSheet: BroadcastBottomSheet(controller: controller),
-          floatingActionButton: startBroadcasting(controller),
+          floatingActionButton: currentlyListeningField(context),
           hasDrawer: true,
           body: PageNavigation(
               navgationController: navgationController,
@@ -59,34 +59,32 @@ class MasterScreen extends StatelessWidget {
     );
   }
 
-  Container currentlyListeningField() {
+  Container currentlyListeningField(context) {
     return Container(
       alignment: Alignment.bottomCenter,
+      height: 101,
+      width: MediaQuery.of(context).size.width / 5,
       padding: const EdgeInsets.only(bottom: 30),
       child: Wrap(
+        alignment: WrapAlignment.center,
         children: [
           FlatIconButton(
             backgroundColor: minbarTheme.primary,
             icon: Icon(SodaIcons.listening, size: 24, color: DColors.white),
-            onTap: () => {},
+            onTap: () => controller.show(),
           ),
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            TextPlay(
-                textAlign: TextAlign.center,
-                minFontSize: 10,
-                marquee: Marquee(
-                  showFadingOnlyWhenScrolling: true,
-                  fadingEdgeEndFraction: 0.1,
-                  text: "سوء الضنا الضنا الضنا",
-                  style: DTextStyle.w12,
-                  blankSpace: 50,
-                  velocity: 20.0,
-                )),
-            Divider(
-              color: minbarTheme.onPrimary,
-              thickness: 2,
-            )
-          ])
+          TextPlay(
+              textAlign: TextAlign.center,
+              minFontSize: 10,
+              marquee: Marquee(
+                showFadingOnlyWhenScrolling: true,
+                fadingEdgeEndFraction: 0.1,
+                text:
+                    "سوء الضنا الضنا الضناسوء الضنا الضنا الضناسوء الضنا الضنا الضنا",
+                style: DTextStyle.w12,
+                blankSpace: 50,
+                velocity: 20.0,
+              ))
         ],
       ),
     );
