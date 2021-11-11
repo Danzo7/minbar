@@ -106,7 +106,7 @@ class NavgationController extends PageController {
     history.remove(page);
     history.addLast(page);
 
-    if (history.length > 4) {
+    if (history.length > 1) {
       history.removeFirst();
     }
   }
