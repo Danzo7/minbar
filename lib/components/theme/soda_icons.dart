@@ -16,9 +16,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'material_icons.dart';
+class SodaIcons {
+  SodaIcons._();
 
-class SodaIcons with MaterialIcons {
   static const _kFontFam = 'SodaIcons';
   static const String? _kFontPkg = null;
 
@@ -28,12 +28,6 @@ class SodaIcons with MaterialIcons {
       IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData broadcasts_outlined =
       IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData broadcasts_1 =
-      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData broadcasts_2 =
-      IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData broadcasts_outlined_1 =
-      IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home =
       IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home_outlined =
@@ -74,14 +68,17 @@ class SodaIcons with MaterialIcons {
       IconData(0xe826, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heart_outlined =
       IconData(0xe827, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-
+  static const IconData message =
+      IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pray =
+      IconData(0xe831, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData notification = Icons.notifications_rounded;
   static const IconData language = Icons.language_rounded;
   static const IconData appearance = Icons.color_lens_rounded;
   static const IconData security = Icons.security_rounded;
-  static IconData arrowLeft = Icons.keyboard_arrow_left_rounded;
-  static IconData arrowUp = Icons.keyboard_arrow_up_rounded;
-  static IconData arrowDown = Icons.keyboard_arrow_down_rounded;
-  static IconData arrowRight = Icons.keyboard_arrow_right_rounded;
-  static IconData close = Icons.close_rounded;
+  static const IconData arrowLeft = Icons.keyboard_arrow_left_rounded;
+  static const IconData arrowUp = Icons.keyboard_arrow_up_rounded;
+  static const IconData arrowRight = Icons.keyboard_arrow_right_rounded;
+  static const IconData close = Icons.close_rounded;
+  static const IconData arrowDown = Icons.keyboard_arrow_down_rounded;
 }
