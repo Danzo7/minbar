@@ -60,7 +60,7 @@ class MinbarScaffold extends StatelessWidget {
               ((hasBottomNavigationBar)
                   ? NavigationBar(
                       selectedIndex: selectedIndex,
-                      type: NavType.broadcastable,
+                      type: NavType.listen,
                       items: navigationItems,
                       navigationController: navgationController,
                     )
