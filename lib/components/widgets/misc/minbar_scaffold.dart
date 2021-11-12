@@ -4,9 +4,46 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
+import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 
-class MinbarScaffold extends StatelessWidget {
+MinbarBottomSheetController showMinbarBottomSheet(
+  BuildContext context, {
+  double elevation = 5,
+  required Widget child,
+  double? minHeight,
+  double? maxHeight,
+  double radiusWhenNotExpanded = 0,
+  bool slideToExpand = true,
+  bool allowSlideInExpanded = true,
+  bool closeWhenLoseFocus = true,
+  double collapseHeight = 0,
+  dragController,
+  bool constraint = false,
+  bool snapToExpand = true,
+  double? minFraction,
+  double? maxFraction,
+  bool isTranslucent = false,
+}) {
+  MinbarBottomSheetController controller = MinbarBottomSheetController(
+      isInstance: true, value: MinbarBottomSheetStatus.shown);
+  print(context.findAncestorStateOfType<MinbarScaffoldState>());
+  context
+      .findAncestorStateOfType<MinbarScaffoldState>()
+      ?.addMinbarBottomSheet(MinbarBottomSheet(
+        controller: controller,
+        child: child,
+        elevation: elevation,
+        allowSlideInExpanded: allowSlideInExpanded,
+        closeWhenLoseFocus: closeWhenLoseFocus,
+        isTranslucent: isTranslucent,
+        maxHeight: MediaQuery.of(context).size.height,
+      ));
+
+  return controller;
+}
+
+class MinbarScaffold extends StatefulWidget {
   final int selectedIndex;
   final Widget body;
   final bool withSafeArea;
@@ -38,34 +75,61 @@ class MinbarScaffold extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<MinbarScaffold> createState() => MinbarScaffoldState();
+}
+
+class MinbarScaffoldState extends State<MinbarScaffold> {
+  List<Widget> _bottomSheets = [];
+
+  void addMinbarBottomSheet(MinbarBottomSheet bottomSheet) {
+    bottomSheet.controller.addListener(() {
+      if (bottomSheet.controller.isClosed && bottomSheet.collapseHeight > 0) {
+        setState(() {
+          _bottomSheets.remove(bottomSheet);
+        });
+      }
+    });
+
+    setState(() {
+      _bottomSheets.add(bottomSheet);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Widget _body = bottomSheet != null || floatingActionButton != null
+    Widget _body = widget.bottomSheet != null ||
+            widget.floatingActionButton != null ||
+            _bottomSheets.isNotEmpty
         ? Stack(alignment: AlignmentDirectional.bottomCenter, children: [
-            body,
-            if (floatingActionButton != null) floatingActionButton as Widget,
-            if (bottomSheet != null) bottomSheet as Widget,
+            widget.body,
+            if (widget.floatingActionButton != null)
+              widget.floatingActionButton as Widget,
+            if (widget.bottomSheet != null) widget.bottomSheet as Widget,
+            ..._bottomSheets
           ])
-        : body;
+        : widget.body;
 
     return GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           floatingActionButtonLocation:
               FloatingActionButtonLocation.miniCenterDocked,
-          drawer: hasDrawer ? SettingsLayout() : null,
-          backgroundColor: backgroundColor ?? DColors.white,
+          drawer: widget.hasDrawer ? SettingsLayout() : null,
+          backgroundColor: widget.backgroundColor ?? DColors.white,
           extendBody: true,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          bottomNavigationBar: navigationBar ??
-              ((hasBottomNavigationBar)
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          bottomNavigationBar: widget.navigationBar ??
+              ((widget.hasBottomNavigationBar)
                   ? NavigationBar(
-                      selectedIndex: selectedIndex,
+                      selectedIndex: widget.selectedIndex,
                       type: NavType.listen,
                       items: navigationItems,
-                      navigationController: navgationController,
+                      navigationController: widget.navgationController,
                     )
                   : null),
-          body: withSafeArea ? SafeArea(bottom: false, child: _body) : _body,
+          body: widget.withSafeArea
+              ? SafeArea(bottom: false, child: _body)
+              : _body,
         ));
   }
 }
