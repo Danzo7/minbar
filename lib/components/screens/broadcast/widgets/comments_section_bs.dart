@@ -76,6 +76,7 @@ class _CommentSectionState extends State<CommentSection> {
                 FocusScope.of(context).requestFocus(new FocusNode());
               },
               child: Container(
+                height: height * 4 / 6,
                 width: double.infinity,
                 alignment: Alignment.bottomCenter,
                 padding: EdgeInsets.symmetric(horizontal: 17.5, vertical: 10),
