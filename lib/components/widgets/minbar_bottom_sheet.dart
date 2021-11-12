@@ -60,6 +60,7 @@ class MinbarBottomSheet extends StatefulWidget {
   ///enable Translucent behavoir of gestionDetector.
   ///
   ///set to false to disable any other GestionDetector behind [MinbarBottomSheet] if it is in range maxHeight.
+  ///set to true to enable clickthough behavoir.
   final bool isTranslucent;
 
   const MinbarBottomSheet({
