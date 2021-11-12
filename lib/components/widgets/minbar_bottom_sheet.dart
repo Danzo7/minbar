@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/theme/default_theme.dart';
 
 ///default duration equal to `400ms`
 
@@ -73,7 +72,7 @@ class MinbarBottomSheet extends StatefulWidget {
     this.radiusWhenNotExpanded = 0,
     this.slideToExpand = true,
     this.allowSlideInExpanded = true,
-    this.closeWhenLoseFocus = true,
+    this.closeWhenLoseFocus = false,
     this.collapseHeight = 0,
     this.dragController,
     this.constraint = true,
@@ -216,7 +215,8 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     }
     return _enable
         ? _fillSpace(
-            widget.closeWhenLoseFocus && !widget.controller.isClosed,
+            (widget.elevation > 0 || widget.closeWhenLoseFocus) &&
+                !widget.controller.isClosed,
             child: SafeArea(
               child: AnimatedBuilder(
                 animation: _animationController,
@@ -328,7 +328,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
               _animationController.value < _minFraction - _snapByVelocity)
           ? widget.controller.close()
           : widget.controller.show();
-    else if (widget.snapToExpand)
+    else
       (widget.controller.isExpanded &&
               _animationController.value < _maxFraction - _snapByVelocity)
           ? widget.controller.close()
@@ -338,8 +338,9 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   void _expand() {
     if (_animationController.value != _maxFraction) {
       _enable = true;
-      _animationController.animateTo(_maxFraction,
-          curve: Curves.linearToEaseOut, duration: _kDefaultTiming);
+      if (widget.snapToExpand)
+        _animationController.animateTo(_maxFraction,
+            curve: Curves.linearToEaseOut, duration: _kDefaultTiming);
     }
   }
 
@@ -532,6 +533,7 @@ class MinbarBottomSheetInstances {
   ///starting from latest intance until all intances are closed.
 
   static bool mayPop() {
+    print(_instances.length);
     if (_lasestInstance != null)
       return _lasestInstance!.mayPop();
     else
@@ -540,3 +542,4 @@ class MinbarBottomSheetInstances {
 }
 
 enum MinbarBottomSheetStatus { shown, expanded, disabled }
+//enum MinbarBottomSheetStatus2 { shown, expanded,collapsed,hidden, closed }
