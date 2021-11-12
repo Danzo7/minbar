@@ -61,11 +61,13 @@ class _CommentSectionState extends State<CommentSection> {
     double height = MediaQuery.of(context).size.height;
     return Container(
         child: MinbarBottomSheet(
+      //isTranslucent: false,
+      //elevation: 1,
+
       controller: commentSheetController,
       collapseHeight: 60,
       minHeight: height / 2,
       snapToExpand: false,
-      closeWhenLoseFocus: false,
       child: Wrap(
         alignment: WrapAlignment.center,
         children: [

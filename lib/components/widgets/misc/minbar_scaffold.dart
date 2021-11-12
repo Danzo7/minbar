@@ -9,7 +9,7 @@ import 'package:minbar_fl/misc/page_navigation.dart';
 
 MinbarBottomSheetController showMinbarBottomSheet(
   BuildContext context, {
-  double elevation = 5,
+  double elevation = 1,
   required Widget child,
   double? minHeight,
   double? maxHeight,
@@ -37,7 +37,6 @@ MinbarBottomSheetController showMinbarBottomSheet(
         allowSlideInExpanded: allowSlideInExpanded,
         closeWhenLoseFocus: closeWhenLoseFocus,
         isTranslucent: isTranslucent,
-        maxHeight: MediaQuery.of(context).size.height,
       ));
 
   return controller;

@@ -14,6 +14,7 @@ class BroadcastBottomSheet extends StatelessWidget {
       allowSlideInExpanded: false,
       controller: controller,
       dragController: dragController,
+      closeWhenLoseFocus: true,
       child: BroadcastPage(
         hasComments: true,
         controller: controller,

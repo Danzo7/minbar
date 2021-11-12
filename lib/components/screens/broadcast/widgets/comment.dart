@@ -11,12 +11,17 @@ class Comment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.hardEdge,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: double.infinity,
       decoration: BoxDecoration(
           color: minbarTheme.primaryVariant,
           borderRadius: BorderRadius.circular(15)),
-      child: Text(text, style: DTextStyle.w12),
+      child: Text(
+        text,
+        style: DTextStyle.w12,
+        overflow: TextOverflow.fade,
+      ),
     );
   }
 }
