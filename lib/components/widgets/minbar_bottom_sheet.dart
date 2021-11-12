@@ -5,11 +5,6 @@ import 'package:flutter/material.dart';
 ///default duration equal to `400ms`
 
 const Duration _kDefaultTiming = Duration(milliseconds: 400);
-Widget createLayout(body, bottomSheet) {
-  return Stack(
-      alignment: AlignmentDirectional.bottomCenter,
-      children: [body, bottomSheet]);
-}
 
 class MinbarBottomSheet extends StatefulWidget {
   final MinbarBottomSheetController controller;
