@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 
 class CommentField extends StatefulWidget {
   final TextEditingController controller;
@@ -35,7 +36,8 @@ class _CommentFieldState extends State<CommentField> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 35;
-    final min = (width * 60) / 70;
+    final min = (width * 59) / 70;
+    final rest = (width * 10) / 70;
     final max = (width * 70) / 70;
 
     return Container(
@@ -77,12 +79,16 @@ class _CommentFieldState extends State<CommentField> {
                       suffixIcon: !isTyping
                           ? FlatIconButton(
                               size: 40,
-                              onTap: () => showModalBottomSheet(
-                                  context: context,
-                                  builder: (_) => Container(
-                                        height: 100,
-                                        color: DColors.brown,
-                                      )),
+                              onTap: () => showMinbarBottomSheet(context,
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      color: DColors.blueGray,
+                                      height: 100,
+                                      width: 100,
+                                      child: ListTile(
+                                        tileColor: DColors.green,
+                                        title: Text("hello"),
+                                      ))).show(),
                               icon: Icon(
                                 SodaIcons.pray,
                                 color: DColors.white,
@@ -95,7 +101,7 @@ class _CommentFieldState extends State<CommentField> {
               ),
               AnimatedContainer(
                 duration: Duration(milliseconds: 90),
-                width: isTyping ? 48 : 0,
+                width: isTyping ? rest : 0,
                 height: isTyping ? 48 : 0,
                 child: isTyping
                     ? FlatIconButton(

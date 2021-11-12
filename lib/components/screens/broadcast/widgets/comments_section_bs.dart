@@ -60,72 +60,66 @@ class _CommentSectionState extends State<CommentSection> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Container(
-        height: height * 4 / 6,
         child: MinbarBottomSheet(
-          controller: commentSheetController,
-          collapseHeight: 60,
-          minHeight: height / 2,
-          snapToExpand: false,
-          closeWhenLoseFocus: false,
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              _ShowCommentsButton(
-                  commentSheetController: commentSheetController),
-              Container(
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    alignment: Alignment.bottomCenter,
-                    height: 500,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 17.5, vertical: 10),
-                    decoration: BoxDecoration(
-                        color: minbarTheme.primary,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(7),
-                            topRight: Radius.circular(7))),
-                    child: RefreshContentPage(
-                      bottomPadding: height / 2 - 80,
-                      physics: BouncingScrollPhysics(),
-                      onRefresh: _onRefresh,
-                      onLoading: _onload,
-                      refreshController: _refreshController,
-                      header: SliverPersistentHeader(
-                          floating: true,
-                          delegate: SliverHeaderContainer(
-                              child: CommentField(
-                                  controller: _textEditingController,
-                                  onSubmit: () {
-                                    if (_textEditingController.text.length >
-                                        0) {
-                                      addToComments(
-                                          _textEditingController.text);
-                                      _textEditingController.clear();
-                                    }
-                                  }),
-                              maxHeight: 90)),
-                      afterRefreshSlivers: [
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          (context, index) => Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Comment(FakeData.commentList[index])),
-                          childCount: FakeData.commentList.length,
-                          addAutomaticKeepAlives: true,
-                          addRepaintBoundaries: true,
-                        )),
-                      ],
-                    ),
-                  ),
+      controller: commentSheetController,
+      collapseHeight: 60,
+      minHeight: height / 2,
+      snapToExpand: false,
+      closeWhenLoseFocus: false,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        children: [
+          _ShowCommentsButton(commentSheetController: commentSheetController),
+          Container(
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+              child: Container(
+                width: double.infinity,
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.symmetric(horizontal: 17.5, vertical: 10),
+                decoration: BoxDecoration(
+                    color: minbarTheme.primary,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(7),
+                        topRight: Radius.circular(7))),
+                child: RefreshContentPage(
+                  bottomPadding: height / 2 - 80,
+                  physics: BouncingScrollPhysics(),
+                  onRefresh: _onRefresh,
+                  onLoading: _onload,
+                  refreshController: _refreshController,
+                  header: SliverPersistentHeader(
+                      floating: true,
+                      delegate: SliverHeaderContainer(
+                          child: CommentField(
+                              controller: _textEditingController,
+                              onSubmit: () {
+                                if (_textEditingController.text.length > 0) {
+                                  addToComments(_textEditingController.text);
+                                  _textEditingController.clear();
+                                }
+                              }),
+                          maxHeight: 90)),
+                  afterRefreshSlivers: [
+                    SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                      (context, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Comment(FakeData.commentList[index])),
+                      childCount: FakeData.commentList.length,
+                      addAutomaticKeepAlives: true,
+                      addRepaintBoundaries: true,
+                    )),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }
 
