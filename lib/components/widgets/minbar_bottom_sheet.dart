@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
 
 ///default duration equal to `400ms`
 
@@ -189,6 +190,23 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     super.dispose();
   }
 
+  Widget _fillSpace(bool fill, {required Widget child}) {
+    return fill
+        ? GestureDetector(
+            onTap: widget.closeWhenLoseFocus ? _clickOutsideClose : null,
+            behavior: widget.isTranslucent ? HitTestBehavior.translucent : null,
+            child: PhysicalModel(
+              color: Colors.transparent,
+              elevation: widget.elevation,
+              child: Container(
+                  color: !widget.isTranslucent ? Colors.transparent : null,
+                  alignment: Alignment.bottomCenter,
+                  child: child),
+            ),
+          )
+        : child;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (firstRun) {
@@ -196,9 +214,8 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
       firstRun = false;
     }
     return _enable
-        ? GestureDetector(
-            onTap: widget.closeWhenLoseFocus ? _clickOutsideClose : null,
-            behavior: widget.isTranslucent ? HitTestBehavior.translucent : null,
+        ? _fillSpace(
+            widget.closeWhenLoseFocus && !widget.controller.isClosed,
             child: SafeArea(
               child: AnimatedBuilder(
                 animation: _animationController,
@@ -233,8 +250,9 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
                           borderRadius: BorderRadius.vertical(
                         top: Radius.circular(_radius),
                       )),
-                      height: widget.maxHeight ??
-                          (!widget.constraint ? (_childHeight) : null),
+                      height: !widget.constraint
+                          ? widget.maxHeight ?? (_childHeight)
+                          : null,
                       child: widget.child,
                     ),
                   ),
