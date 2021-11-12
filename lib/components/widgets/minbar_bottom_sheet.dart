@@ -239,10 +239,8 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
                       : null,
                   onTap: () => {},
                   excludeFromSemantics: true,
-                  child: Material(
+                  child: Container(
                     key: _childKey,
-                    color: Colors.transparent,
-                    elevation: widget.elevation,
                     child: AnimatedContainer(
                       clipBehavior: Clip.hardEdge,
                       duration: Duration(milliseconds: 150),
