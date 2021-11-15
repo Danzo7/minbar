@@ -158,16 +158,19 @@ class FakeData {
         authorName: "مسيلمة الكذاب"),
   ];
   static const List<Cast> casts = [
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الاعور", field: "حوار", subject: "الثقة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "التقوى"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الاثم"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "اليورانيوم"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الكون"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "العلم"),
+    Cast(
+        hostUsername: "مسيلمة الكذاب",
+        field: "حوار",
+        subject: "الثقة والمعرفة"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "حسنا"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "لا احد"),
+    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "من انا"),
   ];
   static const List<String> fields = ["الكل", "درس", "خطبة", "حوار"];
   static List<String> commentList = [
