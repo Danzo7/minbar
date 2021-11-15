@@ -33,7 +33,7 @@ class _ParametersScreenState extends State<ParametersScreen> {
         slivers: [
           SliverAppBar(
             elevation: 0,
-            backgroundColor: minbarTheme.primary,
+            backgroundColor: minbarTheme.secondary,
             // Provide a standard title.
             title: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -61,8 +61,8 @@ class _ParametersScreenState extends State<ParametersScreen> {
   List<Widget> buildParamGroups(ParamGroups group) => [
         if (group.title != null)
           StickyTitles(
-            backgroundColor: minbarTheme.primary,
-            shrinkedColor: minbarTheme.primaryVariant,
+            backgroundColor: minbarTheme.secondary,
+            shrinkedColor: minbarTheme.secondaryVariant,
             shrinkTextStyle: DTextStyle.w15b,
             textStyle: DTextStyle.b15b,
             title: group.title!,

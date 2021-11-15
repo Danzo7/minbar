@@ -162,7 +162,7 @@ class FlatIconButton extends StatelessWidget {
   final Color? highlightColor;
   final Color? splashColor;
   final double size;
-  final Icon icon;
+  final Widget icon;
   final double? iconSize;
   final GestureTapCallback? onTap;
   const FlatIconButton(
