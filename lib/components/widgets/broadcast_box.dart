@@ -1,15 +1,38 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
+import 'package:minbar_fl/core/services/AudioService.dart';
+import 'package:minbar_fl/core/services/cast_service.dart';
+import 'package:minbar_fl/core/services/service_locator.dart';
 
 import 'package:minbar_fl/model/cast.dart';
 
 import 'buttons/buttons.dart';
 
-class BroadcastBox extends StatelessWidget {
+class BroadcastBox extends StatefulWidget {
   const BroadcastBox(this.cast, {Key? key}) : super(key: key);
 
   final Cast cast;
+
+  @override
+  State<BroadcastBox> createState() => _BroadcastBoxState();
+}
+
+class _BroadcastBoxState extends State<BroadcastBox> {
+  @override
+  void initState() {
+    app<CastService>().addListener(listener);
+    super.initState();
+  }
+
+  void listener() => {if (mounted) setState(() {})};
+  @override
+  void dispose() {
+    app<CastService>().removeListener(listener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +46,26 @@ class BroadcastBox extends StatelessWidget {
         width: double.infinity,
         height: 120,
         child: Stack(
+          alignment: Alignment.center,
           children: [
-            RawMaterialButton(
-              onPressed: () => {},
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(17)),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                    alignment: Alignment.bottomLeft,
-                    child: const Icon(SodaIcons.pause,
-                        size: 35, color: Colors.white)),
-              ),
+            Container(
+              child: app<CastService>().currentCast == widget.cast
+                  ? StreamBuilder<PlayerState>(
+                      stream: app<AudioService>().playerStateStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<PlayerState> snapshot) {
+                        final playerState = snapshot.data;
+                        final processingState = playerState?.processingState;
+                        print(processingState);
+                        if (processingState == ProcessingState.loading) {
+                          return CircularProgressIndicator();
+                        } else if (processingState == ProcessingState.ready)
+                          return VoiceVisualisation();
+                        else
+                          return playButton();
+                      },
+                    )
+                  : playButton(),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -50,19 +81,19 @@ class BroadcastBox extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         NotAButton(
-                          child: Text(cast.field, style: DTextStyle.w10),
+                          child: Text(widget.cast.field, style: DTextStyle.w10),
                           backgroundColor: DColors.orange,
                           raduis: 7,
                           spacing: 5,
                         ),
                         AutoSizeText(
-                          cast.subject,
+                          widget.cast.subject,
                           style: DTextStyle.w20s,
                           minFontSize: 12,
                           maxLines: 1,
                         ),
                         AutoSizeText(
-                          cast.hostUsername,
+                          widget.cast.hostUsername,
                           style: DTextStyle.w12,
                           minFontSize: 8,
                           maxLines: 1,
@@ -100,6 +131,23 @@ class BroadcastBox extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  RawMaterialButton playButton() {
+    return RawMaterialButton(
+      onPressed: () {
+        setState(() {
+          app<CastService>().playCast(widget.cast);
+        });
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+            alignment: Alignment.bottomLeft,
+            child: Icon(SodaIcons.pause, size: 35, color: Colors.white)),
       ),
     );
   }

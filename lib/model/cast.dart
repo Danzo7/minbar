@@ -1,4 +1,6 @@
-class Cast {
+import 'package:equatable/equatable.dart';
+
+class Cast extends Equatable {
   final String castId;
   final String hostId;
   final String hostUsername;
@@ -11,4 +13,7 @@ class Cast {
       required this.hostUsername,
       required this.field,
       required this.subject});
+
+  @override
+  List<Object?> get props => [castId, hostId, hostUsername, field, subject];
 }
