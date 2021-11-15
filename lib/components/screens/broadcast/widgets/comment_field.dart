@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
+import 'package:minbar_fl/components/widgets/rounder_line.dart';
 
 class CommentField extends StatefulWidget {
   final TextEditingController controller;
@@ -41,7 +42,7 @@ class _CommentFieldState extends State<CommentField> {
     final max = (width * 70) / 70;
 
     return Container(
-        color: minbarTheme.primary,
+        color: minbarTheme.secondary,
         child: OverflowBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,16 +66,16 @@ class _CommentFieldState extends State<CommentField> {
                       hintText: "تعليق",
                       hintStyle: DTextStyle.w12,
                       filled: true,
-                      fillColor: minbarTheme.primaryVariant,
+                      fillColor: minbarTheme.secondaryVariant,
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
                         borderSide:
-                            BorderSide(color: minbarTheme.primaryVariant),
+                            BorderSide(color: minbarTheme.secondaryVariant),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(22),
                         borderSide:
-                            BorderSide(color: minbarTheme.primaryVariant),
+                            BorderSide(color: minbarTheme.secondaryVariant),
                       ),
                       suffixIcon: !isTyping
                           ? FlatIconButton(
@@ -87,8 +88,15 @@ class _CommentFieldState extends State<CommentField> {
                                       width: 100,
                                       child: ListTile(
                                         tileColor: DColors.green,
-                                        title: Text("hello"),
-                                      ))).show(),
+                                        title: Row(
+                                          children: [
+                                            RoundedLine(
+                                              thikness: 30,
+                                              width: 2,
+                                            ),
+                                          ],
+                                        ),
+                                      ))),
                               icon: Icon(
                                 SodaIcons.pray,
                                 color: DColors.white,
