@@ -2,23 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 class MinbarTheme with MinbarColorScheme {
-  late Color primary;
-  late Color primaryVariant;
-  late Color secondary;
-  late Color secondaryVariant;
-  late Color surface;
-  late Color background;
-  late Color onPrimary;
-  late Color onSecondary;
-  late Color onSurface;
-  late Color onBackground;
-  late Brightness brightness;
-  late Color actionCold = DColors.green;
-  late Color actionWarm = DColors.orange;
-  late Color actionHot = DColors.sadRed;
-  late Color onAction = DColors.white;
-  late Color surfaceBorder;
-
   ThemeData light() => ThemeData(
       primaryColorDark: DColors.white,
       primaryColorLight: DColors.blueGray,
@@ -89,10 +72,10 @@ mixin MinbarColorScheme {
   late Color surfaceBorder;
 
   ColorScheme _light() {
-    this.primary = DColors.blueGray;
-    this.primaryVariant = DColors.blueSaidGray;
-    this.secondary = DColors.sailBlue;
-    this.secondaryVariant = DColors.sailBlueDark;
+    this.primary = DColors.sailBlue;
+    this.primaryVariant = DColors.sailBlueDark;
+    this.secondary = DColors.blueGray;
+    this.secondaryVariant = DColors.blueSaidGray;
     this.surface = DColors.white;
     this.background = DColors.white;
     this.onPrimary = Colors.white;
