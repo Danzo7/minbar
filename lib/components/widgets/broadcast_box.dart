@@ -59,8 +59,13 @@ class _BroadcastBoxState extends State<BroadcastBox> {
                         print(processingState);
                         if (processingState == ProcessingState.loading) {
                           return CircularProgressIndicator();
-                        } else if (processingState == ProcessingState.ready)
-                          return VoiceVisualisation();
+                        } else if (processingState == ProcessingState.ready &&
+                            app<AudioService>().playerState.playing)
+                          return FlatIconButton(
+                            icon: VoiceVisualisation(),
+                            onTap: () =>
+                                app<CastService>().playCast(widget.cast),
+                          );
                         else
                           return playButton();
                       },
@@ -137,11 +142,7 @@ class _BroadcastBoxState extends State<BroadcastBox> {
 
   RawMaterialButton playButton() {
     return RawMaterialButton(
-      onPressed: () {
-        setState(() {
-          app<CastService>().playCast(widget.cast);
-        });
-      },
+      onPressed: () => app<CastService>().playCast(widget.cast),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
       child: Padding(
         padding: const EdgeInsets.all(10),

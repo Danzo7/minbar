@@ -8,9 +8,7 @@ class AudioService {
   PlayerState get playerState => player.playerState;
   void playCast({String? castId}) async {
     await setUrl("https://edge.mixlr.com/channel/rwumx");
-    player
-      ..stop()
-      ..play();
+    player.play();
   }
 
   void pause() async {

@@ -112,8 +112,7 @@ class _ActionButtonState extends State<ActionButton> {
                     marquee: Marquee(
                       showFadingOnlyWhenScrolling: true,
                       fadingEdgeEndFraction: 0.1,
-                      text:
-                          "سوء الضنا الضنا الضناسوء الضنا الضنا الضناسوء الضنا الضنا الضنا",
+                      text: app<CastService>().currentCast!.subject,
                       style: DTextStyle.w12,
                       blankSpace: 50,
                       velocity: 20.0,
