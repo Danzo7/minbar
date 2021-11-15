@@ -83,7 +83,7 @@ class _CommentSectionState extends State<CommentSection> {
                 alignment: Alignment.bottomCenter,
                 padding: EdgeInsets.symmetric(horizontal: 17.5, vertical: 10),
                 decoration: BoxDecoration(
-                    color: minbarTheme.primary,
+                    color: minbarTheme.secondary,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(7),
                         topRight: Radius.circular(7))),
@@ -162,7 +162,7 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
             : widget.commentSheetController.close,
         child: Container(
             decoration: BoxDecoration(
-                color: minbarTheme.primary,
+                color: minbarTheme.secondary,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(7), topRight: Radius.circular(7))),
             height: 40,

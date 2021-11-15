@@ -15,7 +15,7 @@ class Comment extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: double.infinity,
       decoration: BoxDecoration(
-          color: minbarTheme.primaryVariant,
+          color: minbarTheme.secondaryVariant,
           borderRadius: BorderRadius.circular(15)),
       child: Text(
         text,
