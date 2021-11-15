@@ -137,19 +137,16 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     _initFraction();
     if (mounted) {
       _radius = widget.radiusWhenNotExpanded;
-
       switch (widget.controller.value) {
         case MinbarBottomSheetStatus.disabled:
           _enable = _collapseFraction != 0;
           _animationController.value = _collapseFraction;
           break;
         case MinbarBottomSheetStatus.expanded:
-          _enable = true;
-          _animationController.value = _maxFraction;
+          widget.controller.expand();
           break;
         case MinbarBottomSheetStatus.shown:
-          _enable = true;
-          _animationController.value = _minFraction;
+          widget.controller.show();
           break;
       }
     }
@@ -209,6 +206,8 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
 
   @override
   Widget build(BuildContext context) {
+    print("intst:${MinbarBottomSheetInstances._instances.length}");
+
     if (firstRun) {
       _initialize(context);
       firstRun = false;
@@ -360,6 +359,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
           .then((value) {
         setState(() {
           _enable = _collapseFraction != 0;
+          if (widget.controller.onClose != null) widget.controller.onClose!();
         });
       });
   }
@@ -432,6 +432,12 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   ///This will allow to link all instances so it will be possible to Pop every [MinbarBottomSheet] one by one.
   ///by using mayPop() every [MinbarBottomSheet] will go from it status down until its closed `Expand->show->closed`.
   final bool isInstance;
+
+  ///While be called after calling Close event
+  Function? onClose;
+
+  ///expiremental
+  Future<void>? $onShow;
   MinbarBottomSheetController(
       {MinbarBottomSheetStatus? value, this.isInstance = false})
       : super(value != null ? value : MinbarBottomSheetStatus.disabled);
@@ -447,11 +453,16 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   ///slide  [MinbarBottomSheet] to `minHeight` ,if `minHeight=null` same as ``controller.expand()``
   void show() {
     if (isShown) notifyListeners();
-
     value = MinbarBottomSheetStatus.shown;
     if (isInstance) _addToInstances();
   }
+  // void show() async {
+  //   if ($onShow != null) await $onShow;
+  //   if (isShown) notifyListeners();
 
+  //   value = MinbarBottomSheetStatus.shown;
+  //   if (isInstance) _addToInstances();
+  // }
   ///slide [MinbarBottomSheet] to `maxHeight` if `minHeight=null` slide to whole screen.
   void expand() {
     if (isExpanded) notifyListeners();
@@ -492,9 +503,10 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   ///this will add the instance to instances.
   ///instances are used for  the mayPop() function.
   ///controllers will be added automatically if and [MinbarBottomSheet] is not disabled .
-  void _addToInstances() => MinbarBottomSheetInstances._instances
-    ..remove(this)
-    ..add(this);
+  void _addToInstances() => {
+        if (!MinbarBottomSheetInstances._instances.contains(this))
+          MinbarBottomSheetInstances._instances.add(this)
+      };
 }
 
 ///[MinbarBottomSheetController] is an instance if ``isInstance=true``
@@ -533,7 +545,6 @@ class MinbarBottomSheetInstances {
   ///starting from latest intance until all intances are closed.
 
   static bool mayPop() {
-    print(_instances.length);
     if (_lasestInstance != null)
       return _lasestInstance!.mayPop();
     else
