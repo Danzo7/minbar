@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/screens/broadcast/broadcast_bottom_sheet.dart';
 import 'package:minbar_fl/components/screens/master_screen/pages/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
@@ -27,19 +28,36 @@ MinbarBottomSheetController showMinbarBottomSheet(
 }) {
   MinbarBottomSheetController controller = MinbarBottomSheetController(
       isInstance: true, value: MinbarBottomSheetStatus.shown);
-  print(context.findAncestorStateOfType<MinbarScaffoldState>());
-  context
-      .findAncestorStateOfType<MinbarScaffoldState>()
-      ?.addMinbarBottomSheet(MinbarBottomSheet(
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.addMinbarBottomSheet(
+      MinbarBottomSheet(
         controller: controller,
         child: child,
         elevation: elevation,
         allowSlideInExpanded: allowSlideInExpanded,
         closeWhenLoseFocus: closeWhenLoseFocus,
         isTranslucent: isTranslucent,
-      ));
+      ),
+      controller);
 
   return controller;
+}
+
+MinbarBottomSheetController showBroadcastBottomSheet(
+  BuildContext context,
+) {
+  MinbarBottomSheetController controller = MinbarBottomSheetController(
+      isInstance: true, value: MinbarBottomSheetStatus.shown);
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.addMinbarBottomSheet(
+      BroadcastBottomSheet(controller: controller), controller);
+
+  return controller;
+}
+
+extension _queue on List<Widget> {
+  void addToLimit(bottomSheet) {
+    this.add(bottomSheet);
+    while (this.length > 3) this.removeAt(0);
+  }
 }
 
 class MinbarScaffold extends StatefulWidget {
@@ -80,18 +98,22 @@ class MinbarScaffold extends StatefulWidget {
 class MinbarScaffoldState extends State<MinbarScaffold> {
   List<Widget> _bottomSheets = [];
 
-  void addMinbarBottomSheet(MinbarBottomSheet bottomSheet) {
-    bottomSheet.controller.addListener(() {
-      if (bottomSheet.controller.isClosed && bottomSheet.collapseHeight > 0) {
-        setState(() {
-          _bottomSheets.remove(bottomSheet);
-        });
-      }
+  void addMinbarBottomSheet(
+      Widget bottomSheet, MinbarBottomSheetController controller) {
+    controller.addListener(() {
+      if (controller.isClosed) _bottomSheets.remove(bottomSheet);
     });
 
-    setState(() {
-      _bottomSheets.add(bottomSheet);
-    });
+    controller.onClose = () {
+      print("hello from ${_bottomSheets.length}");
+      _bottomSheets.remove(bottomSheet);
+      setState(() {});
+    };
+
+    print(_bottomSheets.length);
+    _bottomSheets.addToLimit(bottomSheet);
+
+    setState(() {});
   }
 
   @override
