@@ -2,23 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:minbar_fl/model/publication.dart';
 
 class Header extends StatelessWidget {
-  final String username;
-  final bool withDetail;
-//
-  final String timestamp;
-  final String? field, verb;
-  final String avatarPath;
-  const Header(
-      {Key? key,
-      required this.username,
-      required this.avatarPath,
-      this.withDetail = false,
-      this.field,
-      this.verb,
-      required this.timestamp})
-      : super(key: key);
+  final Publication pub;
+  const Header(this.pub, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +19,7 @@ class Header extends StatelessWidget {
                 height: 29,
                 width: 30,
                 child: Image.asset(
-                  avatarPath,
+                  pub.authorAvatar,
                   fit: BoxFit.fitWidth,
                 )),
           ),
@@ -42,22 +30,22 @@ class Header extends StatelessWidget {
                   spacing: 5,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(username, style: DTextStyle.bg12b),
-                    if (withDetail)
+                    Text(pub.authorName, style: DTextStyle.bg12b),
+                    if (pub.hasPodcast)
                       Text(
-                        verb ?? "",
+                        "قام ببث",
                         style: DTextStyle.b10,
                       ),
-                    if (withDetail)
+                    if (pub.hasPodcast)
                       NotAButton(
-                        child: Text(field ?? "", style: DTextStyle.w10),
+                        child: Text(pub.type, style: DTextStyle.w10),
                         backgroundColor: DColors.orange,
                         raduis: 7,
                         spacing: 5,
                       )
                   ]),
               Text(
-                timestamp,
+                pub.timestamp,
                 style: DTextStyle.bg10,
               )
             ],

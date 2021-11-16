@@ -25,16 +25,13 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  pattern_formatter: ^2.0.0
+  flutter_bloc: ^7.0.0
   flutter_svg: ^0.23.0+1
-  flutter_form_builder: ^6.0.1
   flare_flutter: ^3.0.2
   equatable: ^2.0.3
-  flutter_native_splash: any
   marquee: ^2.2.0
   auto_size_text: ^3.0.0-nullsafety.0
   carousel_slider: ^4.0.0
-  scroll_when_needed: ^2.0.0
   timeago: ^3.1.0
   snap_scroll_physics: 
    git:
@@ -45,8 +42,11 @@ dependencies:
   auto_size_text_field: ^1.0.1
   fluttertoast: ^8.0.8
   just_audio: ^0.9.17
+  like_button:
+    git:
+      url: https://github.com/Danzo7/like_button
 dev_dependencies:
-  flutter_lints: ^1.0.0  
+  flutter_lints: any  
   flutter_test:
     sdk: flutter
 

@@ -3,7 +3,7 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/formFields/input_box.dart';
-import 'package:minbar_fl/model/setting_data_presentation.dart';
+import 'package:minbar_fl/components/settings/model/setting_data_model.dart';
 
 class LoginForm extends StatelessWidget {
   final Function? callback;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 
-import 'Broadcast_page.dart';
+import 'Broadcast_screen.dart';
 
 class BroadcastBottomSheet extends StatelessWidget {
   BroadcastBottomSheet({Key? key, required this.controller}) : super(key: key);
@@ -15,7 +15,7 @@ class BroadcastBottomSheet extends StatelessWidget {
       controller: controller,
       dragController: dragController,
       closeWhenLoseFocus: true,
-      child: BroadcastPage(
+      child: BroadcastScreen(
         hasComments: true,
         controller: controller,
         dragController: dragController,

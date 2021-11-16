@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
-import 'package:minbar_fl/components/screens/parameters_screen/parameters_screen.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
 
 /// A [Navigator] observer that is used to notify [RouteAware]s of changes to
@@ -84,9 +83,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case SettingsScreen.route:
       screen = SettingsScreen();
       break;
-    case ParametersScreen.route:
+    case GeneratedSettingsScreen.route:
       screen = settingParams != null
-          ? ParametersScreen(arguments: settingParams)
+          ? GeneratedSettingsScreen(arguments: settingParams)
           : MasterScreen();
       break;
     default:

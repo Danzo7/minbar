@@ -9,7 +9,7 @@ import 'package:minbar_fl/core/services/service_locator.dart';
 
 import 'package:minbar_fl/model/cast.dart';
 
-import 'buttons/buttons.dart';
+import '../../../../widgets/buttons/buttons.dart';
 
 class BroadcastBox extends StatefulWidget {
   const BroadcastBox(this.cast, {Key? key}) : super(key: key);
@@ -119,7 +119,7 @@ class _BroadcastBoxState extends State<BroadcastBox> {
                           verticalDirection: VerticalDirection.up,
                           children: [
                             Text(
-                              "115",
+                              widget.cast.views.toString(),
                               style: DTextStyle.w12,
                               textAlign: TextAlign.center,
                             ),

@@ -2,15 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/api/fake_data.dart';
+import 'package:minbar_fl/components/common/broadcast/comments_timeline/widgets/comment_list.dart';
 import 'package:minbar_fl/components/screens/broadcast/widgets/comment_field.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_container.dart';
+import 'package:minbar_fl/model/comment_data.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import 'comment.dart';
 
 class CommentSection extends StatefulWidget {
   CommentSection({Key? key, MinbarBottomSheetController? parentController})
@@ -29,14 +29,14 @@ class _CommentSectionState extends State<CommentSection> {
   addToComments(comment) {
     if (mounted)
       setState(() {
-        FakeData.commentList = [comment, ...FakeData.commentList];
+        FakeData.commentList = [CommentData(comment), ...FakeData.commentList];
       });
   }
 
   loadToComment(String comment) {
     if (mounted)
       setState(() {
-        FakeData.commentList.add(comment);
+        FakeData.commentList.add(CommentData(comment));
       });
   }
 
@@ -105,17 +105,7 @@ class _CommentSectionState extends State<CommentSection> {
                                 }
                               }),
                           maxHeight: 90)),
-                  afterRefreshSlivers: [
-                    SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                      (context, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Comment(FakeData.commentList[index])),
-                      childCount: FakeData.commentList.length,
-                      addAutomaticKeepAlives: true,
-                      addRepaintBoundaries: true,
-                    )),
-                  ],
+                  content: CommentList(FakeData.commentList),
                 ),
               ),
             ),

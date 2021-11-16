@@ -1,4 +1,5 @@
 import 'package:minbar_fl/model/cast.dart';
+import 'package:minbar_fl/model/comment_data.dart';
 import 'package:minbar_fl/model/publication.dart';
 
 class FakeData {
@@ -158,7 +159,11 @@ class FakeData {
         authorName: "مسيلمة الكذاب"),
   ];
   static const List<Cast> casts = [
-    Cast(hostUsername: "مسيلمة الاعور", field: "حوار", subject: "الثقة"),
+    Cast(
+        hostUsername: "مسيلمة الاعور",
+        field: "حوار",
+        subject: "الثقة",
+        views: 2),
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "التقوى"),
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الاثم"),
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "اليورانيوم"),
@@ -173,17 +178,17 @@ class FakeData {
     Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "من انا"),
   ];
   static const List<String> fields = ["الكل", "درس", "خطبة", "حوار"];
-  static List<String> commentList = [
-    "شكرا",
-    "الحمد لله",
-    "اهلا",
-    "شكرا",
-    "اهلا",
-    "اهلا",
-    "منافق",
-    " لا",
-    "اكتب سبحان الله",
-    "كذاب",
-    "اهلا",
+  static List<CommentData> commentList = [
+    CommentData("شكرا"),
+    CommentData("الحمد لله"),
+    CommentData("اهلا"),
+    CommentData("شكرا"),
+    CommentData("اهلا"),
+    CommentData("اهلا"),
+    CommentData("منافق"),
+    CommentData(" لا"),
+    CommentData("اكتب سبحان الله"),
+    CommentData("كذاب"),
+    CommentData("اهلا"),
   ];
 }

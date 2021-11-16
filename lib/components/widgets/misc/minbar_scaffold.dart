@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/screens/broadcast/broadcast_bottom_sheet.dart';
-import 'package:minbar_fl/components/screens/master_screen/pages/settings/settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
@@ -53,7 +51,7 @@ MinbarBottomSheetController showBroadcastBottomSheet(
   return controller;
 }
 
-extension _queue on List<Widget> {
+extension on List<Widget> {
   void addToLimit(bottomSheet) {
     this.add(bottomSheet);
     while (this.length > 3) this.removeAt(0);
@@ -135,7 +133,6 @@ class MinbarScaffoldState extends State<MinbarScaffold> {
         child: Scaffold(
           floatingActionButtonLocation:
               FloatingActionButtonLocation.miniCenterDocked,
-          drawer: widget.hasDrawer ? SettingsLayout() : null,
           backgroundColor: widget.backgroundColor ?? DColors.white,
           extendBody: true,
           resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,

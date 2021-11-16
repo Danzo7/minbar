@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/model/comment_data.dart';
 
 class Comment extends StatelessWidget {
-  final String text;
+  final CommentData data;
   const Comment(
-    this.text, {
+    this.data, {
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +19,7 @@ class Comment extends StatelessWidget {
           color: minbarTheme.secondaryVariant,
           borderRadius: BorderRadius.circular(15)),
       child: Text(
-        text,
+        data.content,
         style: DTextStyle.w12,
         overflow: TextOverflow.fade,
       ),

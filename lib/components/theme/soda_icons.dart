@@ -81,4 +81,5 @@ class SodaIcons {
   static const IconData arrowRight = Icons.keyboard_arrow_right_rounded;
   static const IconData close = Icons.close_rounded;
   static const IconData arrowDown = Icons.keyboard_arrow_down_rounded;
+  static const IconData person = Icons.person;
 }

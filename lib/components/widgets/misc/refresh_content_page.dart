@@ -8,6 +8,8 @@ class RefreshContentPage extends StatelessWidget {
   final List<Widget> afterRefreshSlivers;
   final ScrollPhysics? physics;
   final double bottomPadding;
+  final RefreshController refreshController;
+  final Widget content;
   RefreshContentPage({
     Key? key,
     this.onLoading,
@@ -18,8 +20,8 @@ class RefreshContentPage extends StatelessWidget {
     this.afterRefreshSlivers = const <Widget>[],
     this.physics,
     this.bottomPadding = 100,
+    required this.content,
   }) : super(key: key);
-  final refreshController;
   Widget _refreshIndicator() => ClassicHeader(
         failedText: "حدث خطأأثناءالتحميل",
         completeText: "تم التحميل",
@@ -35,16 +37,24 @@ class RefreshContentPage extends StatelessWidget {
         canLoadingText: "افلت للتحميل",
         loadStyle: LoadStyle.ShowWhenLoading,
       );
+
+  void _placeholder() async {
+    await Future.delayed(Duration(milliseconds: 500), () {});
+    refreshController.refreshCompleted();
+    refreshController.loadComplete();
+  }
+
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: refreshController,
-      onRefresh: onRefresh,
-      onLoading: onLoading,
+      onRefresh: onRefresh ?? _placeholder,
+      onLoading: onLoading ?? _placeholder,
       physics: physics,
       header: header ?? _refreshIndicator(),
       child: CustomScrollView(slivers: [
         ...beforeRefreshSlivers,
         if (header != null) _refreshIndicator(),
+        content,
         ...afterRefreshSlivers,
         _loadIndicator(),
         SliverPadding(padding: EdgeInsets.only(bottom: bottomPadding))

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-import 'package:minbar_fl/model/setting_data_presentation.dart';
+import 'package:minbar_fl/components/settings/model/setting_data_model.dart';
 
 class InputBox extends StatefulWidget {
   final String hint, helper, label;

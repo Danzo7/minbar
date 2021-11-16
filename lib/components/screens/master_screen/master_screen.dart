@@ -44,9 +44,7 @@ class MasterScreen extends StatelessWidget {
         }
       },
       child: MinbarScaffold(
-          floatingActionButton: Builder(
-            builder: (context) => ActionButton(),
-          ),
+          floatingActionButton: ActionButton(),
           hasDrawer: true,
           body: PageNavigation(
               navgationController: navgationController,
@@ -88,38 +86,47 @@ class _ActionButtonState extends State<ActionButton> {
     });
   }
 
+  void action() => showBroadcastBottomSheet(
+        context,
+      );
   @override
   Widget build(BuildContext context) {
+    bool isSwipeUp = false;
     return app<CastService>().currentCast != null
-        ? Container(
-            alignment: Alignment.bottomCenter,
-            height: 101,
-            width: MediaQuery.of(context).size.width / 5,
-            padding: const EdgeInsets.only(bottom: 30),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              children: [
-                FlatIconButton(
-                  backgroundColor: minbarTheme.secondary,
-                  icon: VoiceVisualisation(),
-                  onTap: () => showBroadcastBottomSheet(
-                    context,
+        ? GestureDetector(
+            onVerticalDragUpdate: (details) =>
+                isSwipeUp = details.delta.dy < 0 ? true : false,
+            onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              height: 101,
+              width: MediaQuery.of(context).size.width / 5,
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  FlatIconButton(
+                    backgroundColor: minbarTheme.secondary,
+                    icon: VoiceVisualisation(),
+                    onTap: () => showBroadcastBottomSheet(
+                      context,
+                    ),
                   ),
-                ),
-                TextPlay(
-                    textAlign: TextAlign.center,
-                    minFontSize: 10,
-                    marquee: Marquee(
-                      showFadingOnlyWhenScrolling: true,
-                      fadingEdgeEndFraction: 0.1,
-                      text: app<CastService>().currentCast!.subject,
-                      style: DTextStyle.w12,
-                      blankSpace: 50,
-                      velocity: 20.0,
-                    ))
-              ],
+                  TextPlay(
+                      textAlign: TextAlign.center,
+                      minFontSize: 10,
+                      marquee: Marquee(
+                        showFadingOnlyWhenScrolling: true,
+                        fadingEdgeEndFraction: 0.1,
+                        text: app<CastService>().currentCast!.subject,
+                        style: DTextStyle.w12,
+                        blankSpace: 50,
+                        velocity: 20.0,
+                      ))
+                ],
+              ),
             ),
           )
-        : Container();
+        : SizedBox();
   }
 }

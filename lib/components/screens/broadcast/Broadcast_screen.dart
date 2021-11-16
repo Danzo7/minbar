@@ -13,10 +13,10 @@ import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/model/cast.dart';
 import 'widgets/comments_section_bs.dart';
 
-class BroadcastPage extends StatelessWidget {
+class BroadcastScreen extends StatelessWidget {
   final bool hasComments;
   final Cast cast = app<CastService>().currentCast!;
-  BroadcastPage({
+  BroadcastScreen({
     Key? key,
     this.controller,
     this.height,

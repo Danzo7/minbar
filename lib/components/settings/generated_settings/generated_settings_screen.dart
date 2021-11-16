@@ -3,7 +3,7 @@ import 'package:minbar_fl/components/theme/default_text_styles.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky-titles.dart';
-import 'package:minbar_fl/model/setting_data_presentation.dart';
+import 'package:minbar_fl/components/settings/model/setting_data_model.dart';
 
 class SettingArgs {
   final List<ParamGroups> parameters;
@@ -12,17 +12,19 @@ class SettingArgs {
   SettingArgs(this.name, {required this.parameters, this.arguments});
 }
 
-class ParametersScreen extends StatefulWidget {
+class GeneratedSettingsScreen extends StatefulWidget {
   static const String route = "params";
 
   final SettingArgs arguments;
-  const ParametersScreen({Key? key, required this.arguments}) : super(key: key);
+  const GeneratedSettingsScreen({Key? key, required this.arguments})
+      : super(key: key);
 
   @override
-  State<ParametersScreen> createState() => _ParametersScreenState();
+  State<GeneratedSettingsScreen> createState() =>
+      _GeneratedSettingsScreenState();
 }
 
-class _ParametersScreenState extends State<ParametersScreen> {
+class _GeneratedSettingsScreenState extends State<GeneratedSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return MinbarScaffold(
@@ -121,10 +123,10 @@ class _ParametersScreenState extends State<ParametersScreen> {
                     style: DTextStyle.bg12s),
                 subtitle: textOrNull(group.options[index].detail,
                     style: DTextStyle.b10),
-                groupValue: group.options[index].isSelected ? index : -1,
+                groupValue: group.selectedIndex,
                 value: index,
                 onChanged: (int? v) => setState(() {
-                      group.setCurrentSelectedItem(v ?? 0);
+                      group.selectedIndex = v ?? group.selectedIndex;
                     })),
             childCount: group.options.length));
   }
@@ -213,49 +215,3 @@ class _ParametersScreenState extends State<ParametersScreen> {
     );
   }
 }
-/*
-  ...arguments
-              .map((e) => Wrap(children: [
-                    Text(e.description ?? "non"),
-                    ...e.options.map((Param param) {
-                      Widget optionWidget;
-
-                      switch (param.type) {
-                        case ParamType.checkbox:
-                          optionWidget = Row(children: [
-                            Text(param.description ?? "non too"),
-                            optionWidget = Checkbox(
-                                value: (param as CheckBoxParam).userValue,
-                                onChanged: (value) =>
-                                    {(param).userValue = !(param).userValue})
-                          ]);
-                          break;
-                        case ParamType.datePicker:
-                          optionWidget = Row(children: [
-                            Text(param.description ?? "non too"),
-                            optionWidget =
-                                Checkbox(value: false, onChanged: (value) => {})
-                          ]);
-                          break;
-                        case ParamType.textField:
-                          optionWidget = Row(children: [
-                            Text(param.description ?? "non too"),
-                            optionWidget =
-                                Checkbox(value: false, onChanged: (value) => {})
-                          ]);
-                          break;
-                        case ParamType.toggle:
-                          optionWidget = Row(children: [
-                            Text(param.description ?? "non too"),
-                            optionWidget =
-                                Checkbox(value: false, onChanged: (value) => {})
-                          ]);
-                          break;
-                      }
-                      return optionWidget;
-                    }).toList()
-                  ]))
-              .toList(),
-        
-
-*/
