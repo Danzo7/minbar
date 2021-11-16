@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/theme/snaps.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
-import 'package:minbar_fl/components/widgets/post/post.dart';
+import 'package:minbar_fl/components/common/post/widgets/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:minbar_fl/model/publication.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -86,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   items: FakeData.fields,
                 )
               ],
-              afterRefreshSlivers: [_postList(items)],
+              content: _postList(items),
             )
           : GraviryHeaderScrollView(
               slivers: [
