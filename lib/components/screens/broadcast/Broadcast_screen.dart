@@ -125,7 +125,7 @@ class BroadcastScreen extends StatelessWidget {
           ],
         ),
         Player(
-          player: app<AudioService>().player,
+          player: app<AudioService>(),
         ),
       ],
     );

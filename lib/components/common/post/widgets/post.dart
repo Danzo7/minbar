@@ -3,8 +3,8 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/common/post/widgets/reaction_bar.dart';
 import 'package:minbar_fl/model/publication.dart';
 
-import '../../../widgets/post/header.dart';
 import 'content.dart';
+import 'header.dart';
 import 'podcast_box.dart';
 
 class Post extends StatelessWidget {

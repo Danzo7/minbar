@@ -12,7 +12,7 @@ final GetIt app = GetIt.instance;
 void setupServices() {
   app
     ..registerLazySingleton(() => MinbarNavigator())
-    ..registerLazySingleton(() => AudioService()..initialize())
+    ..registerLazySingleton(() => AudioService())
     ..registerLazySingleton(() => CastService())
     ..registerLazySingleton(() => MinbarTheme());
 }

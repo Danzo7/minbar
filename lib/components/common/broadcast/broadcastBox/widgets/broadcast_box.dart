@@ -27,7 +27,10 @@ class _BroadcastBoxState extends State<BroadcastBox> {
     super.initState();
   }
 
-  void listener() => {if (mounted) setState(() {})};
+  void listener() => {
+        if (mounted && app<CastService>().currentCast == widget.cast)
+          setState(() {})
+      };
   @override
   void dispose() {
     app<CastService>().removeListener(listener);

@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/common/broadcast/broadcastBox/widgets/broadcast_box.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/api/fake_data.dart';
-import 'package:minbar_fl/components/common/broadcast/cast/wdgets/broadcast_box.dart';
 import 'package:minbar_fl/components/widgets/chips_tag.dart';
 import 'package:minbar_fl/components/common/post/widgets/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_carousel.dart';

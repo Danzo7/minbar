@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/common/broadcast/cast/wdgets/broadcast_box.dart';
+import 'package:minbar_fl/components/common/broadcast/broadcastBox/widgets/broadcast_box.dart';
 import 'package:minbar_fl/model/cast.dart';
 
 ///only use as slivers.

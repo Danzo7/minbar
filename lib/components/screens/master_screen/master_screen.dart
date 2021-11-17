@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_colors.dart';
@@ -8,7 +10,9 @@ import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/text_play.dart';
 import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
+import 'package:minbar_fl/core/services/AudioService.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
+import 'package:minbar_fl/core/services/cubit/cast_cubit.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'pages/pages.dart';
@@ -43,19 +47,22 @@ class MasterScreen extends StatelessWidget {
           }
         }
       },
-      child: MinbarScaffold(
-          floatingActionButton: ActionButton(),
-          hasDrawer: true,
-          body: PageNavigation(
-              navgationController: navgationController,
-              slidable: true,
-              pages: {
-                BroadcastsPage.route: BroadcastsPage(),
-                HomePage.route: HomePage(),
-                ProfilePage.route: ProfilePage(),
-                SettingsScreen.route: SettingsScreen(),
-                // "crash": CrashPO()
-              })),
+      child: BlocProvider(
+        create: (context) => CastCubit(AudioService()),
+        child: MinbarScaffold(
+            floatingActionButton: ActionButton(),
+            hasDrawer: true,
+            body: PageNavigation(
+                navgationController: navgationController,
+                slidable: true,
+                pages: {
+                  BroadcastsPage.route: BroadcastsPage(),
+                  HomePage.route: HomePage(),
+                  ProfilePage.route: ProfilePage(),
+                  SettingsScreen.route: SettingsScreen(),
+                  // "crash": CrashPO()
+                })),
+      ),
     );
   }
 
@@ -105,13 +112,29 @@ class _ActionButtonState extends State<ActionButton> {
               child: Wrap(
                 alignment: WrapAlignment.center,
                 children: [
-                  FlatIconButton(
-                    backgroundColor: minbarTheme.secondary,
-                    icon: VoiceVisualisation(),
-                    onTap: () => showBroadcastBottomSheet(
-                      context,
-                    ),
-                  ),
+                  StreamBuilder<PlayerState>(
+                      stream: app<AudioService>().playerStateStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<PlayerState> snapshot) {
+                        final playerState = snapshot.data;
+                        final processingState = playerState?.processingState;
+                        print(processingState);
+                        if (processingState == ProcessingState.ready &&
+                            app<AudioService>().playerState.playing)
+                          return FlatIconButton(
+                              backgroundColor: minbarTheme.secondary,
+                              icon: VoiceVisualisation(),
+                              onTap: () => showBroadcastBottomSheet(
+                                    context,
+                                  ));
+                        else
+                          return FlatIconButton(
+                              backgroundColor: minbarTheme.secondary,
+                              icon: Icon(Icons.pause),
+                              onTap: () => showBroadcastBottomSheet(
+                                    context,
+                                  ));
+                      }),
                   TextPlay(
                       textAlign: TextAlign.center,
                       minFontSize: 10,
