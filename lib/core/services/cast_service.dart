@@ -22,6 +22,6 @@ class CastService extends ChangeNotifier {
           ? app<AudioService>().pause()
           : app<AudioService>().play();
     } else
-      app<AudioService>().playCast(castId: currentCast?.castId);
+      app<AudioService>().playCast(castId: cast.castId);
   }
 }

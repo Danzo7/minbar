@@ -3,9 +3,11 @@ import 'package:audio_session/audio_session.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AudioService extends AudioPlayer {
-  Future<void> playCast({String? castId}) async {
-    await setUrl("https://edge.mixlr.com/channel/rwumx");
+  Future<void> playCast({required String castId}) async {
+    await setUrl(
+        castId != "0" ? castId : "https://edge.mixlr.com/channel/rwumx");
     await play();
+    await seek(Duration(seconds: 29));
   }
 
   AudioService() : super() {
