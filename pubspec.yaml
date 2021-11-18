@@ -26,6 +26,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_bloc: ^7.3.3
+  provider: any
+
   flutter_svg: ^0.23.0+1
   flare_flutter: ^3.0.2
   equatable: ^2.0.3

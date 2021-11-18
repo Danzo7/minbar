@@ -37,8 +37,6 @@ class _PageNavigationState extends State<PageNavigation> {
   Widget build(BuildContext context) {
     return MinbarScaffold(
         withSafeArea: true,
-        hasBottomNavigationBar: true,
-        navgationController: widget.navgationController,
         body: PageView(
           reverse: true,
           onPageChanged: widget.onPageChanged,

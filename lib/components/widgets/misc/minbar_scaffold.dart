@@ -26,33 +26,45 @@ MinbarBottomSheetController showMinbarBottomSheet(
 }) {
   MinbarBottomSheetController controller = MinbarBottomSheetController(
       isInstance: true, value: MinbarBottomSheetStatus.shown);
-  context.findAncestorStateOfType<MinbarScaffoldState>()?.addMinbarBottomSheet(
-      MinbarBottomSheet(
+  context
+      .findAncestorStateOfType<MinbarScaffoldState>()
+      ?.addMinbarBottomSheet(MinbarBottomSheet(
         controller: controller,
         child: child,
         elevation: elevation,
         allowSlideInExpanded: allowSlideInExpanded,
         closeWhenLoseFocus: closeWhenLoseFocus,
         isTranslucent: isTranslucent,
-      ),
-      controller);
+      ));
 
   return controller;
 }
 
-MinbarBottomSheetController showBroadcastBottomSheet(
+void showOverlay(BuildContext context) {
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.showOverlay();
+}
+
+void popNavBubble(BuildContext context) {
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.popNavBubble();
+}
+
+void growNavBubble(BuildContext context) {
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.growNavBubble();
+}
+
+void hideOverlay(BuildContext context) {
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.hideOverlay();
+}
+
+void showBroadcastBottomSheet(
   BuildContext context,
 ) {
-  MinbarBottomSheetController controller = MinbarBottomSheetController(
-      isInstance: true, value: MinbarBottomSheetStatus.shown);
-  context.findAncestorStateOfType<MinbarScaffoldState>()?.addMinbarBottomSheet(
-      BroadcastBottomSheet(controller: controller), controller);
-
-  return controller;
+  context.findAncestorStateOfType<MinbarScaffoldState>()?.addBroadcastSheet();
 }
 
 extension on List<Widget> {
-  void addToLimit(bottomSheet) {
+  void addToLimit(Widget bottomSheet) {
+    this.remove(this);
     this.add(bottomSheet);
     while (this.length > 3) this.removeAt(0);
   }
@@ -94,24 +106,48 @@ class MinbarScaffold extends StatefulWidget {
 }
 
 class MinbarScaffoldState extends State<MinbarScaffold> {
-  List<Widget> _bottomSheets = [];
+  bool overlay = true;
 
-  void addMinbarBottomSheet(
-      Widget bottomSheet, MinbarBottomSheetController controller) {
-    controller.addListener(() {
-      if (controller.isClosed) _bottomSheets.remove(bottomSheet);
+  List<Widget> _bottomSheets = [];
+  MinbarBottomSheet? broadcastSheet;
+  bool isShownbroadcastSheet = false;
+  late BubbleController bubbleController = BubbleController();
+  OverlayController ovc = OverlayController();
+  @override
+  void initState() {
+    bubbleController = BubbleController();
+    super.initState();
+  }
+
+  void growNavBubble() {
+    bubbleController.glow();
+  }
+
+  void popNavBubble() {
+    bubbleController.pop();
+  }
+
+  void addMinbarBottomSheet(MinbarBottomSheet bottomSheet) {
+    bottomSheet.controller.addListener(() {
+      if (bottomSheet.controller.isClosed) _bottomSheets.remove(bottomSheet);
     });
 
-    controller.onClose = () {
-      print("hello from ${_bottomSheets.length}");
+    bottomSheet.controller.onClose = () {
       _bottomSheets.remove(bottomSheet);
       setState(() {});
     };
 
-    print(_bottomSheets.length);
-    _bottomSheets.addToLimit(bottomSheet);
+    setState(() {
+      _bottomSheets.addToLimit(bottomSheet);
+    });
+  }
 
-    setState(() {});
+  void showOverlay() {
+    ovc.show();
+  }
+
+  void hideOverlay() {
+    ovc.hide();
   }
 
   @override
@@ -121,10 +157,19 @@ class MinbarScaffoldState extends State<MinbarScaffold> {
             _bottomSheets.isNotEmpty
         ? Stack(alignment: AlignmentDirectional.bottomCenter, children: [
             widget.body,
+            if (widget.hasBottomNavigationBar)
+              NavigationBar(
+                bubbleController: bubbleController,
+                selectedIndex: widget.selectedIndex,
+                type: NavType.listen,
+                items: navigationItems,
+                navigationController: widget.navgationController,
+              ),
             if (widget.floatingActionButton != null)
               widget.floatingActionButton as Widget,
-            if (widget.bottomSheet != null) widget.bottomSheet as Widget,
-            ..._bottomSheets
+            if (broadcastSheet != null) broadcastSheet as Widget,
+            if (overlay) OverlayBack(controller: ovc),
+            ..._bottomSheets,
           ])
         : widget.body;
 
@@ -136,18 +181,73 @@ class MinbarScaffoldState extends State<MinbarScaffold> {
           backgroundColor: widget.backgroundColor ?? DColors.white,
           extendBody: true,
           resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-          bottomNavigationBar: widget.navigationBar ??
-              ((widget.hasBottomNavigationBar)
-                  ? NavigationBar(
-                      selectedIndex: widget.selectedIndex,
-                      type: NavType.listen,
-                      items: navigationItems,
-                      navigationController: widget.navgationController,
-                    )
-                  : null),
+          bottomNavigationBar: widget.navigationBar,
           body: widget.withSafeArea
               ? SafeArea(bottom: false, child: _body)
               : _body,
         ));
+  }
+
+  void addBroadcastSheet() {
+    if (broadcastSheet != null) {
+      broadcastSheet!.controller.show();
+      return;
+    }
+
+    setState(() {
+      broadcastSheet = BroadcastBottomSheet(
+          controller: MinbarBottomSheetController(
+              isInstance: true, value: MinbarBottomSheetStatus.shown));
+    });
+  }
+}
+
+class OverlayController extends ValueNotifier<bool> {
+  OverlayController() : super(false);
+  void show() {
+    value = true;
+  }
+
+  void hide() {
+    value = false;
+  }
+}
+
+class OverlayBack extends StatefulWidget {
+  final OverlayController controller;
+
+  OverlayBack({Key? key, required this.controller}) : super(key: key);
+
+  @override
+  _OverlayBackState createState() => _OverlayBackState();
+}
+
+class _OverlayBackState extends State<OverlayBack> {
+  @override
+  void initState() {
+    widget.controller.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.controller.value
+        ? Material(
+            color: Colors.transparent,
+            elevation: 1,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            ),
+          )
+        : SizedBox();
   }
 }

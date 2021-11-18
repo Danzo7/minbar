@@ -5,7 +5,10 @@ import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 class NavigationPainter extends CustomPainter {
   final NavType type;
   final Color color;
-  const NavigationPainter({required this.type, this.color = Colors.white});
+
+  final double pulling;
+  const NavigationPainter(
+      {required this.type, this.color = Colors.white, this.pulling = 0});
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = new Paint()
@@ -19,10 +22,19 @@ class NavigationPainter extends CustomPainter {
 
     path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
 
-    if (type == NavType.listen) {
-      path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -15);
-      path.quadraticBezierTo(size.width * 0.50, 0, size.width * 0.55, -15);
-    }
+    // path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -15);
+    // path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -15);
+    // path.arcToPoint(Offset(size.width * 0.55, -15),
+    //     radius: Radius.circular(35.0), clockwise: true);
+    // path.quadraticBezierTo(size.width * 0.50, -15, size.width * 0.55, -15);
+
+    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -pulling);
+    path.quadraticBezierTo(
+        size.width * 0.40, -pulling, size.width * 0.45, -pulling);
+    path.arcToPoint(Offset(size.width * 0.55, -pulling),
+        radius: Radius.circular((pulling < 7 ? (0) : 30)), clockwise: true);
+    path.quadraticBezierTo(
+        size.width * 0.50, -pulling, size.width * 0.55, -pulling);
 
     if (type == NavType.broadcastable) {
       path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
@@ -43,6 +55,6 @@ class NavigationPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }

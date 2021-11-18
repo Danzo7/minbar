@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
@@ -12,12 +11,12 @@ import 'package:minbar_fl/components/widgets/text_play.dart';
 import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
 import 'package:minbar_fl/core/services/AudioService.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
-import 'package:minbar_fl/core/services/cubit/cast_cubit.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'pages/pages.dart';
 export 'pages/pages.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class MasterScreen extends StatelessWidget {
   MasterScreen({Key? key}) : super(key: key);
@@ -47,11 +46,12 @@ class MasterScreen extends StatelessWidget {
           }
         }
       },
-      child: BlocProvider(
-        create: (context) => CastCubit(AudioService()),
+      child: ChangeNotifierProvider(
+        create: (context) => CastService(),
         child: MinbarScaffold(
-            floatingActionButton: ActionButton(),
-            hasDrawer: true,
+            hasBottomNavigationBar: true,
+            navgationController: navgationController,
+            floatingActionButton: const ActionButton(),
             body: PageNavigation(
                 navgationController: navgationController,
                 slidable: true,
@@ -66,11 +66,11 @@ class MasterScreen extends StatelessWidget {
     );
   }
 
-  Widget startBroadcasting() {
+  Widget startBroadcasting(context) {
     return Padding(
       padding: const EdgeInsets.all(25),
       child: FlatIconButton(
-          onTap: () => {},
+          onTap: () {},
           icon: Icon(SodaIcons.broadcast, size: 24, color: DColors.white),
           backgroundColor: minbarTheme.actionHot),
     );
@@ -78,78 +78,106 @@ class MasterScreen extends StatelessWidget {
 }
 
 class ActionButton extends StatefulWidget {
-  ActionButton({Key? key}) : super(key: key);
+  const ActionButton({Key? key}) : super(key: key);
 
   @override
   _ActionButtonState createState() => _ActionButtonState();
 }
 
 class _ActionButtonState extends State<ActionButton> {
-  @override
-  void initState() {
-    super.initState();
-    app<CastService>().addListener(() {
-      setState(() {});
-    });
-  }
-
   void action() => showBroadcastBottomSheet(
         context,
       );
   @override
   Widget build(BuildContext context) {
     bool isSwipeUp = false;
-    return app<CastService>().currentCast != null
-        ? GestureDetector(
-            onVerticalDragUpdate: (details) =>
-                isSwipeUp = details.delta.dy < 0 ? true : false,
-            onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              height: 101,
-              width: MediaQuery.of(context).size.width / 5,
-              padding: const EdgeInsets.only(bottom: 30),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: [
-                  StreamBuilder<PlayerState>(
-                      stream: app<AudioService>().playerStateStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<PlayerState> snapshot) {
-                        final playerState = snapshot.data;
-                        final processingState = playerState?.processingState;
-                        print(processingState);
-                        if (processingState == ProcessingState.ready &&
-                            app<AudioService>().playerState.playing)
-                          return FlatIconButton(
-                              backgroundColor: minbarTheme.secondary,
-                              icon: VoiceVisualisation(),
-                              onTap: () => showBroadcastBottomSheet(
-                                    context,
-                                  ));
-                        else
-                          return FlatIconButton(
-                              backgroundColor: minbarTheme.secondary,
-                              icon: Icon(Icons.pause),
-                              onTap: () => showBroadcastBottomSheet(
-                                    context,
-                                  ));
-                      }),
-                  TextPlay(
-                      textAlign: TextAlign.center,
-                      minFontSize: 10,
-                      marquee: Marquee(
-                        showFadingOnlyWhenScrolling: true,
-                        fadingEdgeEndFraction: 0.1,
-                        text: app<CastService>().currentCast!.subject,
-                        style: DTextStyle.w12,
-                        blankSpace: 50,
-                        velocity: 20.0,
-                      ))
-                ],
-              ),
-            ),
-          )
-        : SizedBox();
+    return Consumer<CastService>(
+      builder: (context, state, child) {
+        if (state.currentCast != null) {
+          growNavBubble(context);
+        } else
+          popNavBubble(context);
+        return state.currentCast != null
+            ? GestureDetector(
+                onVerticalDragUpdate: (details) =>
+                    isSwipeUp = details.delta.dy < 0 ? true : false,
+                onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  height: 101,
+                  width: MediaQuery.of(context).size.width / 5,
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      StreamBuilder<PlayerState>(
+                          stream: app<AudioService>().playerStateStream,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<PlayerState> snapshot) {
+                            final playerState = snapshot.data;
+                            final processingState =
+                                playerState?.processingState;
+                            if (processingState == ProcessingState.ready &&
+                                app<AudioService>().playerState.playing)
+                              return dragablebubble(
+                                  onDragComplete: app<CastService>().stopCast,
+                                  child: FlatIconButton(
+                                      backgroundColor: minbarTheme.secondary,
+                                      icon: VoiceVisualisation(
+                                        key: widget.key,
+                                      ),
+                                      onTap: () => showBroadcastBottomSheet(
+                                            context,
+                                          )));
+                            else
+                              return dragablebubble(
+                                onDragComplete: state.stopCast,
+                                child: FlatIconButton(
+                                    key: widget.key,
+                                    backgroundColor: minbarTheme.secondary,
+                                    icon: Icon(Icons.pause),
+                                    onTap: () => showBroadcastBottomSheet(
+                                          context,
+                                        )),
+                              );
+                          }),
+                      TextPlay(
+                          textAlign: TextAlign.center,
+                          minFontSize: 10,
+                          marquee: Marquee(
+                            showFadingOnlyWhenScrolling: true,
+                            fadingEdgeEndFraction: 0.1,
+                            text: state.currentCast!.subject,
+                            style: DTextStyle.w12,
+                            blankSpace: 50,
+                            velocity: 20.0,
+                          ))
+                    ],
+                  ),
+                ),
+              )
+            : SizedBox();
+      },
+    );
+  }
+
+  Widget dragablebubble({required Widget child, Function? onDragComplete}) {
+    return LongPressDraggable(
+      maxSimultaneousDrags: 1,
+      ignoringFeedbackSemantics: false,
+      axis: Axis.vertical,
+      child: child,
+      feedback: child,
+      onDragStarted: () => showOverlay(context),
+      onDragEnd: (details) {
+        if (MediaQuery.of(context).size.height - 170 > details.offset.dy) {
+          if (onDragComplete != null) onDragComplete();
+        }
+
+        hideOverlay(context);
+      },
+      onDragUpdate: (details) {},
+      childWhenDragging: SizedBox(),
+    );
   }
 }

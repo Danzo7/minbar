@@ -1,26 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
-
 import 'Broadcast_screen.dart';
 
-class BroadcastBottomSheet extends StatelessWidget {
-  BroadcastBottomSheet({Key? key, required this.controller}) : super(key: key);
-  final MinbarBottomSheetController controller;
-  final DragController dragController = DragController();
-  @override
-  Widget build(BuildContext context) {
-    return MinbarBottomSheet(
-      radiusWhenNotExpanded: 44,
-      allowSlideInExpanded: false,
-      controller: controller,
-      dragController: dragController,
-      closeWhenLoseFocus: true,
-      child: BroadcastScreen(
-        hasComments: true,
-        controller: controller,
-        dragController: dragController,
-      ),
-      minHeight: 500,
-    );
-  }
+class BroadcastBottomSheet extends MinbarBottomSheet {
+  BroadcastBottomSheet(
+      {required MinbarBottomSheetController controller,
+      DragController? dragController})
+      : super(
+          radiusWhenNotExpanded: 44,
+          allowSlideInExpanded: false,
+          controller: controller,
+          dragController: dragController ?? DragController(),
+          closeWhenLoseFocus: true,
+          child: BroadcastScreen(
+            hasComments: true,
+            controller: controller,
+            dragController: dragController ?? DragController(),
+          ),
+          minHeight: 500,
+        );
 }

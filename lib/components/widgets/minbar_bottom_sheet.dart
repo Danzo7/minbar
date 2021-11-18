@@ -217,14 +217,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
             (widget.elevation > 0 || widget.closeWhenLoseFocus) &&
                 !widget.controller.isClosed,
             child: SafeArea(
-              child: AnimatedBuilder(
-                animation: _animationController,
-                builder: (BuildContext context, Widget? child) {
-                  return SlideTransition(
-                    child: child,
-                    position: animation,
-                  );
-                },
+              child: SlideTransition(
                 child: GestureDetector(
                   onVerticalDragEnd: (details) => !(!widget
                               .allowSlideInExpanded &&
@@ -255,6 +248,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
                     ),
                   ),
                 ),
+                position: animation,
               ),
             ),
           )
@@ -308,13 +302,11 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     if (!mounted) {
       return;
     }
-
     if (!(!widget.slideToExpand && _animationController.value == _minFraction))
       _animationController.value = max(
           _collapseFraction,
           _animationController.value -
               (primaryDelta! / (_childHeight ?? primaryDelta)));
-    });
     _animatedRaduis();
   }
 
@@ -350,16 +342,16 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void _close() {
-    if (_animationController.value != _collapseFraction)
+    if (_animationController.value != _collapseFraction) {
       _animationController
           .animateTo(_collapseFraction,
               curve: Curves.linearToEaseOut, duration: _kDefaultTiming)
-          .then((value) {
-        setState(() {
-          _enable = _collapseFraction != 0;
-          if (widget.controller.onClose != null) widget.controller.onClose!();
-        });
+          .whenComplete(() {
+        _enable = _collapseFraction != 0;
+        if (widget.controller.onClose != null) widget.controller.onClose!();
+        setState(() {});
       });
+    }
   }
 
   void setRaduis() {
@@ -433,6 +425,7 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
 
   ///While be called after calling Close event
   Function? onClose;
+  Function? whileClose;
 
   ///expiremental
   Future<void>? $onShow;
@@ -451,6 +444,7 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   ///slide  [MinbarBottomSheet] to `minHeight` ,if `minHeight=null` same as ``controller.expand()``
   void show() {
     if (isShown) notifyListeners();
+
     value = MinbarBottomSheetStatus.shown;
     if (isInstance) _addToInstances();
   }
@@ -465,7 +459,6 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   void expand() {
     if (isExpanded) notifyListeners();
     value = MinbarBottomSheetStatus.expanded;
-
     if (isInstance) _addToInstances();
   }
 

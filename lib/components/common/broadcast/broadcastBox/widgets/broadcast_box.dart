@@ -8,6 +8,7 @@ import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 
 import 'package:minbar_fl/model/cast.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../widgets/buttons/buttons.dart';
 
@@ -22,127 +23,119 @@ class BroadcastBox extends StatefulWidget {
 
 class _BroadcastBoxState extends State<BroadcastBox> {
   @override
-  void initState() {
-    app<CastService>().addListener(listener);
-    super.initState();
-  }
-
-  void listener() => {if (mounted) setState(() {})};
-  @override
-  void dispose() {
-    app<CastService>().removeListener(listener);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: const AssetImage('assets/images/cover.png'),
-              fit: BoxFit.fitWidth),
-          borderRadius: BorderRadius.circular(17)),
-      child: Container(
-        width: double.infinity,
-        height: 120,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              child: app<CastService>().currentCast == widget.cast
-                  ? StreamBuilder<PlayerState>(
-                      stream: app<AudioService>().playerStateStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<PlayerState> snapshot) {
-                        final playerState = snapshot.data;
-                        final processingState = playerState?.processingState;
-                        print(processingState);
-                        if (processingState == ProcessingState.loading) {
-                          return CircularProgressIndicator();
-                        } else if (processingState == ProcessingState.ready &&
-                            app<AudioService>().playerState.playing)
-                          return FlatIconButton(
-                            icon: VoiceVisualisation(),
-                            onTap: () =>
-                                app<CastService>().playCast(widget.cast),
-                          );
-                        else
-                          return playButton();
-                      },
-                    )
-                  : playButton(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 5,
-                    fit: FlexFit.tight,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        NotAButton(
-                          child: Text(widget.cast.field, style: DTextStyle.w10),
-                          backgroundColor: DColors.orange,
-                          raduis: 7,
-                          spacing: 5,
-                        ),
-                        AutoSizeText(
-                          widget.cast.subject,
-                          style: DTextStyle.w20s,
-                          minFontSize: 12,
-                          maxLines: 1,
-                        ),
-                        AutoSizeText(
-                          widget.cast.hostUsername,
-                          style: DTextStyle.w12,
-                          minFontSize: 8,
-                          maxLines: 1,
-                          overflow: TextOverflow.visible,
+    return Consumer<CastService>(
+      builder: (context, state, child) {
+        return Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: const AssetImage('assets/images/cover.png'),
+                  fit: BoxFit.fitWidth),
+              borderRadius: BorderRadius.circular(17)),
+          child: Container(
+            width: double.infinity,
+            height: 120,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  child: state.currentCast == widget.cast
+                      ? StreamBuilder<PlayerState>(
+                          stream: app<AudioService>().playerStateStream,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<PlayerState> snapshot) {
+                            final playerState = snapshot.data;
+                            final processingState =
+                                playerState?.processingState;
+                            if (processingState == ProcessingState.loading) {
+                              return CircularProgressIndicator();
+                            } else if (processingState ==
+                                    ProcessingState.ready &&
+                                app<AudioService>().playerState.playing)
+                              return FlatIconButton(
+                                icon: VoiceVisualisation(),
+                                onTap: () => state.playCast(widget.cast),
+                              );
+                            else
+                              return playButton(state);
+                          },
                         )
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: Wrap(
-                          spacing: 2,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          alignment: WrapAlignment.center,
-                          verticalDirection: VerticalDirection.up,
+                      : playButton(state),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        flex: 5,
+                        fit: FlexFit.tight,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              widget.cast.views.toString(),
-                              style: DTextStyle.w12,
-                              textAlign: TextAlign.center,
+                            NotAButton(
+                              child: Text(widget.cast.field,
+                                  style: DTextStyle.w10),
+                              backgroundColor: DColors.orange,
+                              raduis: 7,
+                              spacing: 5,
                             ),
-                            const Icon(
-                              SodaIcons.listeners,
-                              size: 15,
-                              color: Colors.white,
+                            AutoSizeText(
+                              widget.cast.subject,
+                              style: DTextStyle.w20s,
+                              minFontSize: 12,
+                              maxLines: 1,
+                            ),
+                            AutoSizeText(
+                              widget.cast.hostUsername,
+                              style: DTextStyle.w12,
+                              minFontSize: 8,
+                              maxLines: 1,
+                              overflow: TextOverflow.visible,
                             )
-                          ]),
-                    ),
-                  )
-                ],
-              ),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Wrap(
+                              spacing: 2,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              alignment: WrapAlignment.center,
+                              verticalDirection: VerticalDirection.up,
+                              children: [
+                                Text(
+                                  widget.cast.views.toString(),
+                                  style: DTextStyle.w12,
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Icon(
+                                  SodaIcons.listeners,
+                                  size: 15,
+                                  color: Colors.white,
+                                )
+                              ]),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  RawMaterialButton playButton() {
+  RawMaterialButton playButton(state) {
     return RawMaterialButton(
-      onPressed: () => app<CastService>().playCast(widget.cast),
+      onPressed: () => state.playCast(widget.cast),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
       child: Padding(
         padding: const EdgeInsets.all(10),

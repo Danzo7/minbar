@@ -11,11 +11,11 @@ import 'package:minbar_fl/core/services/AudioService.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/model/cast.dart';
+import 'package:provider/provider.dart';
 import 'widgets/comments_section_bs.dart';
 
 class BroadcastScreen extends StatelessWidget {
   final bool hasComments;
-  final Cast cast = app<CastService>().currentCast!;
   BroadcastScreen({
     Key? key,
     this.controller,
@@ -45,13 +45,17 @@ class BroadcastScreen extends StatelessWidget {
                   : BoxFit.fitWidth,
               image: const AssetImage('assets/images/cover.png'),
             )),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              children: [
-                drager(context),
-                headerInfo(context),
-                content(),
-              ],
+            child: Consumer<CastService>(
+              builder: (context, state, child) {
+                return Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    drager(context),
+                    headerInfo(context),
+                    content(state.currentCast!),
+                  ],
+                );
+              },
             ),
           ),
           if (hasComments) CommentSection(),
@@ -84,7 +88,7 @@ class BroadcastScreen extends StatelessWidget {
     );
   }
 
-  Widget content() {
+  Widget content(Cast cast) {
     return Wrap(
       spacing: 10,
       direction: Axis.vertical,
