@@ -309,13 +309,11 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
       return;
     }
 
-    setState(() {
-      if (!(!widget.slideToExpand &&
-          _animationController.value == _minFraction))
-        _animationController.value = max(
-            _collapseFraction,
-            _animationController.value -
-                (primaryDelta! / (_childHeight ?? primaryDelta)));
+    if (!(!widget.slideToExpand && _animationController.value == _minFraction))
+      _animationController.value = max(
+          _collapseFraction,
+          _animationController.value -
+              (primaryDelta! / (_childHeight ?? primaryDelta)));
     });
     _animatedRaduis();
   }
