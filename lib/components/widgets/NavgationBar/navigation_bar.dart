@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/screens/master_screen/master_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
@@ -16,6 +16,7 @@ import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../voice_visualisation.dart';
 import 'navigation_item.dart';
@@ -72,9 +73,8 @@ class AnimatedPainter extends StatelessWidget {
                     ? Tween<double>(begin: 0, end: max)
                     : Tween<double>(begin: max, end: 0),
                 curve: Curves.easeInOut,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 100),
                 builder: (context, value, child) {
-                  print(value);
                   return CustomPaint(
                     size: Size(MediaQuery.of(context).size.width, 80),
                     painter: !isInside
@@ -126,8 +126,8 @@ class _NavigationBarState extends State<NavigationBar> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void listener() {
-    setState(() {
+  void listener() async {
+    await rebuild(() {
       if (widget.middleController.isNormal) mad = animationDirection.backward;
       if (widget.middleController.isOut) mad = animationDirection.forward;
       if (widget.middleController.isIn) mad = animationDirection.forward;
@@ -141,94 +141,85 @@ class _NavigationBarState extends State<NavigationBar> {
       });
   }
 
+  Future<bool> rebuild(void Function() fn) async {
+    if (!mounted) return false;
+
+    // if there's a current frame,
+    if (SchedulerBinding.instance!.schedulerPhase != SchedulerPhase.idle) {
+      // wait for the end of that frame.
+      await SchedulerBinding.instance!.endOfFrame;
+      if (!mounted) return false;
+    }
+
+    setState(fn);
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
-      width: size.width,
-      height: 100,
-      alignment: Alignment.bottomCenter,
-      child: Consumer<CastService>(
-        builder: (context, state, child) {
-          if (state.currentCast != null) {
-            mad = mad == animationDirection.idle
-                ? animationDirection.forward
-                : animationDirection.completed;
-          } else {
-            if (mad != animationDirection.idle)
-              mad = mad == animationDirection.forward
-                  ? animationDirection.backward
-                  : animationDirection.idle;
-          }
-
-          return Stack(
-            alignment: Alignment.bottomCenter,
-            clipBehavior: Clip.none,
-            children: [
-              AnimatedPainter(direction: mad, isInside: false, max: 15),
-              Container(
-                width: size.width,
-                height: 80,
-                child: Row(
-                  textDirection: TextDirection
-                      .ltr, //this is the native direction on nabar,its does not matter if the ocalization is rtl or ltr.
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ...widget.items
-                        .map((e) => [
-                              if (widget.items.indexOf(e) ==
-                                  widget.items.length / 2)
-                                AnimatedContainer(
-                                  duration: Duration(milliseconds: 120),
-                                  alignment: Alignment.bottomCenter,
-                                  width: widget.middleController.isNormal
-                                      ? 0
-                                      : (size.width * 0.20),
-                                ),
-                              IconButton(
-                                  icon: currentIndex == widget.items.indexOf(e)
-                                      ? e.beforeIcon
-                                      : e.afterIcon,
-                                  onPressed: () {
-                                    if (currentIndex !=
-                                        widget.items.indexOf(e)) {
-                                      widget.navigationController != null
-                                          ? widget.navigationController
-                                              ?.navigateTo(
-                                                  widget.items.indexOf(e))
-                                          : app<MinbarNavigator>().navigateTo(
-                                              context, widget.items.indexOf(e));
-                                    }
-                                  })
-                            ])
-                        .expand((i) => i)
-                        .toList()
-                  ],
-                ),
+        width: size.width,
+        height: 100,
+        alignment: Alignment.bottomCenter,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          clipBehavior: Clip.none,
+          children: [
+            AnimatedPainter(direction: mad, isInside: false, max: 15),
+            Container(
+              width: size.width,
+              height: 80,
+              child: Row(
+                textDirection: TextDirection
+                    .ltr, //this is the native direction on nabar,its does not matter if the ocalization is rtl or ltr.
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ...widget.items
+                      .map((e) => [
+                            if (widget.items.indexOf(e) ==
+                                widget.items.length / 2)
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 120),
+                                alignment: Alignment.bottomCenter,
+                                width: widget.middleController.isNormal
+                                    ? 0
+                                    : (size.width * 0.20),
+                              ),
+                            IconButton(
+                                icon: currentIndex == widget.items.indexOf(e)
+                                    ? e.beforeIcon
+                                    : e.afterIcon,
+                                onPressed: () {
+                                  if (currentIndex != widget.items.indexOf(e)) {
+                                    widget.navigationController != null
+                                        ? widget.navigationController
+                                            ?.navigateTo(
+                                                widget.items.indexOf(e))
+                                        : app<MinbarNavigator>().navigateTo(
+                                            context, widget.items.indexOf(e));
+                                  }
+                                })
+                          ])
+                      .expand((i) => i)
+                      .toList()
+                ],
               ),
-              ActionButton(state: state)
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class Navblob extends StatelessWidget {
-  const Navblob({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [],
-    );
+            ),
+          ],
+        ));
   }
 }
 
 class ActionButton extends StatelessWidget {
-  const ActionButton({Key? key, required this.state}) : super(key: key);
+  final MiddleController middleController;
+  final OverlayController overlayController = OverlayController();
+  ActionButton({
+    Key? key,
+    required this.state,
+    required this.middleController,
+  }) : super(key: key);
   final CastService? state;
   @override
   Widget build(BuildContext context) {
@@ -237,20 +228,33 @@ class ActionButton extends StatelessWidget {
           context,
         );
 
-    Widget dragablebubble({required Widget child, Function? onDragComplete}) {
+    Widget dragablebubble(
+        {required Widget child,
+        required Widget broChild,
+        Function? onDragComplete}) {
       return LongPressDraggable(
         maxSimultaneousDrags: 1,
         ignoringFeedbackSemantics: false,
         axis: Axis.vertical,
-        child: child,
-        feedback: child,
-        onDragStarted: () => showOverlay(context),
+        child:
+            Wrap(alignment: WrapAlignment.center, children: [child, broChild]),
+        feedback: Material(
+          child: child,
+          color: Colors.transparent,
+        ),
+        onDragStarted: () {
+          overlayController.show();
+
+          middleController.normal();
+        },
         onDragEnd: (details) {
-          if (MediaQuery.of(context).size.height - 170 > details.offset.dy) {
+          print([MediaQuery.of(context).size.height - 150, details.offset.dy]);
+          if (MediaQuery.of(context).size.height - 150 > details.offset.dy) {
             if (onDragComplete != null) onDragComplete();
           }
+          if (state?.currentCast != null) middleController.outside();
 
-          hideOverlay(context);
+          overlayController.hide();
         },
         onDragUpdate: (details) {},
         childWhenDragging: SizedBox(),
@@ -259,87 +263,110 @@ class ActionButton extends StatelessWidget {
 
     return (state == null || state?.currentCast == null)
         ? SizedBox()
-        : GestureDetector(
-            onVerticalDragUpdate: (details) =>
-                isSwipeUp = details.delta.dy < 0 ? true : false,
-            onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              height: 101,
-              width: MediaQuery.of(context).size.width / 5,
-              padding: const EdgeInsets.only(bottom: 30),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: [
-                  StreamBuilder<PlayerState>(
+        : Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              OverlayBack(controller: overlayController),
+              GestureDetector(
+                onVerticalDragUpdate: (details) =>
+                    isSwipeUp = details.delta.dy < 0 ? true : false,
+                onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  height: 101,
+                  width: MediaQuery.of(context).size.width / 5,
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: StreamBuilder<PlayerState>(
                       stream: app<AudioService>().playerStateStream,
                       builder: (BuildContext context,
                           AsyncSnapshot<PlayerState> snapshot) {
                         final playerState = snapshot.data;
                         final processingState = playerState?.processingState;
-                        if (processingState == ProcessingState.ready &&
-                            app<AudioService>().playerState.playing)
-                          return dragablebubble(
-                              onDragComplete: app<CastService>().stopCast,
-                              child: FlatIconButton(
-                                  backgroundColor: minbarTheme.secondary,
-                                  icon: VoiceVisualisation(),
-                                  onTap: () => showBroadcastBottomSheet(
-                                        context,
-                                      )));
-                        else
-                          return dragablebubble(
+                        print(processingState);
+
+                        return dragablebubble(
                             onDragComplete: state!.stopCast,
                             child: FlatIconButton(
                                 backgroundColor: minbarTheme.secondary,
-                                icon: Icon(Icons.pause),
-                                onTap: () => showBroadcastBottomSheet(
-                                      context,
-                                    )),
-                          );
+                                icon: (processingState ==
+                                            ProcessingState.ready &&
+                                        app<AudioService>().playerState.playing)
+                                    ? VoiceVisualisation()
+                                    : (processingState ==
+                                                ProcessingState.buffering ||
+                                            processingState ==
+                                                ProcessingState.loading)
+                                        ? CircularProgressIndicator()
+                                        : Icon(
+                                            Icons.pause,
+                                            color: DColors.white,
+                                          ),
+                                onTap: action),
+                            broChild: TextPlay(
+                                textAlign: TextAlign.center,
+                                minFontSize: 10,
+                                marquee: Marquee(
+                                  showFadingOnlyWhenScrolling: true,
+                                  fadingEdgeEndFraction: 0.1,
+                                  text: state!.currentCast!.subject,
+                                  style: DTextStyle.w12,
+                                  blankSpace: 50,
+                                  velocity: 20.0,
+                                )));
                       }),
-                  TextPlay(
-                      textAlign: TextAlign.center,
-                      minFontSize: 10,
-                      marquee: Marquee(
-                        showFadingOnlyWhenScrolling: true,
-                        fadingEdgeEndFraction: 0.1,
-                        text: state!.currentCast!.subject,
-                        style: DTextStyle.w12,
-                        blankSpace: 50,
-                        velocity: 20.0,
-                      ))
-                ],
+                ),
               ),
-            ),
+            ],
           );
   }
 }
 
 class MinbarBar extends StatelessWidget {
-  final MiddleController middleController;
+  final MiddleController middleController = MiddleController();
   final int selectedIndex;
   final List<NavigatonItem> items;
   final NavgationController? navigationController;
 
-  const MinbarBar({
+  MinbarBar({
     Key? key,
     required this.selectedIndex,
     required this.items,
     this.navigationController,
-    required this.middleController,
   })  : assert(items.length % 2 == 0),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
         NavigationBar(
             selectedIndex: selectedIndex,
             items: items,
-            middleController: middleController)
+            middleController: middleController),
+        Consumer<CastService>(builder: (context, state, child) {
+          print([1, state.currentCast]);
+          if (state.currentCast == null)
+            middleController.normal();
+          else
+            middleController.outside();
+
+          return ActionButton(state: state, middleController: middleController);
+        })
       ],
     );
   }
 }
+
+
+
+    // if (state.currentCast != null) {
+    //         mad = mad == animationDirection.idle
+    //             ? animationDirection.forward
+    //             : animationDirection.completed;
+    //       } else {
+    //         if (mad != animationDirection.idle)
+    //           mad = mad == animationDirection.forward
+    //               ? animationDirection.backward
+    //               : animationDirection.idle;
+    //       }
