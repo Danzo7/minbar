@@ -31,6 +31,7 @@ class _PageNavigationState extends State<PageNavigation> {
 
   @override
   void initState() {
+    Pager.latestController = widget.navgationController;
     super.initState();
   }
 
@@ -48,33 +49,17 @@ class _PageNavigationState extends State<PageNavigation> {
 }
 
 class Pager {
-  static PageController? latestController;
-
-  static PageController pushActor() {
-    latestController = PageController(initialPage: 0);
-    return latestController!;
-  }
-
-  static Future navigateToRoute<TO extends Object?>(
-      BuildContext context, String routeName) {
-    _PageNavigationState? state =
-        context.findAncestorStateOfType<_PageNavigationState>();
-    if (state != null) {
-      if (state.pages.keys.contains(routeName)) {
-        return Future(() => state.widget.navgationController
-            .jumpToPage(state.pages.keys.toList().indexOf(routeName)));
-      } else
-        throw FlutterError("No page found with a name of $routeName");
-    } else
-      throw FlutterError("No PageNavigation found");
-  }
+  static NavgationController? latestController;
 
   static Future navigateTo<TO extends Object?>(
       BuildContext context, int index) {
-    _PageNavigationState? state =
-        context.findAncestorStateOfType<_PageNavigationState>();
-    if (state != null) {
-      return Future(() => state.widget.navgationController.jumpToPage(index));
+    NavgationController? navgationController = latestController ??
+        context
+            .findAncestorStateOfType<_PageNavigationState>()
+            ?.widget
+            .navgationController;
+    if (navgationController != null) {
+      return Future(() => navgationController.jumpToPage(index));
     } else
       throw FlutterError("No PageNavigation found");
   }

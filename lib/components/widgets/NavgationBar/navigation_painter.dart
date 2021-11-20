@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
 
 class NavigationPainter extends CustomPainter {
-  final NavType type;
   final Color color;
 
   final double pulling;
+  final double? pushing;
   const NavigationPainter(
-      {required this.type, this.color = Colors.white, this.pulling = 0});
+      {this.color = Colors.white, this.pulling = 0, this.pushing});
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = new Paint()
@@ -28,19 +27,36 @@ class NavigationPainter extends CustomPainter {
     //     radius: Radius.circular(35.0), clockwise: true);
     // path.quadraticBezierTo(size.width * 0.50, -15, size.width * 0.55, -15);
 
-    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -pulling);
-    path.quadraticBezierTo(
-        size.width * 0.40, -pulling, size.width * 0.45, -pulling);
-    path.arcToPoint(Offset(size.width * 0.55, -pulling),
-        radius: Radius.circular((pulling < 7 ? (0) : 30)), clockwise: true);
-    path.quadraticBezierTo(
-        size.width * 0.50, -pulling, size.width * 0.55, -pulling);
+    // path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -pulling);
 
-    if (type == NavType.broadcastable) {
-      path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
-      path.arcToPoint(Offset(size.width * 0.60, 20),
-          radius: Radius.circular(20.0), clockwise: false);
+    // path.quadraticBezierTo(
+    //     size.width * 0.40, -pulling, size.width * 0.45, -pulling);
+
+    // path.arcToPoint(Offset(size.width * 0.55, -pulling),
+    //     radius: Radius.circular((pulling < 7 ? (0) : 30)), clockwise: true);
+
+    // path.quadraticBezierTo(
+    //     size.width * 0.50, -pulling, size.width * 0.55, -pulling);
+
+    if (pushing != null) {
+      // path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.50, 10);
+      // path.arcToPoint(Offset(size.width * 0.50, 10),
+      //     radius: Radius.circular((30)), clockwise: false);
+
+      path.quadraticBezierTo(
+          size.width * 0.40, 0, size.width * 0.40 + pushing! / 2, pushing!);
+      path.arcToPoint(Offset(size.width * 0.60, pushing!),
+          radius: Radius.circular(pushing!), clockwise: false);
+    } else {
+      path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.45, -pulling);
+      path.quadraticBezierTo(
+          size.width * 0.40, -pulling, size.width * 0.45, -pulling);
+      path.arcToPoint(Offset(size.width * 0.55, -pulling),
+          radius: Radius.circular((pulling < 7 ? (0) : 30)), clockwise: true);
+      path.quadraticBezierTo(
+          size.width * 0.50, -pulling, size.width * 0.55, -pulling);
     }
+
     path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
     path.quadraticBezierTo(size.width * 0.80, 0, size.width, 0);
 

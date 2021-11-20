@@ -1,90 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:marquee/marquee.dart';
-import 'package:minbar_fl/components/theme/default_theme.dart';
-import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
-import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
-import 'package:minbar_fl/components/widgets/overlay_widget.dart';
-import 'package:minbar_fl/components/widgets/text_play.dart';
-import 'package:minbar_fl/core/services/AudioService.dart';
-import 'package:minbar_fl/core/services/cast_service.dart';
-
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
-import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../voice_visualisation.dart';
+import 'animated_painterd.dart';
+import 'middle_controller.dart';
 import 'navigation_item.dart';
-import 'navigation_painter.dart';
-import 'package:simple_animations/simple_animations.dart';
-
-enum MiddleMode { normal, outside, inside }
-
-class MiddleController extends ValueNotifier<MiddleMode> {
-  MiddleController() : super(MiddleMode.normal);
-  MiddleMode get mode => value;
-  set mode(x) => value = x;
-
-  bool get isNormal => value == MiddleMode.normal;
-  bool get isOut => value == MiddleMode.outside;
-  bool get isIn => value == MiddleMode.inside;
-  void outside() => value = MiddleMode.outside;
-  void normal() => value = MiddleMode.normal;
-  void inside() => mode = MiddleMode.inside;
-  void normOut() {
-    if (isNormal)
-      Random().nextBool() ? inside() : outside();
-    else if (isOut || isIn) normal();
-  }
-}
-
-enum animationDirection { forward, backward, idle, completed }
-
-class AnimatedPainter extends StatelessWidget {
-  final animationDirection direction;
-
-  final double max;
-  final bool isInside;
-  const AnimatedPainter({
-    Key? key,
-    this.direction = animationDirection.idle,
-    required this.max,
-    this.isInside = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return this.direction == animationDirection.idle
-        ? CustomPaint(
-            size: Size(MediaQuery.of(context).size.width, 80),
-            painter: NavigationPainter(pulling: 0))
-        : this.direction == animationDirection.completed
-            ? CustomPaint(
-                size: Size(MediaQuery.of(context).size.width, 80),
-                painter: NavigationPainter(
-                    pulling: isInside ? 0 : max, pushing: isInside ? max : 0))
-            : TweenAnimationBuilder<double?>(
-                tween: this.direction == animationDirection.forward
-                    ? Tween<double>(begin: 0, end: max)
-                    : Tween<double>(begin: max, end: 0),
-                curve: Curves.easeInOut,
-                duration: const Duration(milliseconds: 100),
-                builder: (context, value, child) {
-                  return CustomPaint(
-                    size: Size(MediaQuery.of(context).size.width, 80),
-                    painter: !isInside
-                        ? NavigationPainter(pulling: value ?? 0)
-                        : NavigationPainter(pushing: value),
-                  );
-                },
-              );
-  }
-}
 
 class NavigationBar extends StatefulWidget {
   final MiddleController middleController;
@@ -107,7 +28,7 @@ class NavigationBar extends StatefulWidget {
 
 class _NavigationBarState extends State<NavigationBar> {
   int currentIndex = 0;
-  animationDirection mad = animationDirection.idle;
+  AnimationDirection mad = AnimationDirection.idle;
 
   @override
   void initState() {
@@ -128,9 +49,9 @@ class _NavigationBarState extends State<NavigationBar> {
 
   void listener() async {
     await rebuild(() {
-      if (widget.middleController.isNormal) mad = animationDirection.backward;
-      if (widget.middleController.isOut) mad = animationDirection.forward;
-      if (widget.middleController.isIn) mad = animationDirection.forward;
+      if (widget.middleController.isNormal) mad = AnimationDirection.backward;
+      if (widget.middleController.isOut) mad = AnimationDirection.forward;
+      if (widget.middleController.isIn) mad = AnimationDirection.forward;
     });
   }
 
@@ -212,154 +133,65 @@ class _NavigationBarState extends State<NavigationBar> {
   }
 }
 
-class ActionButton extends StatelessWidget {
-  final MiddleController middleController;
-  final OverlayController overlayController = OverlayController();
-  ActionButton({
-    Key? key,
-    required this.state,
-    required this.middleController,
-  }) : super(key: key);
-  final CastService? state;
+class DragBili extends StatefulWidget {
+  const DragBili({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    bool isSwipeUp = false;
-    void action() => showBroadcastBottomSheet(
-          context,
-        );
-
-    Widget dragablebubble(
-        {required Widget child,
-        required Widget broChild,
-        Function? onDragComplete}) {
-      return LongPressDraggable(
-        maxSimultaneousDrags: 1,
-        ignoringFeedbackSemantics: false,
-        axis: Axis.vertical,
-        child:
-            Wrap(alignment: WrapAlignment.center, children: [child, broChild]),
-        feedback: Material(
-          child: child,
-          color: Colors.transparent,
-        ),
-        onDragStarted: () {
-          overlayController.show();
-
-          middleController.normal();
-        },
-        onDragEnd: (details) {
-          print([MediaQuery.of(context).size.height - 150, details.offset.dy]);
-          if (MediaQuery.of(context).size.height - 150 > details.offset.dy) {
-            if (onDragComplete != null) onDragComplete();
-          }
-          if (state?.currentCast != null) middleController.outside();
-
-          overlayController.hide();
-        },
-        onDragUpdate: (details) {},
-        childWhenDragging: SizedBox(),
-      );
-    }
-
-    return (state == null || state?.currentCast == null)
-        ? SizedBox()
-        : Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              OverlayBack(controller: overlayController),
-              GestureDetector(
-                onVerticalDragUpdate: (details) =>
-                    isSwipeUp = details.delta.dy < 0 ? true : false,
-                onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  height: 101,
-                  width: MediaQuery.of(context).size.width / 5,
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: StreamBuilder<PlayerState>(
-                      stream: app<AudioService>().playerStateStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<PlayerState> snapshot) {
-                        final playerState = snapshot.data;
-                        final processingState = playerState?.processingState;
-                        print(processingState);
-
-                        return dragablebubble(
-                            onDragComplete: state!.stopCast,
-                            child: FlatIconButton(
-                                backgroundColor: minbarTheme.secondary,
-                                icon: (processingState ==
-                                            ProcessingState.ready &&
-                                        app<AudioService>().playerState.playing)
-                                    ? VoiceVisualisation()
-                                    : (processingState ==
-                                                ProcessingState.buffering ||
-                                            processingState ==
-                                                ProcessingState.loading)
-                                        ? CircularProgressIndicator()
-                                        : Icon(
-                                            Icons.pause,
-                                            color: DColors.white,
-                                          ),
-                                onTap: action),
-                            broChild: TextPlay(
-                                textAlign: TextAlign.center,
-                                minFontSize: 10,
-                                marquee: Marquee(
-                                  showFadingOnlyWhenScrolling: true,
-                                  fadingEdgeEndFraction: 0.1,
-                                  text: state!.currentCast!.subject,
-                                  style: DTextStyle.w12,
-                                  blankSpace: 50,
-                                  velocity: 20.0,
-                                )));
-                      }),
-                ),
-              ),
-            ],
-          );
-  }
+  State<DragBili> createState() => _DragBiliState();
 }
 
-class MinbarBar extends StatelessWidget {
-  final MiddleController middleController = MiddleController();
-  final int selectedIndex;
-  final List<NavigatonItem> items;
-  final NavgationController? navigationController;
-
-  MinbarBar({
-    Key? key,
-    required this.selectedIndex,
-    required this.items,
-    this.navigationController,
-  })  : assert(items.length % 2 == 0),
-        super(key: key);
-
+class _DragBiliState extends State<DragBili> {
+  double _horizontalPos = 0.0;
+  double _verticalPos = 0.0;
+  ValueNotifier<List<double>> posValueListener = ValueNotifier([0.0, 0.0]);
+  ValueChanged<List<double>>? posValueChanged;
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        NavigationBar(
-            selectedIndex: selectedIndex,
-            items: items,
-            middleController: middleController),
-        Consumer<CastService>(builder: (context, state, child) {
-          print([1, state.currentCast]);
-          if (state.currentCast == null)
-            middleController.normal();
-          else
-            middleController.outside();
+    Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 100),
+        color: Colors.green,
+        child: Builder(
+          builder: (context) {
+            final handle = GestureDetector(
+                onPanUpdate: (details) {
+                  _verticalPos =
+                      (_verticalPos + details.delta.dy / (size.height))
+                          .clamp(.0, 1.0);
+                  _horizontalPos =
+                      (_horizontalPos + details.delta.dx / (size.width))
+                          .clamp(.0, 1.0);
+                  posValueListener.value = [_horizontalPos, _verticalPos];
+                },
+                child: Container(
+                  child: Container(
+                    margin: EdgeInsets.all(12),
+                    width: 110.0,
+                    height: 170.0,
+                    child: Container(
+                      color: Colors.black87,
+                    ),
+                    decoration: BoxDecoration(color: Colors.black54),
+                  ),
+                ));
 
-          return ActionButton(state: state, middleController: middleController);
-        })
-      ],
+            return ValueListenableBuilder<List<double>>(
+              valueListenable: posValueListener,
+              builder:
+                  (BuildContext context, List<double> value, Widget? child) {
+                return Align(
+                  alignment: Alignment(value[0] * 2 - 1, value[1] * 2 - 1),
+                  child: handle,
+                );
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }
-
-
-
     // if (state.currentCast != null) {
     //         mad = mad == animationDirection.idle
     //             ? animationDirection.forward
