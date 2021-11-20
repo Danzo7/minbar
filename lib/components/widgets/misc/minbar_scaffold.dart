@@ -119,9 +119,16 @@ class MinbarScaffoldState extends State<MinbarScaffold> {
   Widget build(BuildContext context) {
     Widget _body = widget.bottomSheet != null ||
             widget.floatingActionButton != null ||
-            _bottomSheets.isNotEmpty
+            _bottomSheets.isNotEmpty ||
+            widget.hasBottomNavigationBar
         ? Stack(alignment: AlignmentDirectional.bottomCenter, children: [
             widget.body,
+            if (widget.hasBottomNavigationBar)
+              MinbarBar(
+                selectedIndex: widget.selectedIndex,
+                items: navigationItems,
+                navigationController: widget.navgationController,
+              ),
             if (widget.floatingActionButton != null)
               widget.floatingActionButton as Widget,
             if (broadcastSheet != null) broadcastSheet as Widget,
@@ -137,13 +144,7 @@ class MinbarScaffoldState extends State<MinbarScaffold> {
           backgroundColor: widget.backgroundColor ?? DColors.white,
           extendBody: true,
           resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-          bottomNavigationBar: widget.hasBottomNavigationBar
-              ? MinbarBar(
-                  selectedIndex: widget.selectedIndex,
-                  items: navigationItems,
-                  navigationController: widget.navgationController,
-                )
-              : widget.navigationBar,
+          bottomNavigationBar: widget.navigationBar,
           body: widget.withSafeArea
               ? SafeArea(bottom: false, child: _body)
               : _body,
