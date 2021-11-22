@@ -31,12 +31,12 @@ class Header extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(pub.authorName, style: DTextStyle.bg12b),
-                    if (pub.hasPodcast)
+                    if (pub.hasCast)
                       Text(
                         "قام ببث",
                         style: DTextStyle.b10,
                       ),
-                    if (pub.hasPodcast)
+                    if (pub.hasCast)
                       NotAButton(
                         child: Text(pub.type, style: DTextStyle.w10),
                         backgroundColor: DColors.orange,

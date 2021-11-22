@@ -110,7 +110,7 @@ class _BroadcastBoxState extends State<BroadcastBox> {
                               verticalDirection: VerticalDirection.up,
                               children: [
                                 Text(
-                                  widget.cast.views.toString(),
+                                  widget.cast.listeners.toString(),
                                   style: DTextStyle.w12,
                                   textAlign: TextAlign.center,
                                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/common/post/widgets/reaction_bar.dart';
 import 'package:minbar_fl/model/publication.dart';
@@ -27,9 +28,15 @@ class Post extends StatelessWidget {
           //content
           Content(value: pub.content),
           //resource
-          if (pub.hasPodcast) PodcastBox(),
+          if (pub.hasCast)
+            //get cast somehow
+            PodcastBox(
+              cast: FakeData.casts[1],
+            ),
           //ReactionBar
-          ReactionBar(heartCount: pub.likeCount, pinCount: pub.pinCount)
+          ReactionBar(
+            pub: pub,
+          )
         ],
       ),
     );

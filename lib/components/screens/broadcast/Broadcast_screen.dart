@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_text_styles.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
@@ -169,7 +168,7 @@ class BroadcastScreen extends StatelessWidget {
 }
 
 class Player extends StatefulWidget {
-  final AudioPlayer player;
+  final AudioService player;
 
   const Player({
     Key? key,
@@ -197,7 +196,7 @@ class _PlayerState extends State<Player> {
         children: [
           IconButton(onPressed: () => {}, icon: IconBuilder("deafen")),
           StreamBuilder<BroadcastPositionData>(
-              stream: app<AudioService>().broadcastPositionData,
+              stream: widget.player.broadcastPositionData,
               builder: (context, snapshot) {
                 return Text(
                   RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')

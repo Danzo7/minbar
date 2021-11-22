@@ -48,6 +48,8 @@ dependencies:
     git:
       url: https://github.com/Danzo7/like_button
   simple_animations: ^4.0.1
+  http: ^0.13.4
+  logging: ^1.0.2
 dev_dependencies:
   flutter_lints: any  
   flutter_test:

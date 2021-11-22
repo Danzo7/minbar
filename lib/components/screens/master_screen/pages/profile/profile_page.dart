@@ -47,14 +47,14 @@ class _ProfilePageState extends State<ProfilePage> {
   _additem() {
     items = [
       Publication(
-          authorName: "خة",
-          authorAvatar: "assets/images/cover.png",
-          content: "هو الحق",
-          type: "لقاء",
-          date: DateTime.now(),
-          likeCount: 65,
-          pinCount: 11,
-          hasPodcast: false),
+        authorName: "خة",
+        authorAvatar: "assets/images/cover.png",
+        content: "هو الحق",
+        type: "لقاء",
+        date: DateTime.now(),
+        heartCount: 65,
+        pinCount: 11,
+      ),
       ...items
     ];
     if (mounted) setState(() {});

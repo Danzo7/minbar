@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/model/cast.dart';
 
 class PodcastBox extends StatelessWidget {
-  final String listenCount;
-  final String timeLength;
+  final Cast cast;
   const PodcastBox({
     Key? key,
-    this.listenCount = "1.2k",
-    this.timeLength = "00:30:21",
+    required this.cast,
   }) : super(key: key);
 
   @override
@@ -41,22 +40,23 @@ class PodcastBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                      alignment: Alignment.topRight,
-                      child: Wrap(
-                          spacing: 3,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          alignment: WrapAlignment.center,
-                          verticalDirection: VerticalDirection.up,
-                          children: [
-                            Text(
-                              timeLength,
-                              style: DTextStyle.w12,
-                              textAlign: TextAlign.center,
-                            ),
-                            const Icon(SodaIcons.clock,
-                                color: DColors.white, size: 15)
-                          ])),
+                  if (!cast.isLive)
+                    Container(
+                        alignment: Alignment.topRight,
+                        child: Wrap(
+                            spacing: 3,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            verticalDirection: VerticalDirection.up,
+                            children: [
+                              Text(
+                                cast.duration!,
+                                style: DTextStyle.w12,
+                                textAlign: TextAlign.center,
+                              ),
+                              const Icon(SodaIcons.clock,
+                                  color: DColors.white, size: 15)
+                            ])),
                   Container(
                     alignment: Alignment.topLeft,
                     child: Wrap(
@@ -66,7 +66,7 @@ class PodcastBox extends StatelessWidget {
                         verticalDirection: VerticalDirection.up,
                         children: [
                           Text(
-                            listenCount,
+                            cast.listeners.toString(),
                             style: DTextStyle.w12,
                             textAlign: TextAlign.center,
                           ),

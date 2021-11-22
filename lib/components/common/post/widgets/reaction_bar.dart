@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/model/publication.dart';
 
 class ReactionBar extends StatelessWidget {
-  const ReactionBar(
-      {Key? key,
-      required this.heartCount,
-      required this.pinCount,
-      this.hasHeart = false,
-      this.hasPin = false})
-      : super(key: key);
+  const ReactionBar({Key? key, required this.pub}) : super(key: key);
 
-  final bool hasHeart, hasPin;
-  final int heartCount, pinCount;
-  void updateHeart(bool isClicked) {
-    if (isClicked) {
-//update the counter by 1
-    } else {
-//update the counter by -1
-    }
+  final Publication pub;
+  Future<bool?> updateHeart(bool isClicked) async {
+    return true;
   }
 
   Future<bool?> updatePin(bool isClicked) async {
-    if (isClicked) {
-//update the counter by 1
-    } else {
-//update the counter by -1
-    }
+    //  pub.hasHeart = isClicked;
+
     return true;
   }
 
@@ -36,20 +23,25 @@ class ReactionBar extends StatelessWidget {
         child: Wrap(
             spacing: 3,
             crossAxisAlignment: WrapCrossAlignment.center,
-            children: [pinButton(), heartButton()]));
+            children: [pinButton(updatePin), heartButton(updateHeart)]));
   }
 
-  ReactButton heartButton() {
-    return ReactButton(heartCount,
-        isPressed: hasHeart,
-        beforeIcon: SodaIcons.heart_outlined,
-        afterIcon: SodaIcons.heart);
+  ReactButton heartButton(Future<bool?> Function(bool)? update) {
+    return ReactButton(
+      pub.heartCount,
+      isPressed: pub.hasHeart,
+      beforeIcon: SodaIcons.heart_outlined,
+      afterIcon: SodaIcons.heart,
+      update: update,
+    );
   }
 
-  ReactButton pinButton() => ReactButton(pinCount,
-      isPressed: hasPin,
-      beforeIcon: SodaIcons.pin_outlined,
-      afterIcon: SodaIcons.pin);
+  ReactButton pinButton(Future<bool?> Function(bool)? update) =>
+      ReactButton(pub.pinCount,
+          isPressed: pub.hasPin,
+          beforeIcon: SodaIcons.pin_outlined,
+          afterIcon: SodaIcons.pin,
+          update: update);
 }
 
 class ReactButton extends StatelessWidget {
