@@ -54,7 +54,6 @@ class _ProfilePageState extends State<ProfilePage> {
       Publication(
         author: FakeData.currentUser,
         content: "هو الحق",
-        type: "لقاء",
         date: DateTime.now(),
         heartCount: 65,
         pinCount: 11,

@@ -8,13 +8,15 @@ class Avatar extends StatelessWidget {
   ///enable this only for teting. will use a default image(صورة مسيلمة الكذاب) from assets for avatar
   final bool withPlaceholder;
   final Color? borderColor;
+  final int borderWidth;
   final Object? heroTag;
   const Avatar(this.imageUrl,
       {Key? key,
       required this.raduis,
       this.withPlaceholder = false,
       this.heroTag,
-      this.borderColor})
+      this.borderColor,
+      this.borderWidth = 1})
       : super(key: key);
   final String? imageUrl;
   @override
@@ -47,9 +49,9 @@ class Avatar extends StatelessWidget {
     else
       return CircleAvatar(
         radius: raduis,
-        backgroundColor: Colors.white,
+        backgroundColor: borderColor,
         child: CircleAvatar(
-          radius: raduis - 1,
+          radius: raduis - borderWidth,
           child: SizedBox.expand(
             child: ClipOval(
               child: child,

@@ -13,7 +13,11 @@ import 'package:provider/provider.dart';
 import '../../../../widgets/buttons/buttons.dart';
 
 class BroadcastBox extends StatefulWidget {
-  const BroadcastBox(this.cast, {Key? key}) : super(key: key);
+  final bool withDetail;
+  final double height;
+  const BroadcastBox(this.cast,
+      {Key? key, this.withDetail = true, this.height = 120})
+      : super(key: key);
 
   final Cast cast;
 
@@ -34,10 +38,30 @@ class _BroadcastBoxState extends State<BroadcastBox> {
               borderRadius: BorderRadius.circular(17)),
           child: Container(
             width: double.infinity,
-            height: 120,
+            height: widget.height,
             child: Stack(
               alignment: Alignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (widget.withDetail)
+                        Flexible(
+                          flex: 5,
+                          fit: FlexFit.tight,
+                          child: details(),
+                        ),
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: listeners(state.currentCast == widget.cast),
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   child: state.currentCast == widget.cast
                       ? StreamBuilder<PlayerState>(
@@ -62,74 +86,62 @@ class _BroadcastBoxState extends State<BroadcastBox> {
                         )
                       : playButton(state),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        flex: 5,
-                        fit: FlexFit.tight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            NotAButton(
-                              child: Text(widget.cast.field,
-                                  style: DTextStyle.w10),
-                              backgroundColor: DColors.orange,
-                              raduis: 7,
-                              spacing: 5,
-                            ),
-                            AutoSizeText(
-                              widget.cast.subject,
-                              style: DTextStyle.w20s,
-                              minFontSize: 12,
-                              maxLines: 1,
-                            ),
-                            AutoSizeText(
-                              widget.cast.host.fullName,
-                              style: DTextStyle.w12,
-                              minFontSize: 8,
-                              maxLines: 1,
-                              overflow: TextOverflow.visible,
-                            )
-                          ],
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: Wrap(
-                              spacing: 2,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              alignment: WrapAlignment.center,
-                              verticalDirection: VerticalDirection.up,
-                              children: [
-                                Text(
-                                  widget.cast.listeners.toString(),
-                                  style: DTextStyle.w12,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const Icon(
-                                  SodaIcons.listeners,
-                                  size: 15,
-                                  color: Colors.white,
-                                )
-                              ]),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Column details() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        NotAButton(
+          child: Text(widget.cast.field, style: DTextStyle.w10),
+          backgroundColor: DColors.orange,
+          raduis: 7,
+          spacing: 5,
+        ),
+        AutoSizeText(
+          widget.cast.subject,
+          style: DTextStyle.w20s,
+          minFontSize: 12,
+          maxLines: 1,
+        ),
+        AutoSizeText(
+          widget.cast.host.fullName,
+          style: DTextStyle.w12,
+          minFontSize: 8,
+          maxLines: 1,
+          overflow: TextOverflow.visible,
+        )
+      ],
+    );
+  }
+
+  Container listeners(bool bool) {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Wrap(
+          spacing: 2,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          verticalDirection: VerticalDirection.up,
+          children: [
+            Text(
+              (widget.cast.listeners + (bool ? 1 : 0)).toString(),
+              style: DTextStyle.w12,
+              textAlign: TextAlign.center,
+            ),
+            const Icon(
+              SodaIcons.listeners,
+              size: 15,
+              color: Colors.white,
+            )
+          ]),
     );
   }
 
@@ -140,7 +152,8 @@ class _BroadcastBoxState extends State<BroadcastBox> {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-            alignment: Alignment.bottomLeft,
+            alignment:
+                widget.withDetail ? Alignment.bottomLeft : Alignment.center,
             child: Icon(SodaIcons.pause, size: 35, color: Colors.white)),
       ),
     );

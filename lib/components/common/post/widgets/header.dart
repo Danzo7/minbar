@@ -19,6 +19,9 @@ class Header extends StatelessWidget {
             pub.author.avatarUrl,
             raduis: 15,
             withPlaceholder: true,
+            borderWidth: 2,
+            borderColor:
+                pub.hasCast && pub.cast!.isLive ? DColors.sadRed : null,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,16 +38,21 @@ class Header extends StatelessWidget {
                       ),
                     if (pub.hasCast)
                       NotAButton(
-                        child: Text(pub.type, style: DTextStyle.w10),
+                        child: Text(pub.cast!.field, style: DTextStyle.w10),
                         backgroundColor: DColors.orange,
                         raduis: 7,
                         spacing: 5,
                       )
                   ]),
-              Text(
-                pub.timestamp,
-                style: DTextStyle.bg10,
-              )
+              pub.hasCast && pub.cast!.isLive
+                  ? Text(
+                      "مباشر",
+                      style: DTextStyle.w10b.copyWith(color: DColors.sadRed),
+                    )
+                  : Text(
+                      pub.timestamp,
+                      style: DTextStyle.bg10,
+                    )
             ],
           )
         ],

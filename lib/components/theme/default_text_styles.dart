@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'default_colors.dart';
 
 class DTextStyle {
+  DTextStyle._();
 //Light colors
   static const w8 = const TextStyle(color: DColors.white, fontSize: 8);
   static const w10 = const TextStyle(color: DColors.white, fontSize: 10);
+  static const w10b = const TextStyle(
+      color: DColors.white, fontSize: 10, fontWeight: FontWeight.w700);
   static const w12 = const TextStyle(color: DColors.white, fontSize: 12);
   static const w12s = const TextStyle(
       color: DColors.white, fontSize: 12, fontWeight: FontWeight.w600);
@@ -19,7 +22,6 @@ class DTextStyle {
   static const w16 = const TextStyle(color: DColors.white, fontSize: 16);
   static const w16s = const TextStyle(
       color: DColors.white, fontSize: 16, fontWeight: FontWeight.w600);
-
   static const w18 = const TextStyle(
       color: DColors.white, fontSize: 20, fontWeight: FontWeight.w400);
   static const w18b = const TextStyle(

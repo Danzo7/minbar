@@ -1,10 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/common/broadcast/broadcastBox/widgets/broadcast_box.dart';
+import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/post_list.dart/post_list.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/chips_tag.dart';
-import 'package:minbar_fl/components/common/post/widgets/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_carousel.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';
@@ -45,14 +45,9 @@ class HomePage extends StatelessWidget {
             minHeight: 0,
             maxHeight: 173,
           ),
-          SliverPadding(
-              padding: EdgeInsets.only(right: 15, left: 15, top: 20),
-              sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (context, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Post(FakeData.pub[index])),
-                      childCount: FakeData.pub.length))),
+          SliverToBoxAdapter(
+              child: Center(child: Text("مقالات", style: DTextStyle.bg20s))),
+          PostList(FakeData.pub),
           SliverPadding(padding: EdgeInsets.only(bottom: 100))
         ],
       ),

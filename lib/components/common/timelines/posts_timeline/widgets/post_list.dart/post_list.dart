@@ -9,7 +9,7 @@ class PostList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-        padding: EdgeInsets.only(right: 15, left: 15, top: 20),
+        padding: EdgeInsets.only(right: 15, left: 15, top: 10),
         sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
           (context, index) => Padding(
