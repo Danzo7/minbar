@@ -12,7 +12,6 @@ class BroadcastBottomSheet extends MinbarBottomSheet {
           dragController: dragController,
           closeWhenLoseFocus: true,
           child: BroadcastScreen(
-            hasComments: true,
             controller: controller,
             dragController: dragController,
           ),

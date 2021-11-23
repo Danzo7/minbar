@@ -49,7 +49,7 @@ class _CommentFieldState extends State<CommentField> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AnimatedContainer(
-                duration: Duration(milliseconds: 90),
+                duration: kFastAnimationDuration,
                 width: isTyping ? min : max,
                 child: TextFormField(
                   controller: widget.controller,
@@ -108,7 +108,7 @@ class _CommentFieldState extends State<CommentField> {
                 ),
               ),
               AnimatedContainer(
-                duration: Duration(milliseconds: 90),
+                duration: kFastAnimationDuration,
                 width: isTyping ? rest : 0,
                 height: isTyping ? 48 : 0,
                 child: isTyping

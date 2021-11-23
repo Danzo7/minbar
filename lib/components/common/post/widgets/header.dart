@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/components/widgets/avatar.dart';
 
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/model/publication.dart';
@@ -14,14 +15,9 @@ class Header extends StatelessWidget {
         spacing: 10,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          ClipOval(
-            child: Container(
-                height: 29,
-                width: 30,
-                child: Image.asset(
-                  pub.authorAvatar,
-                  fit: BoxFit.fitWidth,
-                )),
+          Avatar(
+            pub.author.avatarUrl,
+            raduis: 15,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +26,7 @@ class Header extends StatelessWidget {
                   spacing: 5,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(pub.authorName, style: DTextStyle.bg12b),
+                    Text(pub.author.fullName, style: DTextStyle.bg12b),
                     if (pub.hasCast)
                       Text(
                         "قام ببث",

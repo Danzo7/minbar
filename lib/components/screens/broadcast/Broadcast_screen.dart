@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/widgets/avatar.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_text_styles.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
@@ -14,13 +15,11 @@ import 'package:provider/provider.dart';
 import 'widgets/comments_section_bs.dart';
 
 class BroadcastScreen extends StatelessWidget {
-  final bool hasComments;
   BroadcastScreen({
     Key? key,
     this.controller,
     this.height,
     this.dragController,
-    this.hasComments = false,
   }) : super(key: key);
   final double? height;
   final MinbarBottomSheetController? controller;
@@ -29,36 +28,35 @@ class BroadcastScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            alignment: Alignment.topCenter,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              fit: MediaQuery.of(context).size.height >
-                      MediaQuery.of(context).size.width
-                  ? BoxFit.fitHeight
-                  : BoxFit.fitWidth,
-              image: const AssetImage('assets/images/cover.png'),
-            )),
-            child: Consumer<CastService>(
-              builder: (context, state, child) {
-                return Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    drager(context),
-                    headerInfo(context),
-                    content(state.currentCast!),
-                  ],
-                );
-              },
-            ),
-          ),
-          if (hasComments) CommentSection(),
-        ],
+      child: Consumer<CastService>(
+        builder: (context, state, child) {
+          return Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    fit: MediaQuery.of(context).size.height >
+                            MediaQuery.of(context).size.width
+                        ? BoxFit.fitHeight
+                        : BoxFit.fitWidth,
+                    image: const AssetImage('assets/images/cover.png'),
+                  )),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      drager(context),
+                      headerInfo(state.currentCast!),
+                      content(state.currentCast!),
+                    ],
+                  )),
+              if (state.currentCast!.hasComments) CommentSection(),
+            ],
+          );
+        },
       ),
     );
   }
@@ -102,20 +100,17 @@ class BroadcastScreen extends StatelessWidget {
         ),
         AutoSizeText(cast.subject,
             maxFontSize: 36, minFontSize: 12, style: DTextStyle.w36s),
-        ClipOval(
-            child: Container(
-                height: 105,
-                width: 110,
-                child: Image.asset(
-                  "assets/images/profilePicture.png",
-                  fit: BoxFit.fitWidth,
-                ))),
+        Avatar(
+          cast.host.avatarUrl,
+          raduis: 52,
+          withPlaceholder: true,
+        ),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: 10,
           children: [
             Text(
-              cast.hostUsername,
+              cast.host.fullName,
               style: DTextStyle.w18,
             ),
             FlatIconButton(
@@ -134,7 +129,7 @@ class BroadcastScreen extends StatelessWidget {
     );
   }
 
-  headerInfo(context) {
+  headerInfo(Cast cast) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Row(
@@ -153,7 +148,7 @@ class BroadcastScreen extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 5,
             children: [
-              Text("1.3k", style: DTextStyle.w15s),
+              Text(cast.listeners.toString(), style: DTextStyle.w15s),
               Icon(
                 SodaIcons.listeners,
                 size: 20,

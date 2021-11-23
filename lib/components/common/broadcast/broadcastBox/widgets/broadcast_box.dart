@@ -89,7 +89,7 @@ class _BroadcastBoxState extends State<BroadcastBox> {
                               maxLines: 1,
                             ),
                             AutoSizeText(
-                              widget.cast.hostUsername,
+                              widget.cast.host.fullName,
                               style: DTextStyle.w12,
                               minFontSize: 8,
                               maxLines: 1,

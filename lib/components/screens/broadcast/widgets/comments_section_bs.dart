@@ -29,14 +29,17 @@ class _CommentSectionState extends State<CommentSection> {
   addToComments(comment) {
     if (mounted)
       setState(() {
-        FakeData.commentList = [CommentData(comment), ...FakeData.commentList];
+        FakeData.commentList = [
+          CommentData(comment, FakeData.currentUser),
+          ...FakeData.commentList
+        ];
       });
   }
 
   loadToComment(String comment) {
     if (mounted)
       setState(() {
-        FakeData.commentList.add(CommentData(comment));
+        FakeData.commentList.add(CommentData(comment, FakeData.currentUser));
       });
   }
 
@@ -163,7 +166,7 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
                 fit: BoxFit.scaleDown,
               ),
               TweenAnimationBuilder(
-                duration: const Duration(milliseconds: 400),
+                duration: kLongAnimationDuration,
                 tween: Tween<double>(begin: 0, end: arrowDirUp ? 180 : 0),
                 builder: (BuildContext context, double value, Widget? child) {
                   return Transform.rotate(
