@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/common/post/widgets/reaction_bar.dart';
+import 'package:minbar_fl/components/widgets/image_loader.dart';
 import 'package:minbar_fl/model/publication.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'content.dart';
 import 'header.dart';
@@ -33,6 +35,12 @@ class Post extends StatelessWidget {
             PodcastBox(
               cast: FakeData.casts[1],
             ),
+          if (pub.hasMedia)
+            ImageLoader(
+                height: 200,
+                width: double.infinity,
+                imageUrl: '',
+                fit: BoxFit.fitWidth),
           //ReactionBar
           ReactionBar(
             pub: pub,

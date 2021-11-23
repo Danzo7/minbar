@@ -32,7 +32,7 @@ class ImageLoader extends StatelessWidget {
           heightFactor: .5,
           child: FittedBox(
             child: Icon(
-              SodaIcons.person,
+              Icons.broken_image_rounded,
               color: DColors.blueGray,
             ),
           ),
@@ -51,9 +51,13 @@ class ImageLoader extends StatelessWidget {
       child: loadingProgress == null
           ? child
           : Shimmer.fromColors(
-              baseColor: DColors.grayBrown.withOpacity(.3),
-              highlightColor: DColors.coldGray,
-              child: Container(color: DColors.blueGray),
+              baseColor: DColors.coldGray,
+              highlightColor: DColors.white,
+              child: Container(
+                color: DColors.blueSaidGray,
+                height: height,
+                width: width,
+              ),
             ),
     );
   }

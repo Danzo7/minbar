@@ -18,6 +18,7 @@ class Header extends StatelessWidget {
           Avatar(
             pub.author.avatarUrl,
             raduis: 15,
+            withPlaceholder: true,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

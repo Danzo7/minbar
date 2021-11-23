@@ -15,6 +15,7 @@ class Publication {
   final Cast? cast;
   final bool hasHeart;
   final bool hasPin;
+  final bool hasMedia;
 
   const Publication(
       {required this.author,
@@ -27,7 +28,8 @@ class Publication {
       required this.pinCount,
       this.hasHeart = false,
       this.hasPin = false,
-      timestamp})
+      timestamp,
+      this.hasMedia = false})
       : _timestamp = timestamp;
   String get timestamp {
     return _timestamp ?? timeago.format(date, locale: 'ar');
