@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/api/fake_data.dart';
+import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/post_list.dart/post_list.dart';
 import 'package:minbar_fl/components/theme/snaps.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
-import 'package:minbar_fl/components/common/post/widgets/post.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:minbar_fl/model/publication.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -70,20 +70,6 @@ class _ProfilePageState extends State<ProfilePage> {
     if (mounted) setState(() {});
   }
 
-  SliverPadding _postList(List<Publication> items) {
-    return SliverPadding(
-        padding: EdgeInsets.only(right: 15, left: 15, top: 20),
-        sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (context, index) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Post(items[index])),
-          childCount: items.length,
-          addAutomaticKeepAlives: true,
-          addRepaintBoundaries: true,
-        )));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -95,6 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onLoading: _onLoading,
               physics: Snaps.profileHeaderSnap(),
               header: ProfileHeader(
+                user: FakeData.currentUser,
                 maxHeight: ProfilePage._maxHeaderHieght,
                 minHeight: 33,
               ),
@@ -103,18 +90,19 @@ class _ProfilePageState extends State<ProfilePage> {
                   items: FakeData.fields,
                 )
               ],
-              content: _postList(items),
+              content: PostList(items),
             )
           : GraviryHeaderScrollView(
               slivers: [
                 ProfileHeader(
+                  user: FakeData.currentUser,
                   maxHeight: 300,
                   minHeight: 33,
                 ),
                 StickyChipTag(
                   items: FakeData.fields,
                 ),
-                _postList(items)
+                PostList(items)
               ],
               gravityField: 300,
             ),

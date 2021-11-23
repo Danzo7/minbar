@@ -1,56 +1,39 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/common/broadcast/broadcastBox/widgets/broadcast_box.dart';
+import 'package:minbar_fl/components/common/recommandations/widgets/recommandCarousel.dart';
 import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/post_list.dart/post_list.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/chips_tag.dart';
-import 'package:minbar_fl/components/widgets/slivers/sliver_header_carousel.dart';
+import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
 class HomePage extends StatelessWidget {
   final component;
-  const HomePage({Key? key, this.component}) : super(key: key);
+  HomePage({Key? key, this.component}) : super(key: key);
   static const String route = 'general';
+  final _refreshController = new RefreshController();
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      edgeOffset: 173 + 47,
-      displacement: 100,
-      triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      onRefresh: () => Future.delayed(Duration(seconds: 1), () => {true}),
-      child: CustomScrollView(
-        physics: snap(),
-        slivers: [
-          StickyChipTag(
-            border: BorderSides.bottom,
-            items: FakeData.fields,
-            bgColor: DColors.white,
-          ),
-          SliverHeaderCarousel(
-            carousel: CarouselSlider(
-                options: CarouselOptions(
-                    disableCenter: true,
-                    enableInfiniteScroll: false,
-                    height: 116.0,
-                    reverse: true),
-                items: FakeData.casts
-                    .map((e) => Padding(
-                        padding: EdgeInsets.only(right: 30),
-                        child: BroadcastBox(e)))
-                    .toList()),
-            title: Text("يبث الان", style: DTextStyle.bg20s),
-            minHeight: 0,
-            maxHeight: 173,
-          ),
-          SliverToBoxAdapter(
-              child: Center(child: Text("مقالات", style: DTextStyle.bg20s))),
-          PostList(FakeData.pub),
-          SliverPadding(padding: EdgeInsets.only(bottom: 100))
-        ],
+    return RefreshContentPage(
+      physics: snap(),
+      header: StickyChipTag(
+        border: BorderSides.bottom,
+        items: FakeData.fields,
+        bgColor: DColors.white,
       ),
+      refreshController: _refreshController,
+      content: PostList(FakeData.pub,
+          title: Text("مقالات", style: DTextStyle.bg20s)),
+      beforeRefreshSlivers: [
+        RecommandCarousel(
+          FakeData.casts,
+          title: "يبث الان",
+        ),
+      ],
+      afterRefreshSlivers: [],
     );
   }
 

@@ -22,10 +22,10 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget image = ImageLoader(
-      fit: BoxFit.cover,
-      imageUrl: imageUrl,
-      placeholder: withPlaceholder,
-    );
+        fit: BoxFit.cover,
+        imageUrl: imageUrl,
+        placeholder: withPlaceholder,
+        raduis: raduis);
 
     if (heroTag != null) {
       image = Hero(

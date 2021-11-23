@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/settings/config/configs.dart';
 import 'package:minbar_fl/components/settings/generated_settings/generated_settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
@@ -35,7 +36,11 @@ class SettingsLayout extends StatelessWidget {
         color: DColors.white,
         padding: EdgeInsets.symmetric(horizontal: 10),
         child: CustomScrollView(slivers: [
-          ProfileHeader(maxHeight: 250, shrink: false, hasPopularity: false),
+          ProfileHeader(
+              user: FakeData.currentUser,
+              maxHeight: 250,
+              shrink: false,
+              hasPopularity: false),
           SliverToBoxAdapter(
             child: Wrap(children: [
               ...kDefaultSetting.map((setting) => Tree(

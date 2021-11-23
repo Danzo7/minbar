@@ -3,22 +3,25 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/components/widgets/avatar.dart';
 
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
+import 'package:minbar_fl/model/user.dart';
 
 class ProfileHeader extends StatelessWidget {
   final double? minHeight;
   final double maxHeight;
   final bool shrink;
-
+  final UserData user;
   final bool hasPopularity;
   const ProfileHeader(
       {Key? key,
       this.minHeight,
       required this.maxHeight,
       this.shrink = true,
-      this.hasPopularity = true})
+      this.hasPopularity = true,
+      required this.user})
       : super(key: key);
 
   @override
@@ -30,7 +33,8 @@ class ProfileHeader extends StatelessWidget {
             minHeight: minHeight,
             maxHeight: maxHeight,
             shrink: shrink,
-            hasPopularity: hasPopularity));
+            hasPopularity: hasPopularity,
+            user: this.user));
   }
 }
 
@@ -38,13 +42,14 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
   final double? minHeight;
   final double maxHeight;
   final bool shrink;
-
+  final UserData user;
   final bool hasPopularity;
   _SliverProfileHeader(
       {this.minHeight,
       required this.maxHeight,
       required this.shrink,
-      required this.hasPopularity});
+      required this.hasPopularity,
+      required this.user});
 
   @override
   double get minExtent => minHeight ?? maxHeight;
@@ -100,11 +105,11 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text("يتابع", style: DTextStyle.bg10),
-                      Text("15", style: DTextStyle.bg16)
+                      Text(user.following.toString(), style: DTextStyle.bg16)
                     ]),
               )),
           Text(
-            "",
+            user.description.toString(),
             style: DTextStyle.bg10,
           ),
           NotAButton(
@@ -120,7 +125,7 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       Text("يتابعه", style: DTextStyle.bg10),
-                      Text("15", style: DTextStyle.bg16)
+                      Text(user.following.toString(), style: DTextStyle.bg16)
                     ]),
               ))
         ],
@@ -139,7 +144,7 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           children: [
-            Text("مسيلمة الكذاب", style: DTextStyle.bg16s),
+            Text(user.fullName.toString(), style: DTextStyle.bg16s),
             const IconBuilder("aprovedState")
           ],
         ),
@@ -148,15 +153,8 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
     );
   }
 
-  ClipOval profilePicture(double shrinkPercentage) {
-    return ClipOval(
-        child: Container(
-            height: 70 * (1 - shrinkPercentage) + 27,
-            width: 70 * (1 - shrinkPercentage) + 30,
-            child: Image.asset(
-              "assets/images/profilePicture.png",
-              fit: BoxFit.fitWidth,
-            )));
+  Widget profilePicture(double shrinkPercentage) {
+    return Avatar(user.avatarUrl, raduis: 45 * (1 - shrinkPercentage) + 15);
   }
 
   @override

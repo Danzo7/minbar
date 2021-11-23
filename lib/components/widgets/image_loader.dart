@@ -11,7 +11,9 @@ class ImageLoader extends StatelessWidget {
     this.width,
     this.height,
     this.placeholder = false,
+    this.raduis,
   });
+  final double? raduis;
   final bool placeholder;
   final BoxFit? fit;
   final double? height;
@@ -55,8 +57,8 @@ class ImageLoader extends StatelessWidget {
               highlightColor: DColors.white,
               child: Container(
                 color: DColors.blueSaidGray,
-                height: height,
-                width: width,
+                height: raduis ?? height,
+                width: raduis ?? width,
               ),
             ),
     );
