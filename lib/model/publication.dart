@@ -1,26 +1,25 @@
+import 'package:minbar_fl/model/user.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import 'cast.dart';
 
 class Publication {
   final String id;
-  final String authorId;
+  final UserData author;
   final String? _timestamp;
-  final String authorName;
-  final String authorAvatar;
   final String content;
   final String type;
   final DateTime date;
   final int heartCount;
   final int pinCount;
-  final String? castId;
+  final Cast? cast;
   final bool hasHeart;
   final bool hasPin;
 
   const Publication(
-      {this.authorId = "-1",
+      {required this.author,
       this.id = "-1",
-      this.castId,
-      required this.authorName,
-      required this.authorAvatar,
+      this.cast,
       required this.content,
       required this.type,
       required this.date,
@@ -34,5 +33,5 @@ class Publication {
     return _timestamp ?? timeago.format(date, locale: 'ar');
   }
 
-  bool get hasCast => castId != null;
+  bool get hasCast => cast != null;
 }

@@ -1,8 +1,24 @@
 import 'package:minbar_fl/model/cast.dart';
 import 'package:minbar_fl/model/comment_data.dart';
 import 'package:minbar_fl/model/publication.dart';
+import 'package:minbar_fl/model/user.dart';
 
 class FakeData {
+  static List<UserData> users = [
+    UserData(
+        userId: "-1",
+        firstName: "مسيلمة",
+        lastName: "الكذاب",
+        birthDate: DateTime(1998, 12, 2)),
+    UserData(
+        userId: "-2",
+        firstName: "علي",
+        lastName: "راشد",
+        avatarUrl:
+            "https://trello-members.s3.amazonaws.com/5eacf9a70febde6276206c08/514965ddb48dd00a19fe8f71b8201874/original.png",
+        birthDate: DateTime(1998, 12, 2))
+  ];
+  static UserData currentUser = users[1];
   static List<Publication> pub = [
     Publication(
         id: "12334",
@@ -12,8 +28,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -22,8 +37,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[1]),
     Publication(
         id: "12334",
         content:
@@ -32,8 +46,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -42,8 +55,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -52,8 +64,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -62,8 +73,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -72,8 +82,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -82,8 +91,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -92,8 +100,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -102,8 +109,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -112,8 +118,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -122,8 +127,7 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
     Publication(
         id: "12334",
         content: "سوء الضن",
@@ -131,9 +135,8 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        castId: "12334",
-        authorName: "مسيلمة الكذاب"),
+        cast: casts[1],
+        author: users[0]),
     Publication(
         id: "12334",
         content:
@@ -142,48 +145,40 @@ class FakeData {
         date: DateTime(2021, 9, 24, 23, 40),
         heartCount: 24,
         pinCount: 5,
-        authorAvatar: "assets/images/profilePicture.png",
-        authorName: "مسيلمة الكذاب"),
+        author: users[0]),
   ];
-  static const List<Cast> casts = [
+  static List<Cast> casts = [
     Cast(
-        hostUsername: "مسيلمة الكذاب",
+        host: users[0],
         field: "حوار",
         subject: "قرأن",
         castId:
             "https://usa11.fastcast4u.com/proxy/alserajr?mp=/1&DIST=TuneIn&TGT=TuneIn&maxServers=2&gdpr=0&us_privacy=1YNY&partnertok=eyJhbGciOiJIUzI1NiIsImtpZCI6InR1bmVpbiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVkX3BhcnRuZXIiOnRydWUsImlhdCI6MTYzNzExNjI1OCwiaXNzIjoidGlzcnYifQ.8av-wHYv_5JVOtkPtJ4CgCa-UPnsRcoQMJjSidngEfg"),
+    Cast(host: users[0], field: "حوار", subject: "الثقة", listeners: 2),
+    Cast(host: users[0], field: "حوار", subject: "الكون"),
+    Cast(host: users[0], field: "حوار", subject: "العلم"),
+    Cast(host: users[0], field: "حوار", subject: "الثقة والمعرفة"),
+    Cast(host: users[0], field: "حوار", subject: "حسنا"),
     Cast(
-        hostUsername: "مسيلمة الاعور",
-        field: "حوار",
-        subject: "الثقة",
-        listeners: 2),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "الكون"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "العلم"),
-    Cast(
-        hostUsername: "مسيلمة الكذاب",
-        field: "حوار",
-        subject: "الثقة والمعرفة"),
-    Cast(hostUsername: "مسيلمة الكذاب", field: "حوار", subject: "حسنا"),
-    Cast(
-        hostUsername: "الخيمياء",
+        host: users[0],
         field: "حوار",
         subject: "الاثم",
         castId:
             "https://alchemyfor.life/podcasts/fantasy.mp3?DIST=TuneIn&TGT=TuneIn&maxServers=2"),
     Cast(
-        hostUsername: "المشكل",
+        host: users[0],
         field: "حوار",
         subject: "mindfulness",
         castId:
             "https://content.production.cdn.art19.com/validation=1637202989,3288c423-3a6e-5033-bde6-622ec1a05f62,AbKEr8-SJY05bAOAmF6Ga7HQ7BI/episodes/fadc4e33-4472-4cdd-8b3a-bcb608854efb/90d7c4a5a65c585b2b8dbe7808c25751955d50e035ddc7c5ca9f1ea174ae6f0c43bc7f5ca7f437c5be87879c59927cf7efa831ba6bd8458602f2e013278a008d/%23565%20Anne%20Moss%20Rogers.mp3"),
     Cast(
-        hostUsername: "مسيلمة الكذاب",
+        host: users[0],
         field: "حوار",
         subject: "health radio",
         castId:
             "https://streaming.radio.co/s8e535ff20/listen?DIST=TuneIn&TGT=TuneIn&maxServers=2&gdpr=0&us_privacy=1YNY&partnertok=eyJhbGciOiJIUzI1NiIsImtpZCI6InR1bmVpbiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVkX3BhcnRuZXIiOnRydWUsImlhdCI6MTYzNzExNTQ4NywiaXNzIjoidGlzcnYifQ.-brXkcPpoO2n2fJ79nRpMGEQ-ZlwR-zkG0V0doTfCXo"),
     Cast(
-        hostUsername: "Someone",
+        host: users[0],
         field: "lofi",
         subject: "Lo_Fi Music",
         castId:
@@ -191,16 +186,16 @@ class FakeData {
   ];
   static const List<String> fields = ["الكل", "درس", "خطبة", "حوار"];
   static List<CommentData> commentList = [
-    CommentData("شكرا"),
-    CommentData("الحمد لله"),
-    CommentData("اهلا"),
-    CommentData("شكرا"),
-    CommentData("اهلا"),
-    CommentData("اهلا"),
-    CommentData("منافق"),
-    CommentData(" لا"),
-    CommentData("اكتب سبحان الله"),
-    CommentData("كذاب"),
-    CommentData("اهلا"),
+    CommentData("شكرا", users[0]),
+    CommentData("الحمد لله", users[0]),
+    CommentData("اهلا", users[0]),
+    CommentData("شكرا", users[0]),
+    CommentData("اهلا", users[0]),
+    CommentData("اهلا", users[0]),
+    CommentData("منافق", users[0]),
+    CommentData(" لا", users[0]),
+    CommentData("اكتب سبحان الله", users[0]),
+    CommentData("كذاب", users[0]),
+    CommentData("اهلا", users[0]),
   ];
 }
