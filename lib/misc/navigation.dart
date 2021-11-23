@@ -92,8 +92,18 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       print('route does not exist; navigating to login screen instead');
       screen = const LoginScreen();
   }
-  return MaterialPageRoute<void>(
-    builder: (_) => screen,
+  return PageRouteBuilder(
     settings: RouteSettings(name: routeName, arguments: arguments),
+    pageBuilder: (context, animation, secondaryAnimation) => screen,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1, 0);
+      const end = Offset.zero;
+      final tween = Tween(begin: begin, end: end);
+      final offsetAnimation = animation.drive(tween);
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
   );
 }
