@@ -60,7 +60,7 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
         shrink ? min(1, shrinkOffset / (maxExtent - minExtent)) : 0;
     return AnimatedOpacity(
       opacity: max(0, 1 - (shrinkPercentage) * 9),
-      duration: Duration(milliseconds: 10),
+      duration: kFlashAnimationDuration,
       child: Container(
         alignment: Alignment.center,
         child: Wrap(

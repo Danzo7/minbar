@@ -34,7 +34,7 @@ class _ChipsTagState extends State<ChipsTag> {
   void _scrollToIndex(int index) {
     _scrollController!.scrollToIndex(
       index,
-      duration: Duration(milliseconds: 100),
+      duration: kFastAnimationDuration,
     );
   }
 

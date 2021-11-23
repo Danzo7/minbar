@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
 import 'rounder_line.dart';
 
@@ -21,7 +22,7 @@ class _VoiceVisualisationState extends State<VoiceVisualisation>
     super.initState();
 
     controller = AnimationController(
-      duration: Duration(milliseconds: 500),
+      duration: kLongAnimationDuration,
       debugLabel: 'MinbarbottomSheet',
       animationBehavior: AnimationBehavior.preserve,
       vsync: this,

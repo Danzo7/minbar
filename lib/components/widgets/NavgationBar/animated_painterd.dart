@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
 import 'navigation_painter.dart';
 
@@ -32,7 +33,7 @@ class AnimatedPainter extends StatelessWidget {
                     ? Tween<double>(begin: 0, end: max)
                     : Tween<double>(begin: max, end: 0),
                 curve: Curves.easeInOut,
-                duration: const Duration(milliseconds: 200),
+                duration: kMedAnimationDuration,
                 builder: (context, value, child) {
                   return CustomPaint(
                     size: Size(MediaQuery.of(context).size.width, 80),

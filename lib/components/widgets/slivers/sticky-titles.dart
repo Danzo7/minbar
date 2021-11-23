@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
 class StickyTitles extends StatelessWidget {
   final double? minHeight;
@@ -70,7 +71,7 @@ class _SliverStickyTitles extends SliverPersistentHeaderDelegate {
         color: overlapsContent
             ? shrinkedColor ?? backgroundColor
             : backgroundColor,
-        duration: Duration(milliseconds: 10),
+        duration: kFlashAnimationDuration,
         child: Container(
           alignment: Alignment.centerRight,
           padding: EdgeInsets.only(right: 20),

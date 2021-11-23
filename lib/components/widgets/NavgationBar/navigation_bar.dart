@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:minbar_fl/components/theme/minbar_theme.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
@@ -102,7 +103,7 @@ class _NavigationBarState extends State<NavigationBar> {
                             if (widget.items.indexOf(e) ==
                                 widget.items.length / 2)
                               AnimatedContainer(
-                                duration: Duration(milliseconds: 120),
+                                duration: kShortAnimationDuration,
                                 alignment: Alignment.bottomCenter,
                                 width: widget.middleController.isNormal
                                     ? 0

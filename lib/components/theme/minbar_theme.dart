@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
+const kLongAnimationDuration = Duration(milliseconds: 400);
+const kShortAnimationDuration = Duration(milliseconds: 120);
+const kFastAnimationDuration = Duration(milliseconds: 90);
+const kFlashAnimationDuration = Duration(milliseconds: 10);
+const kMedAnimationDuration = Duration(milliseconds: 200);
+
 class MinbarTheme with MinbarColorScheme {
   ThemeData light() => ThemeData(
       primaryColorDark: DColors.white,

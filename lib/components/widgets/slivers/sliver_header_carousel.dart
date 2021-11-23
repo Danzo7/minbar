@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
 class SliverHeaderCarousel extends StatelessWidget {
   final double? minHeight;
@@ -53,7 +54,7 @@ class _SliverHeaderCarouselDelegate extends SliverPersistentHeaderDelegate {
     double shrinkPercentage = min(1, shrinkOffset / (maxExtent - minExtent));
     return AnimatedOpacity(
         opacity: max(0, 1 - (shrinkPercentage) * 9),
-        duration: Duration(milliseconds: 10),
+        duration: kFlashAnimationDuration,
         child: Wrap(spacing: 10, children: [
           if (title != null)
             Container(

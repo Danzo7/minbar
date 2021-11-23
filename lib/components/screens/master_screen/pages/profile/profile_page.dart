@@ -11,22 +11,27 @@ import 'widgets/gravity_header_scroll_view.dart';
 import '../../../../widgets/slivers/profile_header.dart';
 
 class ProfilePage extends StatefulWidget {
+  ProfilePage({Key? key}) : super(key: key);
+
+  static const String route = 'profile';
+
   ///set this to false in case of assertion exception ``Failed assertion: line 659 pos 12: '_hold == null': is not true``.
   ///the error is related to this issue:https://github.com/flutter/flutter/issues/91166.
   ///the only way to fix this issue was by editing flutter source code.
   static bool _bugIsFixed = false;
+
   static const double _maxHeaderHieght = 300;
-  ProfilePage({Key? key}) : super(key: key);
-  static const String route = 'profile';
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List<Publication> items = [FakeData.pub[0]];
-  final _refreshController = new RefreshController();
   int count = 0;
+  List<Publication> items = [FakeData.pub[0]];
+
+  final _refreshController = new RefreshController();
+
   void _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 3000), () {
       _additem();
@@ -47,8 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
   _additem() {
     items = [
       Publication(
-        authorName: "خة",
-        authorAvatar: "assets/images/cover.png",
+        author: FakeData.currentUser,
         content: "هو الحق",
         type: "لقاء",
         date: DateTime.now(),
@@ -65,6 +69,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
     items.add(FakeData.pub[count]);
     if (mounted) setState(() {});
+  }
+
+  SliverPadding _postList(List<Publication> items) {
+    return SliverPadding(
+        padding: EdgeInsets.only(right: 15, left: 15, top: 20),
+        sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (context, index) => Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Post(items[index])),
+          childCount: items.length,
+          addAutomaticKeepAlives: true,
+          addRepaintBoundaries: true,
+        )));
   }
 
   @override
@@ -102,19 +120,5 @@ class _ProfilePageState extends State<ProfilePage> {
               gravityField: 300,
             ),
     );
-  }
-
-  SliverPadding _postList(List<Publication> items) {
-    return SliverPadding(
-        padding: EdgeInsets.only(right: 15, left: 15, top: 20),
-        sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (context, index) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Post(items[index])),
-          childCount: items.length,
-          addAutomaticKeepAlives: true,
-          addRepaintBoundaries: true,
-        )));
   }
 }
