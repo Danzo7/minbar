@@ -8,7 +8,6 @@ class Publication {
   final UserData author;
   final String? _timestamp;
   final String content;
-  final String type;
   final DateTime date;
   final int heartCount;
   final int pinCount;
@@ -22,7 +21,6 @@ class Publication {
       this.id = "-1",
       this.cast,
       required this.content,
-      required this.type,
       required this.date,
       required this.heartCount,
       required this.pinCount,
