@@ -7,7 +7,6 @@ class AudioService extends AudioPlayer {
     await setUrl(
         castId != "0" ? castId : "https://edge.mixlr.com/channel/rwumx");
     await play();
-    await seek(Duration(seconds: 29));
   }
 
   AudioService() : super() {
