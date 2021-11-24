@@ -57,10 +57,11 @@ class _NavigationBarState extends State<NavigationBar> {
   }
 
   setBottomBarIndex(index) {
-    if (currentIndex != index)
+    if (currentIndex != index) {
       setState(() {
         currentIndex = index;
       });
+    }
   }
 
   Future<bool> rebuild(void Function() fn) async {

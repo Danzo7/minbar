@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/api/fake_data.dart';
-import 'package:minbar_fl/components/common/recommandations/widgets/recommandCarousel.dart';
+import 'package:minbar_fl/components/common/recommandations/widgets/recommand_carousel.dart';
 import 'package:minbar_fl/components/common/timelines/broadcasts_timeline/widgets/broadcast_list.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
@@ -21,7 +21,7 @@ class BroadcastsPage extends StatefulWidget {
 
 class _BroadcastsPageState extends State<BroadcastsPage> {
   List<Publication> items = [FakeData.pub[0]];
-  final _refreshController = new RefreshController();
+  final _refreshController = RefreshController();
   int count = 0;
 
   @override

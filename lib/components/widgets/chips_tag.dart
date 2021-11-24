@@ -25,6 +25,7 @@ class _ChipsTagState extends State<ChipsTag> {
   AutoScrollController? _scrollController;
   final BorderSides border;
   _ChipsTagState(this.border);
+  @override
   void initState() {
     super.initState();
 

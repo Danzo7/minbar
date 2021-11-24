@@ -37,7 +37,7 @@ class Avatar extends StatelessWidget {
   }
 
   Widget createBorderCircleAvatar({Color? borderColor, required Widget child}) {
-    if (borderColor == null)
+    if (borderColor == null) {
       return CircleAvatar(
         radius: raduis,
         child: SizedBox.expand(
@@ -46,7 +46,7 @@ class Avatar extends StatelessWidget {
           ),
         ),
       );
-    else
+    } else {
       return CircleAvatar(
         radius: raduis,
         backgroundColor: borderColor,
@@ -59,5 +59,6 @@ class Avatar extends StatelessWidget {
           ),
         ),
       );
+    }
   }
 }

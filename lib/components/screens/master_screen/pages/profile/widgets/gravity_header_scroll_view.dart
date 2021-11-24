@@ -25,26 +25,27 @@ class _GraviryHeaderScrollViewState extends State<GraviryHeaderScrollView> {
         bool scrollStopped = !wheel.position.isScrollingNotifier.value;
         if (scrollStopped && wheel.position.pixels < widget.gravityField) {
           if (wheel.position.pixels > 0 &&
-              wheel.position.pixels < widget.gravityField / 6)
+              wheel.position.pixels < widget.gravityField / 6) {
             wheel.animateTo(0,
                 duration: Duration(milliseconds: widget.milliseconds),
                 curve: Curves.easeOutCubic);
-          else if (wheel.position.pixels > (5 * widget.gravityField) / 6 &&
-              wheel.position.pixels < widget.gravityField)
+          } else if (wheel.position.pixels > (5 * widget.gravityField) / 6 &&
+              wheel.position.pixels < widget.gravityField) {
             wheel.animateTo(widget.gravityField,
                 duration: Duration(milliseconds: widget.milliseconds),
                 curve: Curves.easeOutCubic);
-          else if (wheel.position.pixels > widget.gravityField / 6 &&
-              wheel.position.pixels < (5 * widget.gravityField) / 6) if (wheel
-                  .position.userScrollDirection ==
-              ScrollDirection.reverse)
-            wheel.animateTo(widget.gravityField,
-                duration: Duration(milliseconds: widget.milliseconds),
-                curve: Curves.bounceOut);
-          else
-            wheel.animateTo(0,
-                duration: Duration(milliseconds: widget.milliseconds),
-                curve: Curves.bounceOut);
+          } else if (wheel.position.pixels > widget.gravityField / 6 &&
+              wheel.position.pixels < (5 * widget.gravityField) / 6) {
+            if (wheel.position.userScrollDirection == ScrollDirection.reverse) {
+              wheel.animateTo(widget.gravityField,
+                  duration: Duration(milliseconds: widget.milliseconds),
+                  curve: Curves.bounceOut);
+            } else {
+              wheel.animateTo(0,
+                  duration: Duration(milliseconds: widget.milliseconds),
+                  curve: Curves.bounceOut);
+            }
+          }
         }
       });
     });

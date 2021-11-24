@@ -98,7 +98,7 @@ class MinbarBottomSheet extends StatefulWidget {
 class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     with SingleTickerProviderStateMixin<MinbarBottomSheet> {
   bool _enable = false;
-  double _snapByDitance = 0.2;
+  final double _snapByDitance = 0.2;
   late AnimationController _animationController;
   late Animation<Offset> animation;
   double _minFraction = 0.0;
@@ -114,8 +114,9 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     double? height;
     RenderObject? current = _childKey.currentContext?.findRenderObject();
     if (current != null) {
-      if (mounted)
+      if (mounted) {
         height = (current as RenderBox).hasSize ? current.size.height : null;
+      }
       return height;
     }
   }
@@ -302,34 +303,38 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
     if (!mounted) {
       return;
     }
-    if (!(!widget.slideToExpand && _animationController.value == _minFraction))
+    if (!(!widget.slideToExpand &&
+        _animationController.value == _minFraction)) {
       _animationController.value = max(
           _collapseFraction,
           _animationController.value -
               (primaryDelta! / (_childHeight ?? primaryDelta)));
+    }
     _animatedRaduis();
   }
 
   void _onVerticalDragEnd(double velocity) {
     double _snapByVelocity = max(0, _snapByDitance - (velocity / 10000));
-    if (_animationController.value <= _minFraction)
+    if (_animationController.value <= _minFraction) {
       (!widget.controller.isClosed &&
               _animationController.value < _minFraction - _snapByVelocity)
           ? widget.controller.close()
           : widget.controller.show();
-    else
+    } else {
       (widget.controller.isExpanded &&
               _animationController.value < _maxFraction - _snapByVelocity)
           ? widget.controller.close()
           : widget.controller.expand();
+    }
   }
 
   void _expand() {
     if (_animationController.value != _maxFraction) {
       _enable = true;
-      if (widget.snapToExpand)
+      if (widget.snapToExpand) {
         _animationController.animateTo(_maxFraction,
             curve: Curves.linearToEaseOut, duration: _kDefaultTiming);
+      }
     }
   }
 
@@ -355,7 +360,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
   }
 
   void setRaduis() {
-    if (widget.radiusWhenNotExpanded != 0)
+    if (widget.radiusWhenNotExpanded != 0) {
       switch (widget.controller.value) {
         case MinbarBottomSheetStatus.shown:
           _radius = widget.radiusWhenNotExpanded;
@@ -368,6 +373,7 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
 
           break;
       }
+    }
   }
 
   void _animatedRaduis() {
@@ -431,7 +437,7 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
   Future<void>? $onShow;
   MinbarBottomSheetController(
       {MinbarBottomSheetStatus? value, this.isInstance = false})
-      : super(value != null ? value : MinbarBottomSheetStatus.disabled);
+      : super(value ?? MinbarBottomSheetStatus.disabled);
   MinbarBottomSheetStatus get status => value;
 
   ///Slide [MinbarBottomSheet] until become invisible then remove it content.
@@ -482,8 +488,9 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
     if (isExpanded) {
       show();
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   ///this will remove the instance frome instances list.
@@ -507,7 +514,7 @@ class MinbarBottomSheetController extends ValueNotifier<MinbarBottomSheetStatus>
 ///provide static call to `mayPop()` on the latest instance in ListOfInstances.
 ///an instance is no longer in ListOfInstances if it closed.
 class MinbarBottomSheetInstances {
-  static List<MinbarBottomSheetController> _instances = [];
+  static final List<MinbarBottomSheetController> _instances = [];
 
   ///get last added instance if any.
   static MinbarBottomSheetController? get _lasestInstance =>
@@ -536,10 +543,11 @@ class MinbarBottomSheetInstances {
   ///starting from latest intance until all intances are closed.
 
   static bool mayPop() {
-    if (_lasestInstance != null)
+    if (_lasestInstance != null) {
       return _lasestInstance!.mayPop();
-    else
+    } else {
       return false;
+    }
   }
 }
 

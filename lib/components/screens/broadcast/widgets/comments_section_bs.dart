@@ -22,25 +22,27 @@ class CommentSection extends StatefulWidget {
 
 class _CommentSectionState extends State<CommentSection> {
   final TextEditingController _textEditingController = TextEditingController();
-  final _refreshController = new RefreshController();
+  final _refreshController = RefreshController();
 
   final MinbarBottomSheetController commentSheetController =
       MinbarBottomSheetController(isInstance: true);
   addToComments(comment) {
-    if (mounted)
+    if (mounted) {
       setState(() {
         FakeData.commentList = [
           CommentData(comment, FakeData.currentUser),
           ...FakeData.commentList
         ];
       });
+    }
   }
 
   loadToComment(String comment) {
-    if (mounted)
+    if (mounted) {
       setState(() {
         FakeData.commentList.add(CommentData(comment, FakeData.currentUser));
       });
+    }
   }
 
   void _onRefresh() async {
@@ -78,7 +80,7 @@ class _CommentSectionState extends State<CommentSection> {
           Container(
             child: GestureDetector(
               onTap: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
+                FocusScope.of(context).requestFocus(FocusNode());
               },
               child: Container(
                 height: height * 4 / 6,
@@ -102,7 +104,7 @@ class _CommentSectionState extends State<CommentSection> {
                           child: CommentField(
                               controller: _textEditingController,
                               onSubmit: () {
-                                if (_textEditingController.text.length > 0) {
+                                if (_textEditingController.text.isNotEmpty) {
                                   addToComments(_textEditingController.text);
                                   _textEditingController.clear();
                                 }
@@ -141,6 +143,7 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
     super.didUpdateWidget(oldWidget);
   }
 
+  @override
   void initState() {
     widget.commentSheetController.addListener(() => setState(() {
           arrowDirUp = widget.commentSheetController.isClosed;
@@ -148,6 +151,7 @@ class _ShowCommentsButtonState extends State<_ShowCommentsButton> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: widget.commentSheetController.isClosed

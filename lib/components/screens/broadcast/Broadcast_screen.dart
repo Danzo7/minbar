@@ -7,7 +7,7 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/rounder_line.dart';
-import 'package:minbar_fl/core/services/AudioService.dart';
+import 'package:minbar_fl/core/services/audio_service.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/model/cast.dart';

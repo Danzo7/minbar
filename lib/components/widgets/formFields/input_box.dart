@@ -30,7 +30,7 @@ class _InputBoxState extends State<InputBox> {
 
   void _focused(bool hasFucus) {
     setState(() {
-      this.hasFocus = hasFucus;
+      hasFocus = hasFucus;
     });
   }
 

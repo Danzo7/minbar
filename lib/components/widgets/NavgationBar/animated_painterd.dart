@@ -19,17 +19,17 @@ class AnimatedPainter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return this.direction == AnimationDirection.idle
+    return direction == AnimationDirection.idle
         ? CustomPaint(
             size: Size(MediaQuery.of(context).size.width, 80),
             painter: NavigationPainter(pulling: 0))
-        : this.direction == AnimationDirection.completed
+        : direction == AnimationDirection.completed
             ? CustomPaint(
                 size: Size(MediaQuery.of(context).size.width, 80),
                 painter: NavigationPainter(
                     pulling: isInside ? 0 : max, pushing: isInside ? max : 0))
             : TweenAnimationBuilder<double?>(
-                tween: this.direction == AnimationDirection.forward
+                tween: direction == AnimationDirection.forward
                     ? Tween<double>(begin: 0, end: max)
                     : Tween<double>(begin: max, end: 0),
                 curve: Curves.easeInOut,

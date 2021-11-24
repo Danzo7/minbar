@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/common/recommandations/widgets/recommandCarousel.dart';
+import 'package:minbar_fl/components/common/recommandations/widgets/recommand_carousel.dart';
 import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/post_list.dart/post_list.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/api/fake_data.dart';
@@ -10,10 +10,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
 class HomePage extends StatelessWidget {
-  final component;
-  HomePage({Key? key, this.component}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
   static const String route = 'general';
-  final _refreshController = new RefreshController();
+  final _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {

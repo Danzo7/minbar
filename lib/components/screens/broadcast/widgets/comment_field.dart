@@ -7,7 +7,7 @@ import 'package:minbar_fl/components/widgets/rounder_line.dart';
 class CommentField extends StatefulWidget {
   final TextEditingController controller;
 
-  final onSubmit;
+  final void Function()? onSubmit;
 
   const CommentField(
       {Key? key, required this.controller, required this.onSubmit})
@@ -22,14 +22,15 @@ class _CommentFieldState extends State<CommentField> {
   @override
   void initState() {
     widget.controller.addListener(() {
-      if (mounted && (widget.controller.value.text.length > 0) && !isTyping)
+      if (mounted && (widget.controller.value.text.isNotEmpty) && !isTyping) {
         setState(() {
           isTyping = true;
         });
-      else if (widget.controller.text.length == 0)
+      } else if (widget.controller.text.isEmpty) {
         setState(() {
           isTyping = false;
         });
+      }
     });
     super.initState();
   }

@@ -33,10 +33,11 @@ class MinbarBar extends StatelessWidget {
             navigationController: navigationController,
             middleController: middleController),
         Consumer<CastService>(builder: (context, state, child) {
-          if (state.currentCast == null)
+          if (state.currentCast == null) {
             middleController.normal();
-          else
+          } else {
             middleController.outside();
+          }
 
           return ActionButton(state: state, middleController: middleController);
         })

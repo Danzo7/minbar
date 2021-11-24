@@ -14,7 +14,7 @@ class PodcastBox extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: const DecorationImage(
-              image: const AssetImage('assets/images/cover.png'),
+              image: AssetImage('assets/images/cover.png'),
               fit: BoxFit.fitWidth),
           borderRadius: BorderRadius.circular(17)),
       child: Container(

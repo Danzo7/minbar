@@ -78,18 +78,18 @@ mixin MinbarColorScheme {
   late Color surfaceBorder;
 
   ColorScheme _light() {
-    this.primary = DColors.sailBlue;
-    this.primaryVariant = DColors.sailBlueDark;
-    this.secondary = DColors.blueGray;
-    this.secondaryVariant = DColors.blueSaidGray;
-    this.surface = DColors.white;
-    this.background = DColors.white;
-    this.onPrimary = Colors.white;
-    this.onSecondary = Colors.white;
-    this.onSurface = DColors.grayBrown;
-    this.onBackground = DColors.blueGray;
-    this.brightness = Brightness.light;
-    this.surfaceBorder = DColors.coldGray;
+    primary = DColors.sailBlue;
+    primaryVariant = DColors.sailBlueDark;
+    secondary = DColors.blueGray;
+    secondaryVariant = DColors.blueSaidGray;
+    surface = DColors.white;
+    background = DColors.white;
+    onPrimary = Colors.white;
+    onSecondary = Colors.white;
+    onSurface = DColors.grayBrown;
+    onBackground = DColors.blueGray;
+    brightness = Brightness.light;
+    surfaceBorder = DColors.coldGray;
     return ColorScheme(
         primary: primary,
         secondary: secondary,
@@ -107,18 +107,18 @@ mixin MinbarColorScheme {
   }
 
   ColorScheme _dark() {
-    this.primary = DColors.blueGray;
-    this.primaryVariant = DColors.blueSaidGray;
-    this.secondary = DColors.sailBlue;
-    this.secondaryVariant = DColors.sailBlueDark;
-    this.surface = DColors.white;
-    this.background = DColors.white;
-    this.onPrimary = Colors.white;
-    this.onSecondary = Colors.white;
-    this.onSurface = DColors.grayBrown;
-    this.onBackground = DColors.blueGray;
-    this.brightness = Brightness.light;
-    this.surfaceBorder = DColors.coldGray;
+    primary = DColors.blueGray;
+    primaryVariant = DColors.blueSaidGray;
+    secondary = DColors.sailBlue;
+    secondaryVariant = DColors.sailBlueDark;
+    surface = DColors.white;
+    background = DColors.white;
+    onPrimary = Colors.white;
+    onSecondary = Colors.white;
+    onSurface = DColors.grayBrown;
+    onBackground = DColors.blueGray;
+    brightness = Brightness.light;
+    surfaceBorder = DColors.coldGray;
     return ColorScheme(
         primary: primary,
         secondary: secondary,

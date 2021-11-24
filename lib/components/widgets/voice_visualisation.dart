@@ -39,9 +39,11 @@ class _VoiceVisualisationState extends State<VoiceVisualisation>
 
   @override
   Widget build(BuildContext context) {
-    if (controller.value == 0)
+    if (controller.value == 0) {
       controller.forward();
-    else if (controller.value == 1) controller.reverse();
+    } else if (controller.value == 1) {
+      controller.reverse();
+    }
 
     double n1 = max(
         min(controller.value * Random().nextInt(30) + Random().nextInt(10), 40),

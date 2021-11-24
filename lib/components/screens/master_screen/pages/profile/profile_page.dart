@@ -18,7 +18,7 @@ class ProfilePage extends StatefulWidget {
   ///set this to false in case of assertion exception ``Failed assertion: line 659 pos 12: '_hold == null': is not true``.
   ///the error is related to this issue:https://github.com/flutter/flutter/issues/91166.
   ///the only way to fix this issue was by editing flutter source code.
-  static bool _bugIsFixed = false;
+  static final bool _bugIsFixed = false;
 
   static const double _maxHeaderHieght = 300;
 
@@ -27,10 +27,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int count = 0;
-  List<Publication> items = [FakeData.pub[0]];
+  int count = 2;
+  List<Publication> items = [FakeData.pub[0], FakeData.pub[1], FakeData.pub[2]];
 
-  final _refreshController = new RefreshController();
+  final _refreshController = RefreshController();
 
   void _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 3000), () {
@@ -44,8 +44,9 @@ class _ProfilePageState extends State<ProfilePage> {
       if (count < FakeData.pub.length - 1) {
         _loadMore();
         _refreshController.loadComplete();
-      } else
+      } else {
         _refreshController.loadNoData();
+      }
     });
   }
 

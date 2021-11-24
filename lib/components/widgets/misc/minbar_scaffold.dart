@@ -48,9 +48,11 @@ void showBroadcastBottomSheet(
 
 extension on List<Widget> {
   void addToLimit(Widget bottomSheet) {
-    this.remove(this);
-    this.add(bottomSheet);
-    while (this.length > 3) this.removeAt(0);
+    remove(this);
+    add(bottomSheet);
+    while (length > 3) {
+      removeAt(0);
+    }
   }
 }
 
@@ -92,7 +94,7 @@ class MinbarScaffold extends StatefulWidget {
 class MinbarScaffoldState extends State<MinbarScaffold> {
   bool overlay = true;
 
-  List<Widget> _bottomSheets = [];
+  final List<Widget> _bottomSheets = [];
   MinbarBottomSheet? broadcastSheet;
   bool isShownbroadcastSheet = false;
   @override

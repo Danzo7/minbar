@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
                       gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: const [Color(0xff071A16), Color(0xff165173)],
+                    colors: [Color(0xff071A16), Color(0xff165173)],
                   )),
                   child: Stack(alignment: Alignment.topCenter, children: [
                     AnimatedLogo(),

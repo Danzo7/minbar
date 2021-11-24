@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:minbar_fl/components/theme/minbar_theme.dart';
-import 'package:minbar_fl/core/services/AudioService.dart';
+import 'package:minbar_fl/core/services/audio_service.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 
 /// [GetIt] is a simple service locator for accessing services from anywhere

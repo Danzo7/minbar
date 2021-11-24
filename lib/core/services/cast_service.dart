@@ -1,15 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:minbar_fl/model/cast.dart';
 
-import 'AudioService.dart';
+import 'audio_service.dart';
 import 'service_locator.dart';
 
 class CastService extends ChangeNotifier {
   Cast? currentCast;
   bool setCast(Cast cast) {
-    if (cast == currentCast)
+    if (cast == currentCast) {
       return false;
-    else {
+    } else {
       currentCast = cast;
       notifyListeners();
     }
@@ -21,8 +21,9 @@ class CastService extends ChangeNotifier {
       app<AudioService>().playerState.playing
           ? app<AudioService>().pause()
           : app<AudioService>().play();
-    } else
+    } else {
       app<AudioService>().playCast(castId: cast.castId);
+    }
   }
 
   void stopCast() async {
@@ -30,9 +31,10 @@ class CastService extends ChangeNotifier {
     notifyListeners();
     print(currentCast);
 
-    if (app<AudioService>().playing)
+    if (app<AudioService>().playing) {
       app<AudioService>().pause();
-    else
+    } else {
       app<AudioService>().stop();
+    }
   }
 }
