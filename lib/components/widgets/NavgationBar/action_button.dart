@@ -5,7 +5,7 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/text_play.dart';
-import 'package:minbar_fl/core/services/AudioService.dart';
+import 'package:minbar_fl/core/services/audio_service.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import '../voice_visualisation.dart';
@@ -58,8 +58,9 @@ class _ActionButtonState extends State<ActionButton> {
         onDragEnd: (details) {
           if (MediaQuery.of(context).size.height - 150 > details.offset.dy) {
             if (onDragComplete != null) onDragComplete();
-          } else
+          } else {
             widget.middleController.outside();
+          }
           hideOverlay();
         },
         onDragUpdate: (details) {},

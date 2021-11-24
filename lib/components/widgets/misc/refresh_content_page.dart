@@ -44,6 +44,7 @@ class RefreshContentPage extends StatelessWidget {
     refreshController.loadComplete();
   }
 
+  @override
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: refreshController,

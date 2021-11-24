@@ -35,6 +35,7 @@ class _PageNavigationState extends State<PageNavigation> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return MinbarScaffold(
         withSafeArea: true,
@@ -60,8 +61,9 @@ class Pager {
             .navgationController;
     if (navgationController != null) {
       return Future(() => navgationController.jumpToPage(index));
-    } else
+    } else {
       throw FlutterError("No PageNavigation found");
+    }
   }
 }
 
@@ -98,10 +100,11 @@ class NavgationController extends PageController {
     int? current = prev;
     current = current == predectedPage ? prev : current;
     super.jumpToPage(current ?? initialPage);
-    if (history.isEmpty && current == null)
+    if (history.isEmpty && current == null) {
       return false;
-    else
+    } else {
       return true;
+    }
   }
 
   void addChangeListener(Function(int index) listener) {

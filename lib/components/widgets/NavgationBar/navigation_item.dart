@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 
-const List<NavigatonItem> navigationItems = const [
-  const NavigatonItem(
+const List<NavigatonItem> navigationItems = [
+  NavigatonItem(
       route: BroadcastsPage.route,
       beforeIcon: Icon(SodaIcons.broadcasts, color: DColors.white, size: 24),
       afterIcon:

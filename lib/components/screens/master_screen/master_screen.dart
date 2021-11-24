@@ -18,15 +18,16 @@ class MasterScreen extends StatelessWidget {
   MasterScreen({Key? key}) : super(key: key);
 
   final NavgationController navgationController = NavgationController();
+  @override
   Widget build(BuildContext context) {
     DateTime timeBackPressed = DateTime.now();
     return WillPopScope(
       onWillPop: () async {
-        if (MinbarBottomSheetInstances.mayPop())
+        if (MinbarBottomSheetInstances.mayPop()) {
           return false;
-        else if (navgationController.mayPop())
+        } else if (navgationController.mayPop()) {
           return false;
-        else {
+        } else {
           final differeance = DateTime.now().difference(timeBackPressed);
           timeBackPressed = DateTime.now();
           if (differeance >= Duration(seconds: 2)) {

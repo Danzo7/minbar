@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
-import 'package:minbar_fl/core/services/AudioService.dart';
+import 'package:minbar_fl/core/services/audio_service.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 
@@ -75,13 +75,14 @@ class _BroadcastBoxState extends State<BroadcastBox> {
                               return CircularProgressIndicator();
                             } else if (processingState ==
                                     ProcessingState.ready &&
-                                app<AudioService>().playerState.playing)
+                                app<AudioService>().playerState.playing) {
                               return FlatIconButton(
                                 icon: VoiceVisualisation(),
                                 onTap: () => state.playCast(widget.cast),
                               );
-                            else
+                            } else {
                               return playButton(state);
+                            }
                           },
                         )
                       : playButton(state),

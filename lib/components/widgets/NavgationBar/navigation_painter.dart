@@ -10,7 +10,7 @@ class NavigationPainter extends CustomPainter {
       {this.color = Colors.white, this.pulling = 0, this.pushing});
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = new Paint()
+    final Paint paint = Paint()
       ..color = DColors.blueGray
       ..style = PaintingStyle.fill;
 

@@ -34,7 +34,7 @@ class ProfileHeader extends StatelessWidget {
             maxHeight: maxHeight,
             shrink: shrink,
             hasPopularity: hasPopularity,
-            user: this.user));
+            user: user));
   }
 }
 
@@ -64,12 +64,14 @@ class _SliverProfileHeader extends SliverPersistentHeaderDelegate {
     double shrinkPercentage =
         shrink ? min(1, shrinkOffset / (maxExtent - minExtent)) : 0;
     return AnimatedOpacity(
-      opacity: max(0, 1 - (shrinkPercentage) * 9),
+      opacity: shrinkPercentage > 0.5 ? 0 : 1,
       duration: kFlashAnimationDuration,
       child: Container(
         alignment: Alignment.center,
         child: Wrap(
-          alignment: WrapAlignment.start,
+          alignment: WrapAlignment.center,
+          runAlignment: WrapAlignment.center,
+          runSpacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           direction: Axis.vertical,
           spacing: 10,
