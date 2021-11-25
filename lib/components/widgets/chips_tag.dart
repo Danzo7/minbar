@@ -22,18 +22,19 @@ class ChipsTag extends StatefulWidget {
 }
 
 class _ChipsTagState extends State<ChipsTag> {
-  AutoScrollController? _scrollController;
+  late AutoScrollController _scrollController;
   final BorderSides border;
   _ChipsTagState(this.border);
   @override
   void initState() {
     super.initState();
 
-    _scrollController = AutoScrollController(axis: Axis.horizontal);
+    _scrollController =
+        AutoScrollController(keepScrollOffset: false, axis: Axis.horizontal);
   }
 
   void _scrollToIndex(int index) {
-    _scrollController!.scrollToIndex(
+    _scrollController.scrollToIndex(
       index,
       duration: kFastAnimationDuration,
     );
@@ -83,7 +84,7 @@ class _ChipsTagState extends State<ChipsTag> {
             ...widget.items
                 .map((e) => AutoScrollTag(
                       key: ValueKey<int>(widget.items.indexOf(e)),
-                      controller: _scrollController!,
+                      controller: _scrollController,
                       index: widget.items.indexOf(e),
                       child: ContentButtonV2(
                         spacing: 25,

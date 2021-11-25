@@ -19,6 +19,7 @@ class RecommandCarousel extends StatelessWidget {
       title: Text(title, style: DTextStyle.bg20s),
       carousel: CarouselSlider(
           options: CarouselOptions(
+              pageViewKey: PageStorageKey(title),
               disableCenter: true,
               enableInfiniteScroll: false,
               height: 116.0,
