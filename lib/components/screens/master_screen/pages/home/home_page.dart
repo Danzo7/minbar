@@ -16,7 +16,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshContentPage(
+    return Timeline(
+      key: PageStorageKey(route),
       physics: BouncingScrollPhysics(),
       header: StickyChipTag(
         border: BorderSides.bottom,

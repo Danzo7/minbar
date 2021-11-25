@@ -5,12 +5,11 @@ import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/pos
 import 'package:minbar_fl/components/theme/snaps.dart';
 import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
-import 'package:minbar_fl/model/publication.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'widgets/gravity_header_scroll_view.dart';
 import '../../../../widgets/slivers/profile_header.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
 
   static const String route = 'profile';
@@ -21,65 +20,15 @@ class ProfilePage extends StatefulWidget {
   static final bool _bugIsFixed = false;
 
   static const double _maxHeaderHieght = 300;
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  int count = 2;
-  List<Publication> items = [FakeData.pub[0], FakeData.pub[1], FakeData.pub[2]];
-
   final _refreshController = RefreshController();
-
-  void _onRefresh() async {
-    await Future.delayed(Duration(milliseconds: 3000), () {
-      _additem();
-    });
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    await Future.delayed(Duration(milliseconds: 3000), () {
-      if (count < FakeData.pub.length - 1) {
-        _loadMore();
-        _refreshController.loadComplete();
-      } else {
-        _refreshController.loadNoData();
-      }
-    });
-  }
-
-  _additem() {
-    items = [
-      Publication(
-        author: FakeData.currentUser,
-        content: "هو الحق",
-        date: DateTime.now(),
-        heartCount: 65,
-        pinCount: 11,
-      ),
-      ...items
-    ];
-    if (mounted) setState(() {});
-  }
-
-  _loadMore() {
-    count++;
-
-    items.add(FakeData.pub[count]);
-    if (mounted) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
       child: !ProfilePage._bugIsFixed
-          ? RefreshContentPage(
+          ? Timeline(
               refreshController: _refreshController,
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
               physics: Snaps.profileHeaderSnap(),
               header: ProfileHeader(
                 user: FakeData.currentUser,
@@ -91,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   items: FakeData.fields,
                 )
               ],
-              content: PostList(items),
+              content: PostList(FakeData.pub),
             )
           : GraviryHeaderScrollView(
               slivers: [
@@ -103,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 StickyChipTag(
                   items: FakeData.fields,
                 ),
-                PostList(items)
+                PostList(FakeData.pub)
               ],
               gravityField: 300,
             ),

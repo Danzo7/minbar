@@ -11,24 +11,16 @@ import 'package:minbar_fl/model/publication.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
-class BroadcastsPage extends StatefulWidget {
+class BroadcastsPage extends StatelessWidget {
   BroadcastsPage({Key? key}) : super(key: key);
   static const String route = 'lb_screen';
-
-  @override
-  _BroadcastsPageState createState() => _BroadcastsPageState();
-}
-
-class _BroadcastsPageState extends State<BroadcastsPage> {
-  List<Publication> items = [FakeData.pub[0]];
   final _refreshController = RefreshController();
-  int count = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RefreshContentPage(
+      child: Timeline(
         physics: snap(),
+        key: PageStorageKey(route),
         refreshController: _refreshController,
         header: RecommandCarousel(
           FakeData.casts,
