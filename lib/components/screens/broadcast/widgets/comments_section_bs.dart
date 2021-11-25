@@ -7,7 +7,7 @@ import 'package:minbar_fl/components/screens/broadcast/widgets/comment_field.dar
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
-import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
+import 'package:minbar_fl/components/widgets/misc/timeline.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_container.dart';
 import 'package:minbar_fl/model/comment_data.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -92,7 +92,7 @@ class _CommentSectionState extends State<CommentSection> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(7),
                         topRight: Radius.circular(7))),
-                child: RefreshContentPage(
+                child: Timeline(
                   bottomPadding: height / 2 - 80,
                   physics: BouncingScrollPhysics(),
                   onRefresh: _onRefresh,

@@ -4,7 +4,7 @@ import 'package:minbar_fl/components/common/recommandations/widgets/recommand_ca
 import 'package:minbar_fl/components/common/timelines/broadcasts_timeline/widgets/broadcast_list.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
+import 'package:minbar_fl/components/widgets/misc/timeline.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_head.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

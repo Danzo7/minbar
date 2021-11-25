@@ -4,7 +4,7 @@ import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/pos
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/widgets/chips_tag.dart';
-import 'package:minbar_fl/components/widgets/misc/refresh_content_page.dart';
+import 'package:minbar_fl/components/widgets/misc/timeline.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class RefreshContentPage extends StatelessWidget {
+class Timeline extends StatelessWidget {
   final Function()? onLoading, onRefresh;
   final Widget? header;
   final List<Widget> beforeRefreshSlivers;
@@ -10,7 +10,7 @@ class RefreshContentPage extends StatelessWidget {
   final double bottomPadding;
   final RefreshController refreshController;
   final Widget content;
-  RefreshContentPage({
+  Timeline({
     Key? key,
     this.onLoading,
     this.onRefresh,
@@ -52,7 +52,7 @@ class RefreshContentPage extends StatelessWidget {
       onLoading: onLoading ?? _placeholder,
       physics: physics,
       header: header ?? _refreshIndicator(),
-      child: CustomScrollView(slivers: [
+      child: CustomScrollView(key: key, slivers: [
         ...beforeRefreshSlivers,
         if (header != null) _refreshIndicator(),
         content,
