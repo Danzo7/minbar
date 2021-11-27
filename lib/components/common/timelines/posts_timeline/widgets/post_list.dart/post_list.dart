@@ -19,8 +19,8 @@ class PostList extends StatelessWidget {
                     ? Center(child: title)
                     : Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: Post(items[index])),
-                childCount: items.length,
+                        child: Post(items[index - 1])),
+                childCount: items.length + 1,
                 addAutomaticKeepAlives: false)));
   }
 }
