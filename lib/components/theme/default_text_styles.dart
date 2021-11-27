@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'default_colors.dart';
+import 'package:minbar_fl/components/theme/default_colors.dart';
 
 class DTextStyle {
   DTextStyle._();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/minbar_theme.dart';
-
-import 'navigation_painter.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/navigation_painter.dart';
 
 enum AnimationDirection { forward, backward, idle, completed }
 

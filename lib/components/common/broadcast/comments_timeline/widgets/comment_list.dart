@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/common/broadcast/comments_timeline/widgets/comment.dart';
 import 'package:minbar_fl/model/comment_data.dart';
-
-import 'comment.dart';
 
 class CommentList extends StatelessWidget {
   final List<CommentData> comments;

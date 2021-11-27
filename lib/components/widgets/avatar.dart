@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'image_loader.dart';
+import 'package:minbar_fl/components/widgets/image_loader.dart';
 
 class Avatar extends StatelessWidget {
   final double raduis;

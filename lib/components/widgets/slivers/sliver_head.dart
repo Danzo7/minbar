@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'sliver_header_container.dart';
+import 'package:minbar_fl/components/widgets/slivers/sliver_header_container.dart';
 
 class SliverHead extends StatelessWidget {
   final bool pinned, floating;

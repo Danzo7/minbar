@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:minbar_fl/core/services/audio_service.dart';
+import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/model/cast.dart';
-
-import 'audio_service.dart';
-import 'service_locator.dart';
 
 class CastService extends ChangeNotifier {
   Cast? currentCast;

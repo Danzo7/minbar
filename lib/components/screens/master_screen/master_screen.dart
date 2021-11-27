@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:minbar_fl/components/screens/screens.dart';
 
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_colors.dart';
@@ -9,7 +10,6 @@ import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 
 import 'package:minbar_fl/misc/page_navigation.dart';
-import 'pages/pages.dart';
 export 'pages/pages.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';

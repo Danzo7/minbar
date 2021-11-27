@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/screens/broadcast/widgets/comments_section_bs.dart';
 import 'package:minbar_fl/components/widgets/avatar.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_text_styles.dart';
@@ -12,7 +13,6 @@ import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/model/cast.dart';
 import 'package:provider/provider.dart';
-import 'widgets/comments_section_bs.dart';
 
 class BroadcastScreen extends StatelessWidget {
   BroadcastScreen({

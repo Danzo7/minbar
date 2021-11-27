@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/middle_controller.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/text_play.dart';
+import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
 import 'package:minbar_fl/core/services/audio_service.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
-import '../voice_visualisation.dart';
-import 'middle_controller.dart';
 
 class ActionButton extends StatefulWidget {
   final MiddleController middleController;

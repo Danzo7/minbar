@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:minbar_fl/model/cast.dart';
 import 'package:minbar_fl/model/user.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'cast.dart';
 part 'publication.freezed.dart';
 
 @freezed

@@ -2,15 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
+import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
 import 'package:minbar_fl/core/services/audio_service.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
-
 import 'package:minbar_fl/model/cast.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../widgets/buttons/buttons.dart';
 
 class BroadcastBox extends StatefulWidget {
   final bool withDetail;

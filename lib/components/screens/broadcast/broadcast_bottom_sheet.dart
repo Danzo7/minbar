@@ -1,5 +1,5 @@
+import 'package:minbar_fl/components/screens/broadcast/broadcast_screen.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
-import 'broadcast_screen.dart';
 
 class BroadcastBottomSheet extends MinbarBottomSheet {
   BroadcastBottomSheet._(

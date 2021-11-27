@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:minbar_fl/components/theme/minbar_theme.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/animated_painterd.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/middle_controller.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
-import 'animated_painterd.dart';
-import 'middle_controller.dart';
-import 'navigation_item.dart';
 
 class NavigationBar extends StatefulWidget {
   final MiddleController middleController;

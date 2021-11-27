@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/widgets/chips_tag.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_header_container.dart';
-import '../chips_tag.dart';
 
 class StickyChipTag extends StatelessWidget {
   final Color? bgColor;

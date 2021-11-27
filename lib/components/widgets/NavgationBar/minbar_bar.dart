@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/action_button.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/middle_controller.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'package:provider/provider.dart';
-
-import 'action_button.dart';
-import 'middle_controller.dart';
-import 'navigation_bar.dart';
-import 'navigation_item.dart';
 
 class MinbarBar extends StatelessWidget {
   final MiddleController middleController = MiddleController();

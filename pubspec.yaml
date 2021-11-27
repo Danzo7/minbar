@@ -27,7 +27,9 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.0
   provider: any
-
+  like_button:
+    git:
+      url: https://github.com/Danzo7/like_button
   flutter_svg: ^0.23.0+1
   flare_flutter: ^3.0.2
   equatable: ^2.0.3
@@ -44,17 +46,12 @@ dependencies:
   auto_size_text_field: ^1.0.1
   fluttertoast: ^8.0.8
   just_audio: ^0.9.17
-  like_button:
-    git:
-      url: https://github.com/Danzo7/like_button
   simple_animations: ^4.0.1
   http: ^0.13.4
   logging: ^1.0.2
   shimmer: ^2.0.0
   freezed_annotation:
   json_serializable: ^6.0.1
-
-  intl: ^0.17.0
 dev_dependencies:
   flutter_lints: ^1.0.4
   flutter_test:
