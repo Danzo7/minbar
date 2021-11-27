@@ -17,10 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$PostEventTearOff {
   const _$PostEventTearOff();
 
-  _Deslike deslike() {
-    return const _Deslike();
-  }
-
   _Hide hide() {
     return const _Hide();
   }
@@ -32,10 +28,6 @@ class _$PostEventTearOff {
   _Pin pin() {
     return const _Pin();
   }
-
-  _Unpin unpin() {
-    return const _Unpin();
-  }
 }
 
 /// @nodoc
@@ -45,57 +37,45 @@ const $PostEvent = _$PostEventTearOff();
 mixin _$PostEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() deslike,
     required TResult Function() hide,
     required TResult Function() like,
     required TResult Function() pin,
-    required TResult Function() unpin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Deslike value) deslike,
     required TResult Function(_Hide value) hide,
     required TResult Function(_Like value) like,
     required TResult Function(_Pin value) pin,
-    required TResult Function(_Unpin value) unpin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,126 +94,6 @@ class _$PostEventCopyWithImpl<$Res> implements $PostEventCopyWith<$Res> {
   final PostEvent _value;
   // ignore: unused_field
   final $Res Function(PostEvent) _then;
-}
-
-/// @nodoc
-abstract class _$DeslikeCopyWith<$Res> {
-  factory _$DeslikeCopyWith(_Deslike value, $Res Function(_Deslike) then) =
-      __$DeslikeCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$DeslikeCopyWithImpl<$Res> extends _$PostEventCopyWithImpl<$Res>
-    implements _$DeslikeCopyWith<$Res> {
-  __$DeslikeCopyWithImpl(_Deslike _value, $Res Function(_Deslike) _then)
-      : super(_value, (v) => _then(v as _Deslike));
-
-  @override
-  _Deslike get _value => super._value as _Deslike;
-}
-
-/// @nodoc
-
-class _$_Deslike implements _Deslike {
-  const _$_Deslike();
-
-  @override
-  String toString() {
-    return 'PostEvent.deslike()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Deslike);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() deslike,
-    required TResult Function() hide,
-    required TResult Function() like,
-    required TResult Function() pin,
-    required TResult Function() unpin,
-  }) {
-    return deslike();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? deslike,
-    TResult Function()? hide,
-    TResult Function()? like,
-    TResult Function()? pin,
-    TResult Function()? unpin,
-  }) {
-    return deslike?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? deslike,
-    TResult Function()? hide,
-    TResult Function()? like,
-    TResult Function()? pin,
-    TResult Function()? unpin,
-    required TResult orElse(),
-  }) {
-    if (deslike != null) {
-      return deslike();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Deslike value) deslike,
-    required TResult Function(_Hide value) hide,
-    required TResult Function(_Like value) like,
-    required TResult Function(_Pin value) pin,
-    required TResult Function(_Unpin value) unpin,
-  }) {
-    return deslike(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
-    TResult Function(_Hide value)? hide,
-    TResult Function(_Like value)? like,
-    TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
-  }) {
-    return deslike?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
-    TResult Function(_Hide value)? hide,
-    TResult Function(_Like value)? like,
-    TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
-    required TResult orElse(),
-  }) {
-    if (deslike != null) {
-      return deslike(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Deslike implements PostEvent {
-  const factory _Deslike() = _$_Deslike;
 }
 
 /// @nodoc
@@ -274,11 +134,9 @@ class _$_Hide implements _Hide {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() deslike,
     required TResult Function() hide,
     required TResult Function() like,
     required TResult Function() pin,
-    required TResult Function() unpin,
   }) {
     return hide();
   }
@@ -286,11 +144,9 @@ class _$_Hide implements _Hide {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
   }) {
     return hide?.call();
   }
@@ -298,11 +154,9 @@ class _$_Hide implements _Hide {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
     required TResult orElse(),
   }) {
     if (hide != null) {
@@ -314,11 +168,9 @@ class _$_Hide implements _Hide {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Deslike value) deslike,
     required TResult Function(_Hide value) hide,
     required TResult Function(_Like value) like,
     required TResult Function(_Pin value) pin,
-    required TResult Function(_Unpin value) unpin,
   }) {
     return hide(this);
   }
@@ -326,11 +178,9 @@ class _$_Hide implements _Hide {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
   }) {
     return hide?.call(this);
   }
@@ -338,11 +188,9 @@ class _$_Hide implements _Hide {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
     required TResult orElse(),
   }) {
     if (hide != null) {
@@ -394,11 +242,9 @@ class _$_Like implements _Like {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() deslike,
     required TResult Function() hide,
     required TResult Function() like,
     required TResult Function() pin,
-    required TResult Function() unpin,
   }) {
     return like();
   }
@@ -406,11 +252,9 @@ class _$_Like implements _Like {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
   }) {
     return like?.call();
   }
@@ -418,11 +262,9 @@ class _$_Like implements _Like {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
     required TResult orElse(),
   }) {
     if (like != null) {
@@ -434,11 +276,9 @@ class _$_Like implements _Like {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Deslike value) deslike,
     required TResult Function(_Hide value) hide,
     required TResult Function(_Like value) like,
     required TResult Function(_Pin value) pin,
-    required TResult Function(_Unpin value) unpin,
   }) {
     return like(this);
   }
@@ -446,11 +286,9 @@ class _$_Like implements _Like {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
   }) {
     return like?.call(this);
   }
@@ -458,11 +296,9 @@ class _$_Like implements _Like {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
     required TResult orElse(),
   }) {
     if (like != null) {
@@ -514,11 +350,9 @@ class _$_Pin implements _Pin {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() deslike,
     required TResult Function() hide,
     required TResult Function() like,
     required TResult Function() pin,
-    required TResult Function() unpin,
   }) {
     return pin();
   }
@@ -526,11 +360,9 @@ class _$_Pin implements _Pin {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
   }) {
     return pin?.call();
   }
@@ -538,11 +370,9 @@ class _$_Pin implements _Pin {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? deslike,
     TResult Function()? hide,
     TResult Function()? like,
     TResult Function()? pin,
-    TResult Function()? unpin,
     required TResult orElse(),
   }) {
     if (pin != null) {
@@ -554,11 +384,9 @@ class _$_Pin implements _Pin {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Deslike value) deslike,
     required TResult Function(_Hide value) hide,
     required TResult Function(_Like value) like,
     required TResult Function(_Pin value) pin,
-    required TResult Function(_Unpin value) unpin,
   }) {
     return pin(this);
   }
@@ -566,11 +394,9 @@ class _$_Pin implements _Pin {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
   }) {
     return pin?.call(this);
   }
@@ -578,11 +404,9 @@ class _$_Pin implements _Pin {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
     TResult Function(_Hide value)? hide,
     TResult Function(_Like value)? like,
     TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
     required TResult orElse(),
   }) {
     if (pin != null) {
@@ -597,136 +421,22 @@ abstract class _Pin implements PostEvent {
 }
 
 /// @nodoc
-abstract class _$UnpinCopyWith<$Res> {
-  factory _$UnpinCopyWith(_Unpin value, $Res Function(_Unpin) then) =
-      __$UnpinCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$UnpinCopyWithImpl<$Res> extends _$PostEventCopyWithImpl<$Res>
-    implements _$UnpinCopyWith<$Res> {
-  __$UnpinCopyWithImpl(_Unpin _value, $Res Function(_Unpin) _then)
-      : super(_value, (v) => _then(v as _Unpin));
-
-  @override
-  _Unpin get _value => super._value as _Unpin;
-}
-
-/// @nodoc
-
-class _$_Unpin implements _Unpin {
-  const _$_Unpin();
-
-  @override
-  String toString() {
-    return 'PostEvent.unpin()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Unpin);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() deslike,
-    required TResult Function() hide,
-    required TResult Function() like,
-    required TResult Function() pin,
-    required TResult Function() unpin,
-  }) {
-    return unpin();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? deslike,
-    TResult Function()? hide,
-    TResult Function()? like,
-    TResult Function()? pin,
-    TResult Function()? unpin,
-  }) {
-    return unpin?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? deslike,
-    TResult Function()? hide,
-    TResult Function()? like,
-    TResult Function()? pin,
-    TResult Function()? unpin,
-    required TResult orElse(),
-  }) {
-    if (unpin != null) {
-      return unpin();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Deslike value) deslike,
-    required TResult Function(_Hide value) hide,
-    required TResult Function(_Like value) like,
-    required TResult Function(_Pin value) pin,
-    required TResult Function(_Unpin value) unpin,
-  }) {
-    return unpin(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
-    TResult Function(_Hide value)? hide,
-    TResult Function(_Like value)? like,
-    TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
-  }) {
-    return unpin?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Deslike value)? deslike,
-    TResult Function(_Hide value)? hide,
-    TResult Function(_Like value)? like,
-    TResult Function(_Pin value)? pin,
-    TResult Function(_Unpin value)? unpin,
-    required TResult orElse(),
-  }) {
-    if (unpin != null) {
-      return unpin(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Unpin implements PostEvent {
-  const factory _Unpin() = _$_Unpin;
-}
-
-/// @nodoc
 class _$PostStateTearOff {
   const _$PostStateTearOff();
 
-  _Initial initial(Publication postData,
-      {required bool liked, required bool pinned, required bool hidden}) {
+  _Initial initial(Publication postData) {
     return _Initial(
       postData,
-      liked: liked,
-      pinned: pinned,
-      hidden: hidden,
+    );
+  }
+
+  _InProgress inProgress() {
+    return const _InProgress();
+  }
+
+  _Done done(Publication postData) {
+    return _Done(
+      postData,
     );
   }
 }
@@ -736,52 +446,49 @@ const $PostState = _$PostStateTearOff();
 
 /// @nodoc
 mixin _$PostState {
-  Publication get postData => throw _privateConstructorUsedError;
-  bool get liked => throw _privateConstructorUsedError;
-  bool get pinned => throw _privateConstructorUsedError;
-  bool get hidden => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Publication postData, bool liked, bool pinned, bool hidden)
-        initial,
+    required TResult Function(Publication postData) initial,
+    required TResult Function() inProgress,
+    required TResult Function(Publication postData) done,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            Publication postData, bool liked, bool pinned, bool hidden)?
-        initial,
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Publication postData, bool liked, bool pinned, bool hidden)?
-        initial,
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Done value) done,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $PostStateCopyWith<PostState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -789,7 +496,6 @@ mixin _$PostState {
 abstract class $PostStateCopyWith<$Res> {
   factory $PostStateCopyWith(PostState value, $Res Function(PostState) then) =
       _$PostStateCopyWithImpl<$Res>;
-  $Res call({Publication postData, bool liked, bool pinned, bool hidden});
 }
 
 /// @nodoc
@@ -799,41 +505,15 @@ class _$PostStateCopyWithImpl<$Res> implements $PostStateCopyWith<$Res> {
   final PostState _value;
   // ignore: unused_field
   final $Res Function(PostState) _then;
-
-  @override
-  $Res call({
-    Object? postData = freezed,
-    Object? liked = freezed,
-    Object? pinned = freezed,
-    Object? hidden = freezed,
-  }) {
-    return _then(_value.copyWith(
-      postData: postData == freezed
-          ? _value.postData
-          : postData // ignore: cast_nullable_to_non_nullable
-              as Publication,
-      liked: liked == freezed
-          ? _value.liked
-          : liked // ignore: cast_nullable_to_non_nullable
-              as bool,
-      pinned: pinned == freezed
-          ? _value.pinned
-          : pinned // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hidden: hidden == freezed
-          ? _value.hidden
-          : hidden // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
 }
 
 /// @nodoc
-abstract class _$InitialCopyWith<$Res> implements $PostStateCopyWith<$Res> {
+abstract class _$InitialCopyWith<$Res> {
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
       __$InitialCopyWithImpl<$Res>;
-  @override
-  $Res call({Publication postData, bool liked, bool pinned, bool hidden});
+  $Res call({Publication postData});
+
+  $PublicationCopyWith<$Res> get postData;
 }
 
 /// @nodoc
@@ -848,49 +528,34 @@ class __$InitialCopyWithImpl<$Res> extends _$PostStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? postData = freezed,
-    Object? liked = freezed,
-    Object? pinned = freezed,
-    Object? hidden = freezed,
   }) {
     return _then(_Initial(
       postData == freezed
           ? _value.postData
           : postData // ignore: cast_nullable_to_non_nullable
               as Publication,
-      liked: liked == freezed
-          ? _value.liked
-          : liked // ignore: cast_nullable_to_non_nullable
-              as bool,
-      pinned: pinned == freezed
-          ? _value.pinned
-          : pinned // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hidden: hidden == freezed
-          ? _value.hidden
-          : hidden // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
+  }
+
+  @override
+  $PublicationCopyWith<$Res> get postData {
+    return $PublicationCopyWith<$Res>(_value.postData, (value) {
+      return _then(_value.copyWith(postData: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$_Initial implements _Initial {
-  const _$_Initial(this.postData,
-      {required this.liked, required this.pinned, required this.hidden});
+  const _$_Initial(this.postData);
 
   @override
   final Publication postData;
-  @override
-  final bool liked;
-  @override
-  final bool pinned;
-  @override
-  final bool hidden;
 
   @override
   String toString() {
-    return 'PostState.initial(postData: $postData, liked: $liked, pinned: $pinned, hidden: $hidden)';
+    return 'PostState.initial(postData: $postData)';
   }
 
   @override
@@ -899,14 +564,11 @@ class _$_Initial implements _Initial {
         (other.runtimeType == runtimeType &&
             other is _Initial &&
             (identical(other.postData, postData) ||
-                other.postData == postData) &&
-            (identical(other.liked, liked) || other.liked == liked) &&
-            (identical(other.pinned, pinned) || other.pinned == pinned) &&
-            (identical(other.hidden, hidden) || other.hidden == hidden));
+                other.postData == postData));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, postData, liked, pinned, hidden);
+  int get hashCode => Object.hash(runtimeType, postData);
 
   @JsonKey(ignore: true)
   @override
@@ -916,33 +578,33 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Publication postData, bool liked, bool pinned, bool hidden)
-        initial,
+    required TResult Function(Publication postData) initial,
+    required TResult Function() inProgress,
+    required TResult Function(Publication postData) done,
   }) {
-    return initial(postData, liked, pinned, hidden);
+    return initial(postData);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            Publication postData, bool liked, bool pinned, bool hidden)?
-        initial,
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
   }) {
-    return initial?.call(postData, liked, pinned, hidden);
+    return initial?.call(postData);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Publication postData, bool liked, bool pinned, bool hidden)?
-        initial,
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(postData, liked, pinned, hidden);
+      return initial(postData);
     }
     return orElse();
   }
@@ -951,6 +613,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Done value) done,
   }) {
     return initial(this);
   }
@@ -959,6 +623,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
   }) {
     return initial?.call(this);
   }
@@ -967,6 +633,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -977,21 +645,265 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements PostState {
-  const factory _Initial(Publication postData,
-      {required bool liked,
-      required bool pinned,
-      required bool hidden}) = _$_Initial;
+  const factory _Initial(Publication postData) = _$_Initial;
 
-  @override
   Publication get postData;
-  @override
-  bool get liked;
-  @override
-  bool get pinned;
-  @override
-  bool get hidden;
-  @override
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$InProgressCopyWith<$Res> {
+  factory _$InProgressCopyWith(
+          _InProgress value, $Res Function(_InProgress) then) =
+      __$InProgressCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$InProgressCopyWithImpl<$Res> extends _$PostStateCopyWithImpl<$Res>
+    implements _$InProgressCopyWith<$Res> {
+  __$InProgressCopyWithImpl(
+      _InProgress _value, $Res Function(_InProgress) _then)
+      : super(_value, (v) => _then(v as _InProgress));
+
+  @override
+  _InProgress get _value => super._value as _InProgress;
+}
+
+/// @nodoc
+
+class _$_InProgress implements _InProgress {
+  const _$_InProgress();
+
+  @override
+  String toString() {
+    return 'PostState.inProgress()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _InProgress);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Publication postData) initial,
+    required TResult Function() inProgress,
+    required TResult Function(Publication postData) done,
+  }) {
+    return inProgress();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
+  }) {
+    return inProgress?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
+    required TResult orElse(),
+  }) {
+    if (inProgress != null) {
+      return inProgress();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Done value) done,
+  }) {
+    return inProgress(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
+  }) {
+    return inProgress?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
+    required TResult orElse(),
+  }) {
+    if (inProgress != null) {
+      return inProgress(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _InProgress implements PostState {
+  const factory _InProgress() = _$_InProgress;
+}
+
+/// @nodoc
+abstract class _$DoneCopyWith<$Res> {
+  factory _$DoneCopyWith(_Done value, $Res Function(_Done) then) =
+      __$DoneCopyWithImpl<$Res>;
+  $Res call({Publication postData});
+
+  $PublicationCopyWith<$Res> get postData;
+}
+
+/// @nodoc
+class __$DoneCopyWithImpl<$Res> extends _$PostStateCopyWithImpl<$Res>
+    implements _$DoneCopyWith<$Res> {
+  __$DoneCopyWithImpl(_Done _value, $Res Function(_Done) _then)
+      : super(_value, (v) => _then(v as _Done));
+
+  @override
+  _Done get _value => super._value as _Done;
+
+  @override
+  $Res call({
+    Object? postData = freezed,
+  }) {
+    return _then(_Done(
+      postData == freezed
+          ? _value.postData
+          : postData // ignore: cast_nullable_to_non_nullable
+              as Publication,
+    ));
+  }
+
+  @override
+  $PublicationCopyWith<$Res> get postData {
+    return $PublicationCopyWith<$Res>(_value.postData, (value) {
+      return _then(_value.copyWith(postData: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$_Done implements _Done {
+  const _$_Done(this.postData);
+
+  @override
+  final Publication postData;
+
+  @override
+  String toString() {
+    return 'PostState.done(postData: $postData)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Done &&
+            (identical(other.postData, postData) ||
+                other.postData == postData));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, postData);
+
+  @JsonKey(ignore: true)
+  @override
+  _$DoneCopyWith<_Done> get copyWith =>
+      __$DoneCopyWithImpl<_Done>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Publication postData) initial,
+    required TResult Function() inProgress,
+    required TResult Function(Publication postData) done,
+  }) {
+    return done(postData);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
+  }) {
+    return done?.call(postData);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Publication postData)? initial,
+    TResult Function()? inProgress,
+    TResult Function(Publication postData)? done,
+    required TResult orElse(),
+  }) {
+    if (done != null) {
+      return done(postData);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_InProgress value) inProgress,
+    required TResult Function(_Done value) done,
+  }) {
+    return done(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
+  }) {
+    return done?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_InProgress value)? inProgress,
+    TResult Function(_Done value)? done,
+    required TResult orElse(),
+  }) {
+    if (done != null) {
+      return done(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Done implements PostState {
+  const factory _Done(Publication postData) = _$_Done;
+
+  Publication get postData;
+  @JsonKey(ignore: true)
+  _$DoneCopyWith<_Done> get copyWith => throw _privateConstructorUsedError;
 }
