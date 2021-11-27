@@ -418,7 +418,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c454f09090f1bd085f578c9748405201cf0341d1
+      resolved-ref: acd52f81e83865562ffbeb5820f1c78c6095dd5e
       url: "https://github.com/Danzo7/like_button"
     source: git
     version: "2.0.4"

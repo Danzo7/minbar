@@ -83,12 +83,12 @@ class ReactButton extends StatelessWidget {
               ? Icon(afterIcon, color: DColors.sadRed, size: 14)
               : Icon(beforeIcon, color: DColors.sadRed, size: 14);
         },
-        likeCount: 1994,
+        likeCount: count,
         countBuilder: (int? count, bool isLiked, String text) {
-          var color = isLiked ? DColors.sadRed : DColors.grayBrown;
           return Text(
             text,
-            style: TextStyle(color: color),
+            style:
+                TextStyle(color: isLiked ? DColors.sadRed : DColors.grayBrown),
           );
         },
       ),
