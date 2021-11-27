@@ -28,6 +28,7 @@ class ProfilePage extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: !ProfilePage._bugIsFixed
           ? Timeline(
+              key: PageStorageKey(route),
               refreshController: _refreshController,
               physics: Snaps.profileHeaderSnap(),
               header: ProfileHeader(
