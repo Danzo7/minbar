@@ -207,8 +207,6 @@ class _MinbarBottomSheetState extends State<MinbarBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    print("intst:${MinbarBottomSheetInstances._instances.length}");
-
     if (firstRun) {
       _initialize(context);
       firstRun = false;
