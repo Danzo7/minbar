@@ -28,7 +28,6 @@ class CastService extends ChangeNotifier {
   void stopCast() async {
     currentCast = null;
     notifyListeners();
-    print(currentCast);
 
     if (app<AudioService>().playing) {
       app<AudioService>().pause();

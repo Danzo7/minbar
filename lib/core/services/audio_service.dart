@@ -20,7 +20,7 @@ class AudioService extends AudioPlayer {
     // Listen to errors during playback.
     playbackEventStream.listen((event) {},
         onError: (Object e, StackTrace stackTrace) {
-      print('A stream error occurred: $e');
+      throw Exception('A stream error occurred: $e');
     });
   }
 
