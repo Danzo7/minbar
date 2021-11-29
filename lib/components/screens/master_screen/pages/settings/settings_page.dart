@@ -6,7 +6,7 @@ import 'package:minbar_fl/components/settings/config/configs.dart';
 import 'package:minbar_fl/components/screens/generated_settings/generated_settings_screen.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
-import 'package:minbar_fl/components/widgets/slivers/profile_header.dart';
+import 'package:minbar_fl/components/screens/master_screen/pages/profile/widgets/profile_header.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
 
