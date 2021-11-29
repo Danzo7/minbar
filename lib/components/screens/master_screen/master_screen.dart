@@ -8,6 +8,8 @@ import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
+import 'package:minbar_fl/core/services/service_locator.dart';
+import 'package:minbar_fl/misc/navigation.dart';
 
 import 'package:minbar_fl/misc/page_navigation.dart';
 export 'pages/pages.dart';
@@ -17,7 +19,6 @@ import 'package:provider/provider.dart';
 class MasterScreen extends StatelessWidget {
   MasterScreen({Key? key}) : super(key: key);
 
-  final NavgationController navgationController = NavgationController();
   @override
   Widget build(BuildContext context) {
     DateTime timeBackPressed = DateTime.now();
@@ -25,7 +26,8 @@ class MasterScreen extends StatelessWidget {
       onWillPop: () async {
         if (MinbarBottomSheetInstances.mayPop()) {
           return false;
-        } else if (navgationController.mayPop()) {
+        } else if (app<MinbarNavigator>().pageKey.currentState != null &&
+            app<MinbarNavigator>().pageKey.currentState!.mayPop()) {
           return false;
         } else {
           final differeance = DateTime.now().difference(timeBackPressed);
@@ -47,17 +49,17 @@ class MasterScreen extends StatelessWidget {
         create: (context) => CastService(),
         child: MinbarScaffold(
             hasBottomNavigationBar: true,
-            navgationController: navgationController,
             body: PageNavigation(
-                navgationController: navgationController,
+                key: app<MinbarNavigator>().pageKey,
                 slidable: true,
-                pages: {
-                  BroadcastsPage.route: BroadcastsPage(),
-                  HomePage.route: HomePage(),
-                  ProfilePage.route: ProfilePage(),
-                  SettingsScreen.route: SettingsScreen(),
-                  // "crash": CrashPO()
-                })),
+                pages: [
+                  BroadcastsPage(),
+                  HomePage(),
+                  ProfilePage(),
+                  SettingsScreen()
+                ]
+                // "crash": CrashPO()
+                )),
       ),
     );
   }

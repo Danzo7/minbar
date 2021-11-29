@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
 
@@ -11,6 +12,9 @@ final minbarRouteObserver = RouteObserver<ModalRoute<dynamic>>();
 ///
 /// This allows for navigation without access to the [BuildContext].
 class MinbarNavigator {
+  final GlobalKey<PageNavigationState> pageKey =
+      GlobalKey<PageNavigationState>();
+
   final GlobalKey<NavigatorState> key = GlobalKey<NavigatorState>();
   NavigatorState get state => key.currentState!;
   void pop<T extends Object>([T? result]) => state.pop<T>(result);
@@ -32,8 +36,11 @@ class MinbarNavigator {
     );
   }
 
-  Future navigateTo<TO extends Object?>(BuildContext context, int index) =>
-      Pager.navigateTo(context, index);
+  Future navigateTo<TO extends Object?>(int index) {
+    throwIf(
+        pageKey.currentState == null, Exception('no PageNavigation found!'));
+    return pageKey.currentState!.navigateTo(index);
+  }
 
   void pushNamed(
     String route, {
@@ -89,8 +96,8 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           : MasterScreen();
       break;
     default:
-      print('route does not exist; navigating to login screen instead');
-      screen = const LoginScreen();
+      //TODO? need a 404 callback
+      throw ('route does not exist');
   }
   return PageRouteBuilder(
     settings: RouteSettings(name: routeName, arguments: arguments),

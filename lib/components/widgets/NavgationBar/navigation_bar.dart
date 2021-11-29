@@ -30,19 +30,24 @@ class NavigationBar extends StatefulWidget {
 class _NavigationBarState extends State<NavigationBar> {
   int currentIndex = 0;
   AnimationDirection mad = AnimationDirection.idle;
+  late final NavgationController? navigationController;
 
   @override
   void initState() {
+    navigationController =
+        app<MinbarNavigator>().pageKey.currentState?.navgationController ??
+            widget.navigationController;
+
     currentIndex = widget.selectedIndex;
     widget.middleController.addListener(listener);
     super.initState();
 
-    widget.navigationController?.addChangeListener(setBottomBarIndex);
+    navigationController?.addChangeListener(setBottomBarIndex);
   }
 
   @override
   void didUpdateWidget(covariant NavigationBar oldWidget) {
-    widget.navigationController?.addChangeListener(setBottomBarIndex);
+    navigationController?.addChangeListener(setBottomBarIndex);
 
     widget.middleController.addListener(listener);
     super.didUpdateWidget(oldWidget);
@@ -116,12 +121,8 @@ class _NavigationBarState extends State<NavigationBar> {
                                     : e.afterIcon,
                                 onPressed: () {
                                   if (currentIndex != widget.items.indexOf(e)) {
-                                    widget.navigationController != null
-                                        ? widget.navigationController
-                                            ?.navigateTo(
-                                                widget.items.indexOf(e))
-                                        : app<MinbarNavigator>().navigateTo(
-                                            context, widget.items.indexOf(e));
+                                    app<MinbarNavigator>()
+                                        .navigateTo(widget.items.indexOf(e));
                                   }
                                 })
                           ])
@@ -134,73 +135,3 @@ class _NavigationBarState extends State<NavigationBar> {
         ));
   }
 }
-
-class DragBili extends StatefulWidget {
-  const DragBili({Key? key}) : super(key: key);
-
-  @override
-  State<DragBili> createState() => _DragBiliState();
-}
-
-class _DragBiliState extends State<DragBili> {
-  double _horizontalPos = 0.0;
-  double _verticalPos = 0.0;
-  ValueNotifier<List<double>> posValueListener = ValueNotifier([0.0, 0.0]);
-  ValueChanged<List<double>>? posValueChanged;
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(bottom: 100),
-        color: Colors.green,
-        child: Builder(
-          builder: (context) {
-            final handle = GestureDetector(
-                onPanUpdate: (details) {
-                  _verticalPos =
-                      (_verticalPos + details.delta.dy / (size.height))
-                          .clamp(.0, 1.0);
-                  _horizontalPos =
-                      (_horizontalPos + details.delta.dx / (size.width))
-                          .clamp(.0, 1.0);
-                  posValueListener.value = [_horizontalPos, _verticalPos];
-                },
-                child: Container(
-                  child: Container(
-                    margin: EdgeInsets.all(12),
-                    width: 110.0,
-                    height: 170.0,
-                    child: Container(
-                      color: Colors.black87,
-                    ),
-                    decoration: BoxDecoration(color: Colors.black54),
-                  ),
-                ));
-
-            return ValueListenableBuilder<List<double>>(
-              valueListenable: posValueListener,
-              builder:
-                  (BuildContext context, List<double> value, Widget? child) {
-                return Align(
-                  alignment: Alignment(value[0] * 2 - 1, value[1] * 2 - 1),
-                  child: handle,
-                );
-              },
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-    // if (state.currentCast != null) {
-    //         mad = mad == animationDirection.idle
-    //             ? animationDirection.forward
-    //             : animationDirection.completed;
-    //       } else {
-    //         if (mad != animationDirection.idle)
-    //           mad = mad == animationDirection.forward
-    //               ? animationDirection.backward
-    //               : animationDirection.idle;
-    //       }

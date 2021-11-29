@@ -8,31 +8,34 @@ class PageNavigation extends StatefulWidget {
     this.navigationBar,
     required this.pages,
     this.onPageChanged,
-    required this.navgationController,
     this.slidable = false,
   }) : super(key: key);
 
   final void Function(int)? onPageChanged;
-  final NavgationController navgationController;
   final Widget? navigationBar;
-  final Map<String, Widget> pages;
+  final List<Widget> pages;
   final bool slidable;
 
   @override
   State<PageNavigation> createState() {
-    return _PageNavigationState(pages);
+    return PageNavigationState();
   }
 }
 
-class _PageNavigationState extends State<PageNavigation> {
-  _PageNavigationState(this.pages);
-
-  Map<String, Widget> pages;
+class PageNavigationState extends State<PageNavigation> {
+  PageNavigationState();
+  final NavgationController navgationController = NavgationController();
 
   @override
   void initState() {
-    Pager.latestController = widget.navgationController;
     super.initState();
+  }
+
+  void addChangeListener(Function(int index) listener) =>
+      navgationController.addChangeListener(listener);
+  bool mayPop() => navgationController.mayPop();
+  Future navigateTo<TO extends Object?>(int index) {
+    return Future(() => navgationController.jumpToPage(index));
   }
 
   @override
@@ -42,28 +45,10 @@ class _PageNavigationState extends State<PageNavigation> {
         body: PageView(
           reverse: true,
           onPageChanged: widget.onPageChanged,
-          controller: widget.navgationController,
-          children: pages.values.toList(),
+          controller: navgationController,
+          children: widget.pages,
           physics: !widget.slidable ? NeverScrollableScrollPhysics() : null,
         ));
-  }
-}
-
-class Pager {
-  static NavgationController? latestController;
-
-  static Future navigateTo<TO extends Object?>(
-      BuildContext context, int index) {
-    NavgationController? navgationController = latestController ??
-        context
-            .findAncestorStateOfType<_PageNavigationState>()
-            ?.widget
-            .navgationController;
-    if (navgationController != null) {
-      return Future(() => navgationController.jumpToPage(index));
-    } else {
-      throw FlutterError("No PageNavigation found");
-    }
   }
 }
 
