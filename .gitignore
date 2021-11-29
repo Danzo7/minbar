@@ -48,3 +48,7 @@ app.*.map.json
 # generated files
 **/*.g.dart
 **/*.freezed.dart
+
+
+# experiment folder :)
+lib/experiments
