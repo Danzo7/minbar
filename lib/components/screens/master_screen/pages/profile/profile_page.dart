@@ -5,7 +5,7 @@ import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/pos
 import 'package:minbar_fl/components/screens/master_screen/pages/profile/widgets/gravity_header_scroll_view.dart';
 import 'package:minbar_fl/components/theme/snaps.dart';
 import 'package:minbar_fl/components/widgets/misc/timeline.dart';
-import 'package:minbar_fl/components/widgets/slivers/profile_header.dart';
+import 'package:minbar_fl/components/screens/master_screen/pages/profile/widgets/profile_header.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
