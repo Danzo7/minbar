@@ -47,20 +47,7 @@ class BroadcastsPage extends StatelessWidget {
 
   SnapScrollPhysics snap() {
     return SnapScrollPhysics(parent: BouncingScrollPhysics(), snaps: [
-      Snap(173,
-          distance:
-              50), // If the scroll offset is expected to stop between 150-250 the scroll will snap to 200,
-      Snap(173,
-          leadingDistance:
-              50), // If the scroll offset is expected to stop  between 150-200 the scroll will snap to 200,
-      Snap(173,
-          trailingDistance:
-              50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-      Snap(173,
-          trailingDistance:
-              50), // If the scroll offset is expected to stop between 150-200 the scroll will snap to 200,
-      Snap.avoidZone(0,
-          173), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
+      // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-99, and to 200 if it is between 100-200,
       Snap.avoidZone(0, 173,
           delimiter:
               50), // If the scroll offset is expected to stop between 0-200, the scroll will snap to 0 if the expected one is between 0-49, and to 200 if it is between 50-200
