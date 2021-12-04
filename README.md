@@ -10,12 +10,12 @@
 
 ![UI](https://github.com/Danzo7/minbar/blob/master/docs/assets/minbar.png?raw=true)
 
+
+
 >We may proceed with a global version of the application.
 >A global version is more challenging as it will cover various aspects and topics due to the different user base.
 
 
-
-![Minbar](https://github.com/Danzo7/minbar/blob/master/docs/assets/cover.png?raw=true)
 
 ```diff
 !state: In progress...
