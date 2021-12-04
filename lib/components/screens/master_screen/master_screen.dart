@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:minbar_fl/components/common/timelines/posts_timeline/bloc/posts_bloc.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
-
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
 import 'package:minbar_fl/components/theme/default_colors.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
@@ -49,17 +50,20 @@ class MasterScreen extends StatelessWidget {
         create: (context) => CastService(),
         child: MinbarScaffold(
             hasBottomNavigationBar: true,
-            body: PageNavigation(
-                key: app<MinbarNavigator>().pageKey,
-                slidable: true,
-                pages: [
-                  BroadcastsPage(),
-                  HomePage(),
-                  ProfilePage(),
-                  SettingsScreen()
-                ]
-                // "crash": CrashPO()
-                )),
+            body: BlocProvider(
+              create: (context) => PostsBloc()..add(PostsEvent.fetch()),
+              child: PageNavigation(
+                  key: app<MinbarNavigator>().pageKey,
+                  slidable: true,
+                  pages: [
+                    BroadcastsPage(),
+                    HomePage(),
+                    ProfilePage(),
+                    SettingsScreen()
+                  ]
+                  // "crash": CrashPO()
+                  ),
+            )),
       ),
     );
   }

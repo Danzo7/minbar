@@ -41,7 +41,7 @@ class ProfilePage extends StatelessWidget {
                   items: FakeData.fields,
                 )
               ],
-              content: PostList(FakeData.pub),
+              content: PostList(),
             )
           : GraviryHeaderScrollView(
               slivers: [
@@ -53,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                 StickyChipTag(
                   items: FakeData.fields,
                 ),
-                PostList(FakeData.pub)
+                PostList()
               ],
               gravityField: 300,
             ),

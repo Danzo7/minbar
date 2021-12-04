@@ -185,15 +185,5 @@ class FakeData {
     CommentData("اهلا", users[0]),
   ];
 
-  static Future<bool> updatePublication(Publication current) {
-    return Future<bool>.delayed(Duration(seconds: 1), () {
-      if (pub.any((element) => element.id == current.id)) {
-        pub[pub.indexOf(
-            pub.firstWhere((element) => element.id == current.id))] = current;
-        return true;
-      } else {
-        return false;
-      }
-    });
-  }
+
 }

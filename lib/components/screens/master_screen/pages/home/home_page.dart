@@ -25,8 +25,7 @@ class HomePage extends StatelessWidget {
         bgColor: DColors.white,
       ),
       refreshController: _refreshController,
-      content: PostList(FakeData.pub,
-          title: Text("مقالات", style: DTextStyle.bg20s)),
+      content: PostList(title: Text("مقالات", style: DTextStyle.bg20s)),
       beforeRefreshSlivers: [
         RecommandCarousel(
           FakeData.casts,
