@@ -12,8 +12,8 @@
 
 
 
->We may proceed with a global version of the application.
->A global version is more challenging as it will cover various aspects and topics due to the different user base.
+>We may proceed with a global version of the application in the future.
+>A global version is more challenging as it will cover various aspects and topics due to the different user base .
 
 
 
