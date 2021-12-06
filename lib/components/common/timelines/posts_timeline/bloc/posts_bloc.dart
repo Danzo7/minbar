@@ -15,6 +15,10 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           .fetchItems()
           .whenComplete(() => emit(PostsState.loaded(repo.data)));
     });
+
+    on<_Like>((event, emit) async {
+      await repo.updatePublication(event.pub, liked: event.clicked);
+    });
   }
 
   final PostsRepository repo = PostsRepository();

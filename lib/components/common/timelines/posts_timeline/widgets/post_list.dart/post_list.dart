@@ -12,8 +12,7 @@ class PostList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PostsBloc, PostsState>(
-      listener: (context, state) {},
+    return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
         return buildList(context.read<PostsBloc>().repo.data);
       },
@@ -32,7 +31,7 @@ class PostList extends StatelessWidget {
                         child: items.isNotEmpty
                             ? Post(items[index])
                             : PostPlaceholder()),
-                childCount: items.length + (items.isEmpty ? 2 : 0),
+                childCount: items.length + (items.isEmpty ? 30 : 0),
                 addAutomaticKeepAlives: false)));
   }
 }

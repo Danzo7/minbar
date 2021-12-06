@@ -11,7 +11,6 @@ import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/core/services/service_locator.dart';
 import 'package:minbar_fl/misc/navigation.dart';
-
 import 'package:minbar_fl/misc/page_navigation.dart';
 export 'pages/pages.dart';
 import 'package:fluttertoast/fluttertoast.dart';

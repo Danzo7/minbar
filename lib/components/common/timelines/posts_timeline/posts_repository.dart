@@ -18,28 +18,49 @@ class PostsRepository {
 
   Future<bool> updatePublication(Publication current,
       {bool? liked, bool? pinned}) {
-    return Future<bool>.delayed(Duration(seconds: 1), () {
-      Publication res = doFakeUpdate(current.id, liked: liked, pinned: pinned);
+    return Future<bool>.delayed(Duration(seconds: 0), () {
+      Publication res = doFakeUpdate(current, liked: liked, pinned: pinned);
       if (res == current) return false;
-      data[data.indexOf(current)] = res;
+      //TODO:catch exceptions
+      data[data.indexWhere((element) => element.id == current.id)] = res;
       return true;
     });
   }
 
-  Publication doFakeUpdate(String id, {bool? liked, bool? pinned}) {
-    int selectedIndex = FakeData.pub
-        .indexOf(FakeData.pub.firstWhere((element) => element.id == id));
+  Publication doFakeUpdate(Publication currentPub,
+      {bool? liked, bool? pinned}) {
+    int selectedIndex =
+        FakeData.pub.indexWhere((element) => element.id == currentPub.id);
     if (selectedIndex != -1) {
-      Publication selected = FakeData.pub[selectedIndex];
-      FakeData.pub[selectedIndex] = selected.copyWith(
-          hasHeart: liked ?? FakeData.pub[selectedIndex].hasCast,
-          hasPin: pinned ?? FakeData.pub[selectedIndex].hasPin,
-          pinCount: selected.pinCount + (pinned != null && pinned ? 1 : 0),
-          heartCount: selected.heartCount + (liked != null && liked ? 1 : 0));
+      int heartAddition = liked != null
+          ? (((liked && currentPub.hasHeart) ||
+                  (!liked && !currentPub.hasHeart))
+              ? 0
+              : (liked && !currentPub.hasHeart)
+                  ? 1
+                  : (!liked && currentPub.hasHeart)
+                      ? -1
+                      : 0)
+          : 0;
+      int pinAddition = pinned != null
+          ? (((pinned && currentPub.hasPin) || (!pinned && !currentPub.hasPin))
+              ? 0
+              : (pinned && !currentPub.hasPin)
+                  ? 1
+                  : (!pinned && currentPub.hasPin)
+                      ? -1
+                      : 0)
+          : 0;
+      print(heartAddition);
+      FakeData.pub[selectedIndex] = currentPub.copyWith(
+          hasHeart: liked ?? currentPub.hasCast,
+          hasPin: pinned ?? currentPub.hasPin,
+          pinCount: currentPub.pinCount + pinAddition,
+          heartCount: currentPub.heartCount + heartAddition);
 
       return FakeData.pub[selectedIndex];
     } else {
-      return FakeData.pub[selectedIndex];
+      throw Exception('wtf!');
     }
   }
 }
