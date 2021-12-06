@@ -1,9 +1,8 @@
 body, html {
   margin:0;
   height:100%;
-  background: #;
-  background-image: url("img/light-background.png");
-  background-size: 100% 100%;
+  background: rgb(7,26,22);
+  background: linear-gradient(0deg, rgba(7,26,22,1) 0%, rgba(22,81,115,1) 62%);
 }
 
 .center {
@@ -36,8 +35,8 @@ body, html {
   body {
     margin:0;
     height:100%;
-    background: #;
-    background-image: url("img/dark-background.png");
+    background: rgb(7,26,22);
+    background: linear-gradient(0deg, rgba(7,26,22,1) 0%, rgba(22,81,115,1) 62%);
     background-size: 100% 100%;
   }
 }
