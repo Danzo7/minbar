@@ -8,12 +8,14 @@ part 'posts_state.dart';
 part 'posts_bloc.freezed.dart';
 
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
+  bool alreadyLoaded = false;
   PostsBloc() : super(_Initial()) {
     on<_Fetch>((event, emit) async {
       emit(PostsState.loading());
       await repo
           .fetchItems()
           .whenComplete(() => emit(PostsState.loaded(repo.data)));
+      alreadyLoaded = true;
     });
 
     on<_Like>((event, emit) async {

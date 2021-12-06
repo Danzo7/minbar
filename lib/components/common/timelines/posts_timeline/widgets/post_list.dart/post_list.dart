@@ -7,17 +7,9 @@ import 'package:minbar_fl/components/widgets/post_placeholder.dart';
 import 'package:minbar_fl/model/publication.dart';
 
 class PostList extends StatelessWidget {
-  final Widget? title;
   const PostList({Key? key, this.title}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<PostsBloc, PostsState>(
-      builder: (context, state) {
-        return buildList(context.read<PostsBloc>().repo.data);
-      },
-    );
-  }
+  final Widget? title;
 
   Widget buildList(List<Publication> items) {
     return SliverPadding(
@@ -33,5 +25,21 @@ class PostList extends StatelessWidget {
                             : PostPlaceholder()),
                 childCount: items.length + (items.isEmpty ? 30 : 0),
                 addAutomaticKeepAlives: false)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<PostsBloc, PostsState>(builder: (context, state) {
+      return state.when(
+        failed: () =>
+            SliverToBoxAdapter(child: Container(child: Text('failed'))),
+        loaded: (data) => buildList(data),
+        loading: () => buildList([]),
+        started: () {
+          context.read<PostsBloc>().add(PostsEvent.fetch());
+          return SliverToBoxAdapter(child: Container(child: Text('started')));
+        },
+      );
+    });
   }
 }
