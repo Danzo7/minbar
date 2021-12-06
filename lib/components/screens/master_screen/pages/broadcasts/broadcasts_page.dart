@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/common/recommandations/widgets/recommand_carousel.dart';
+import 'package:minbar_fl/components/common/timelines/broadcasts_timeline/bloc/casts_bloc.dart';
 import 'package:minbar_fl/components/common/timelines/broadcasts_timeline/widgets/broadcast_list.dart';
 import 'package:minbar_fl/components/widgets/icon_builder.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/timeline.dart';
 import 'package:minbar_fl/components/widgets/slivers/sliver_head.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_chips_tag.dart';
+import 'package:provider/src/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:snap_scroll_physics/snap_scroll_physics.dart';
 
@@ -40,7 +42,7 @@ class BroadcastsPage extends StatelessWidget {
             ),
           ),
         ],
-        content: BroadcastList(FakeData.casts),
+        content: BroadcastList(),
       ),
     );
   }
