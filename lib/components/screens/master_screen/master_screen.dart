@@ -53,7 +53,7 @@ class MasterScreen extends StatelessWidget {
             body: MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (context) => PostsBloc()..add(PostsEvent.fetch()),
+                  create: (context) => PostsBloc(),
                 ),
                 BlocProvider(
                   create: (context) => CastsBloc()..add(CastsEvent.fetch()),
