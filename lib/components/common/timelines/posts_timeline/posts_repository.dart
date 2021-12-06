@@ -51,7 +51,6 @@ class PostsRepository {
                       ? -1
                       : 0)
           : 0;
-      print(heartAddition);
       FakeData.pub[selectedIndex] = currentPub.copyWith(
           hasHeart: liked ?? currentPub.hasCast,
           hasPin: pinned ?? currentPub.hasPin,

@@ -4,7 +4,7 @@ import 'package:minbar_fl/components/common/timelines/posts_timeline/bloc/posts_
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/model/publication.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class ReactionBar extends StatelessWidget {
   const ReactionBar({Key? key, required this.pub}) : super(key: key);
