@@ -5,6 +5,7 @@ import 'package:minbar_fl/model/cast.dart';
 
 class CastService extends ChangeNotifier {
   Cast? currentCast;
+
   bool setCast(Cast cast) {
     if (cast == currentCast) {
       return false;
@@ -15,24 +16,33 @@ class CastService extends ChangeNotifier {
     return true;
   }
 
-  playCast(Cast cast) {
+  Future<bool> playCast(Cast cast) async {
     if (!setCast(cast)) {
       app<AudioService>().playerState.playing
-          ? app<AudioService>().pause()
-          : app<AudioService>().play();
+          ? await app<AudioService>().pause()
+          : await app<AudioService>().play();
     } else {
-      app<AudioService>().playCast(castId: cast.castId);
+      await app<AudioService>().playCast(castId: cast.castId);
+    }
+    return true;
+  }
+
+  Future<bool> pauseOrStop() async {
+    if (app<AudioService>().playing) {
+      await app<AudioService>().pause();
+      return false;
+    } else {
+      currentCast = null;
+      notifyListeners();
+      await app<AudioService>().stop();
+      return true;
     }
   }
 
-  void stopCast() async {
+  Future<bool> stop() async {
     currentCast = null;
     notifyListeners();
-
-    if (app<AudioService>().playing) {
-      app<AudioService>().pause();
-    } else {
-      app<AudioService>().stop();
-    }
+    await app<AudioService>().stop();
+    return true;
   }
 }
