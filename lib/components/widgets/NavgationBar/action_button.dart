@@ -41,9 +41,11 @@ class _ActionButtonState extends State<ActionButton> {
             padding: EdgeInsets.only(bottom: 30),
             snap: [
               SnapTap(
-                  pos: Offset(0, -100),
+                  pos: Offset(-0, -100),
                   radius: 50,
-                  onSnap: () => widget.state!.stopCast(),
+                  onSnap: () async => await widget.state!.pauseOrStop()
+                      ? null
+                      : widget.middleController.outside(),
                   snapLocator: ClipOval(
                       child: Container(
                     color: DColors.sadRed,
@@ -58,7 +60,7 @@ class _ActionButtonState extends State<ActionButton> {
                 pos: Offset.zero,
                 radius: 50,
                 onHitChange: (bool isIn) => isIn
-                    ? widget.middleController.inside()
+                    ? widget.middleController.outside()
                     : widget.middleController.normal(),
               )
             ],
