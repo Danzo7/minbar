@@ -13,7 +13,7 @@
 
 
 >We may proceed with a global version of the application in the future.
->A global version is more challenging as it needs to cover deffirent various aspects and topics due to the different user base .
+>A global version is more challenging as it needs to cover different aspects and topics due to the different userbase.
 
 
 
