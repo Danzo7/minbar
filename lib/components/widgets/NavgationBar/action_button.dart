@@ -68,33 +68,27 @@ class _ActionButtonState extends State<ActionButton> {
               onVerticalDragUpdate: (details) =>
                   isSwipeUp = details.delta.dy < 0 ? true : false,
               onVerticalDragEnd: (c) => {if (isSwipeUp) action()},
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                height: 101,
-                width: MediaQuery.of(context).size.width / 5,
-                child: StreamBuilder<PlayerState>(
-                    stream: app<AudioService>().playerStateStream,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<PlayerState> snapshot) {
-                      final playerState = snapshot.data;
-                      final processingState = playerState?.processingState;
+              child: StreamBuilder<PlayerState>(
+                  stream: app<AudioService>().playerStateStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<PlayerState> snapshot) {
+                    final playerState = snapshot.data;
+                    final processingState = playerState?.processingState;
 
-                      return FlatIconButton(
-                          backgroundColor: minbarTheme.secondary,
-                          icon: (processingState == ProcessingState.ready &&
-                                  app<AudioService>().playerState.playing)
-                              ? VoiceVisualisation()
-                              : (processingState == ProcessingState.buffering ||
-                                      processingState ==
-                                          ProcessingState.loading)
-                                  ? CircularProgressIndicator()
-                                  : Icon(
-                                      Icons.pause,
-                                      color: DColors.white,
-                                    ),
-                          onTap: action);
-                    }),
-              ),
+                    return FlatIconButton(
+                        backgroundColor: minbarTheme.secondary,
+                        icon: (processingState == ProcessingState.ready &&
+                                app<AudioService>().playerState.playing)
+                            ? VoiceVisualisation()
+                            : (processingState == ProcessingState.buffering ||
+                                    processingState == ProcessingState.loading)
+                                ? CircularProgressIndicator()
+                                : Icon(
+                                    Icons.pause,
+                                    color: DColors.white,
+                                  ),
+                        onTap: action);
+                  }),
             ),
           );
   }
