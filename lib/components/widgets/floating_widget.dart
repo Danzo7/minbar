@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/theme/minbar_theme.dart';
+import 'package:minbar_fl/components/theme/default_theme.dart';
 
-enum FallBehavoir { fallToOrigin, none }
+enum FallBehavoir { fallToOrigin, fallToBorder, none }
 
 //floating_widget
 class FloatingWidget extends StatefulWidget {
@@ -17,7 +17,7 @@ class FloatingWidget extends StatefulWidget {
       this.withHitDetection = false,
       this.axis,
       this.onDragCanceled,
-      this.fallBehavoir = FallBehavoir.fallToOrigin})
+      this.fallBehavoir = FallBehavoir.fallToBorder})
       : super(key: key);
 
   final void Function()? onDragEnd;
@@ -48,6 +48,19 @@ class _FloatingWidgetState extends State<FloatingWidget>
   Offset lastOriginOffset = Offset.zero;
   late final DragPositionController controller;
   bool ov = false;
+
+  final GlobalKey _childKey = GlobalKey(debugLabel: 'floatingWidget');
+
+  double? get _childWidth {
+    double? width;
+    RenderObject? current = _childKey.currentContext?.findRenderObject();
+    if (current != null) {
+      if (mounted) {
+        width = (current as RenderBox).hasSize ? current.size.width : null;
+      }
+      return width;
+    }
+  }
 
   @override
   void didUpdateWidget(covariant FloatingWidget oldWidget) {
@@ -146,8 +159,14 @@ class _FloatingWidgetState extends State<FloatingWidget>
                     );
                   },
                   valueListenable: controller,
-                  child: Container(
-                    child: widget.child,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        key: _childKey,
+                        child: widget.child,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -175,14 +194,19 @@ class _FloatingWidgetState extends State<FloatingWidget>
     disableOV();
     switch (widget.fallBehavoir) {
       case FallBehavoir.fallToOrigin:
-        controller.animateTo(Offset.zero, duration: kMedAnimationDuration);
-
         break;
-
       case FallBehavoir.none:
         lastOriginOffset = controller.pos;
         break;
+      case FallBehavoir.fallToBorder:
+        lastOriginOffset = Offset(
+            ((controller.pos.dx) > 0
+                ? (MediaQuery.of(context).size.width - (_childWidth ?? 0)) / 2
+                : ((_childWidth ?? 0) - MediaQuery.of(context).size.width) / 2),
+            controller.pos.dy);
+        break;
     }
+    controller.animateTo(lastOriginOffset, duration: kMedAnimationDuration);
   }
 
   void pressStart(details) {
