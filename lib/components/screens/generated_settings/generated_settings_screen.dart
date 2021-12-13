@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:minbar_fl/components/theme/default_text_styles.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/slivers/sticky_titles.dart';

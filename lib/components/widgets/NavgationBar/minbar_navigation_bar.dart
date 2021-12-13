@@ -13,8 +13,8 @@ import 'package:minbar_fl/misc/navigation.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
 import 'package:provider/provider.dart';
 
-class NavigationBar extends StatefulWidget {
-  const NavigationBar({
+class MinbarNavigationBar extends StatefulWidget {
+  const MinbarNavigationBar({
     Key? key,
     required this.selectedIndex,
     required this.items,
@@ -29,18 +29,18 @@ class NavigationBar extends StatefulWidget {
   final int selectedIndex;
 
   @override
-  _NavigationBarState createState() => _NavigationBarState();
+  _MinbarNavigationBarState createState() => _MinbarNavigationBarState();
 
   get state => null;
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _MinbarNavigationBarState extends State<MinbarNavigationBar> {
   int currentIndex = 0;
   AnimationDirection mad = AnimationDirection.idle;
   late final NavgationController? navigationController;
 
   @override
-  void didUpdateWidget(covariant NavigationBar oldWidget) {
+  void didUpdateWidget(covariant MinbarNavigationBar oldWidget) {
     navigationController?.addChangeListener(setBottomBarIndex);
 
     widget.middleController.addListener(listener);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
 //floating_widget

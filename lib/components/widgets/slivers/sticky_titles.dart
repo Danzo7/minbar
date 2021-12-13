@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
 class StickyTitles extends StatelessWidget {

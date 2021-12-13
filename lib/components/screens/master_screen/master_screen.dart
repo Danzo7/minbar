@@ -5,7 +5,6 @@ import 'package:minbar_fl/components/common/timelines/broadcasts_timeline/bloc/c
 import 'package:minbar_fl/components/common/timelines/posts_timeline/bloc/posts_bloc.dart';
 import 'package:minbar_fl/components/screens/screens.dart';
 import 'package:minbar_fl/components/widgets/minbar_bottom_sheet.dart';
-import 'package:minbar_fl/components/theme/default_colors.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';

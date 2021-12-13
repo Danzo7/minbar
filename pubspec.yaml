@@ -30,7 +30,7 @@ dependencies:
   like_button:
     git:
       url: https://github.com/Danzo7/like_button
-  flutter_svg: ^0.23.0+1
+  flutter_svg: ^1.0.0
   flare_flutter: ^3.0.2
   equatable: ^2.0.3
   marquee: ^2.2.0

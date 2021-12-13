@@ -65,38 +65,40 @@ class _VoiceVisualisationState extends State<VoiceVisualisation>
                 Random().nextInt(10),
             40),
         5);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 3.0),
-          child: RoundedLine(
-            thikness: n1,
-            width: 2,
+    return RepaintBoundary(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 3.0),
+            child: RoundedLine(
+              thikness: n1,
+              width: 2,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 3.0),
-          child: RoundedLine(
-            thikness: n2,
-            width: 3,
+          Padding(
+            padding: const EdgeInsets.only(left: 3.0),
+            child: RoundedLine(
+              thikness: n2,
+              width: 3,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 3.0),
-          child: RoundedLine(
-            thikness: n3,
-            width: 3,
+          Padding(
+            padding: const EdgeInsets.only(left: 3.0),
+            child: RoundedLine(
+              thikness: n3,
+              width: 3,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 3.0),
-          child: RoundedLine(
-            thikness: n4,
-            width: 3,
+          Padding(
+            padding: const EdgeInsets.only(left: 3.0),
+            child: RoundedLine(
+              thikness: n4,
+              width: 3,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

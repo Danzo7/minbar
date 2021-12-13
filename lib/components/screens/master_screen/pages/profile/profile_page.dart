@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:minbar_fl/api/fake_data.dart';
 import 'package:minbar_fl/components/common/timelines/posts_timeline/widgets/post_list.dart/post_list.dart';
 import 'package:minbar_fl/components/screens/master_screen/pages/profile/widgets/gravity_header_scroll_view.dart';

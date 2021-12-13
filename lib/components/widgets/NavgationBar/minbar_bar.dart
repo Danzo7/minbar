@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/action_button.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/middle_controller.dart';
-import 'package:minbar_fl/components/widgets/NavgationBar/navigation_bar.dart';
+import 'package:minbar_fl/components/widgets/NavgationBar/minbar_navigation_bar.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/navigation_item.dart';
 import 'package:minbar_fl/core/services/cast_service.dart';
 import 'package:minbar_fl/misc/page_navigation.dart';
@@ -26,7 +26,7 @@ class MinbarBar extends StatelessWidget {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        NavigationBar(
+        MinbarNavigationBar(
             selectedIndex: selectedIndex,
             items: items,
             navigationController: navigationController,

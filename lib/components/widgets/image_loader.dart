@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
-import 'package:minbar_fl/components/theme/minbar_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageLoader extends StatelessWidget {

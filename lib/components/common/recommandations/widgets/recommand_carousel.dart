@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/common/broadcast/broadcastBox/widgets/broadcast_box.dart';
