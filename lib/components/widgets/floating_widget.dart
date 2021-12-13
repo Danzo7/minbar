@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:minbar_fl/components/theme/minbar_theme.dart';
 
+enum FallBehavoir { fallToOrigin, none }
+
 //floating_widget
 class FloatingWidget extends StatefulWidget {
   FloatingWidget(
@@ -9,24 +11,33 @@ class FloatingWidget extends StatefulWidget {
       this.onDragEnd,
       this.onDragStart,
       this.onTap,
-      required this.snap,
+      required this.snaps,
       this.elevation = 1,
       this.padding,
       this.withHitDetection = false,
       this.axis,
-      this.onDragCanceled})
+      this.onDragCanceled,
+      this.fallBehavoir = FallBehavoir.fallToOrigin})
       : super(key: key);
 
   final void Function()? onDragEnd;
   final void Function()? onDragCanceled;
   final void Function()? onDragStart;
   final void Function()? onTap;
+
   final Axis? axis;
+
   final Widget child;
+
   final double elevation;
+
   final EdgeInsets? padding;
-  final List<_Snapable> snap;
+
+  final List<_Snapable> snaps;
+
+  ///set to  false in case of not using Hit detection
   final bool withHitDetection;
+  final FallBehavoir fallBehavoir;
 
   @override
   _FloatingWidgetState createState() => _FloatingWidgetState();
@@ -34,6 +45,7 @@ class FloatingWidget extends StatefulWidget {
 
 class _FloatingWidgetState extends State<FloatingWidget>
     with TickerProviderStateMixin<FloatingWidget> {
+  Offset lastOriginOffset = Offset.zero;
   late final DragPositionController controller;
   bool ov = false;
 
@@ -51,7 +63,7 @@ class _FloatingWidgetState extends State<FloatingWidget>
 
   @override
   void initState() {
-    controller = DragPositionController();
+    controller = DragPositionController(axis: widget.axis);
     controller.initAnimation(this);
 
     super.initState();
@@ -69,21 +81,20 @@ class _FloatingWidgetState extends State<FloatingWidget>
     });
   }
 
-  void _onLongPressedUpdate(LongPressMoveUpdateDetails details) {
-    // controller.value = details.offsetFromOrigin;
+  void _pressUpdate(LongPressMoveUpdateDetails details) {
+    Offset pos = Offset(lastOriginOffset.dx + details.offsetFromOrigin.dx,
+        lastOriginOffset.dy + details.offsetFromOrigin.dy);
     if (widget.withHitDetection) {
-      Offset pos = details.offsetFromOrigin;
       bool found = false;
-      for (var snap in widget.snap) {
-        if (((details.offsetFromOrigin - snap.pos).distance <= snap.radius) &&
-            !found) {
+      for (var snap in widget.snaps) {
+        if (((pos - snap.pos).distance <= snap.radius) && !found) {
           found = !found;
           pos = snap.pos;
-          if (snap is HitSnapTap) {
+          if (snap is HitSnapLocation) {
             (snap)._isHited.value = true;
           }
         } else {
-          if (snap is HitSnapTap) {
+          if (snap is HitSnapLocation) {
             (snap)._isHited.value = false;
           }
         }
@@ -91,12 +102,9 @@ class _FloatingWidgetState extends State<FloatingWidget>
       controller.animateTo(pos, duration: Duration(milliseconds: 40));
     } else {
       controller.animateTo(
-          widget.snap
-              .firstWhere(
-                  (snap) =>
-                      (details.offsetFromOrigin - snap.pos).distance <=
-                      snap.radius,
-                  orElse: () => SnapTap(pos: details.offsetFromOrigin))
+          widget.snaps
+              .firstWhere((snap) => (pos - snap.pos).distance <= snap.radius,
+                  orElse: () => SnapLocation(pos: details.offsetFromOrigin))
               .pos,
           duration: Duration(milliseconds: 40));
     }
@@ -112,7 +120,7 @@ class _FloatingWidgetState extends State<FloatingWidget>
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            ...widget.snap
+            ...widget.snaps
                 .map((e) => AnimatedOpacity(
                       duration: kFastAnimationDuration,
                       opacity: ov ? 1 : 0,
@@ -127,30 +135,9 @@ class _FloatingWidgetState extends State<FloatingWidget>
               width: double.infinity,
               child: GestureDetector(
                 onTap: widget.onTap,
-                onLongPressStart: (details) {
-                  if (widget.onDragStart != null) widget.onDragStart!();
-
-                  enableOV();
-                },
-                onLongPressMoveUpdate: _onLongPressedUpdate,
-                onLongPressEnd: (details) {
-                  bool isSnaped = false;
-                  for (var snap in widget.snap) {
-                    if (snap.onSnap != null &&
-                        (controller.pos - snap.pos).distance <= snap.radius) {
-                      snap.onSnap!();
-                      isSnaped = true;
-                    }
-                  }
-                  if (widget.onDragCanceled != null && !isSnaped) {
-                    widget.onDragCanceled!();
-                  }
-                  if (widget.onDragEnd != null) widget.onDragEnd!();
-
-                  disableOV();
-                  controller.animateTo(Offset.zero,
-                      duration: kMedAnimationDuration);
-                },
+                onLongPressStart: pressStart,
+                onLongPressMoveUpdate: _pressUpdate,
+                onLongPressEnd: pressEnd,
                 child: ValueListenableBuilder(
                   builder: (context, Offset pos, child) {
                     return Transform.translate(
@@ -170,36 +157,71 @@ class _FloatingWidgetState extends State<FloatingWidget>
       ),
     );
   }
+
+  void pressEnd(LongPressEndDetails details) {
+    bool isSnaped = false;
+    for (var snap in widget.snaps) {
+      if (snap.onSnap != null &&
+          (controller.pos - snap.pos).distance <= snap.radius) {
+        snap.onSnap!();
+        isSnaped = true;
+      }
+    }
+    if (widget.onDragCanceled != null && !isSnaped) {
+      widget.onDragCanceled!();
+    }
+    if (widget.onDragEnd != null) widget.onDragEnd!();
+
+    disableOV();
+    switch (widget.fallBehavoir) {
+      case FallBehavoir.fallToOrigin:
+        controller.animateTo(Offset.zero, duration: kMedAnimationDuration);
+
+        break;
+
+      case FallBehavoir.none:
+        lastOriginOffset = controller.pos;
+        break;
+    }
+  }
+
+  void pressStart(details) {
+    if (widget.onDragStart != null) widget.onDragStart!();
+
+    enableOV();
+  }
 }
 
 class DragPositionController extends ValueNotifier<Offset> {
-  DragPositionController()
+  DragPositionController({this.axis})
       : newValue = Offset.zero,
         super(Offset(0, 0));
-
+  final Axis? axis;
   Offset newValue;
-  late AnimationController xAnim, yAnim;
+  AnimationController? xAnim, yAnim;
 
   @override
   void dispose() {
-    xAnim.dispose();
-    yAnim.dispose();
+    xAnim?.dispose();
+    yAnim?.dispose();
     super.dispose();
   }
 
   get pos => newValue;
 
   void initAnimation(TickerProvider vsync) {
-    xAnim = AnimationController(
-      vsync: vsync,
-    );
-
-    yAnim = AnimationController(
-      vsync: vsync,
-    );
-
-    xAnim.addListener(x);
-    yAnim.addListener(y);
+    if (axis == null || (axis != null && axis == Axis.horizontal)) {
+      xAnim = AnimationController(
+        vsync: vsync,
+      );
+    }
+    if (axis == null || (axis != null && axis == Axis.vertical)) {
+      yAnim = AnimationController(
+        vsync: vsync,
+      );
+    }
+    xAnim?.addListener(x);
+    yAnim?.addListener(y);
   }
 
   set position(offset) => value = newValue = offset;
@@ -208,31 +230,31 @@ class DragPositionController extends ValueNotifier<Offset> {
     newValue = position;
     bol();
 
-    yAnim.animateTo(1, duration: duration).whenComplete(end);
-    xAnim.animateTo(1, duration: duration).whenComplete(end);
+    yAnim?.animateTo(1, duration: duration).whenComplete(end);
+    xAnim?.animateTo(1, duration: duration).whenComplete(end);
   }
 
   void end() {
-    yAnim.value = 0.0;
-    xAnim.value = 0.0;
+    yAnim?.value = 0.0;
+    xAnim?.value = 0.0;
   }
 
   void bol() {
-    yAnim.value = (0.09);
-    xAnim.value = (0.09);
+    yAnim?.value = (0.09);
+    xAnim?.value = (0.09);
   }
 
   void x() {
-    value = Offset(xAnim.value * (newValue - value).dx + value.dx, value.dy);
+    value = Offset(xAnim!.value * (newValue - value).dx + value.dx, value.dy);
   }
 
   void y() {
-    value = Offset(value.dx, yAnim.value * (newValue - value).dy + value.dy);
+    value = Offset(value.dx, yAnim!.value * (newValue - value).dy + value.dy);
   }
 }
 
-class SnapTap extends _Snapable {
-  const SnapTap(
+class SnapLocation extends _Snapable {
+  const SnapLocation(
       {Function? onSnap,
       Offset pos = Offset.zero,
       double radius = 0,
@@ -255,8 +277,8 @@ abstract class _Snapable {
   final Widget? snapLocator;
 }
 
-class HitSnapTap extends _Snapable {
-  HitSnapTap(
+class HitSnapLocation extends _Snapable {
+  HitSnapLocation(
       {required this.onHitChange,
       Function? onSnap,
       Offset pos = Offset.zero,

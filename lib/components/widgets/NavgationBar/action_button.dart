@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:minbar_fl/components/theme/default_theme.dart';
 import 'package:minbar_fl/components/widgets/NavgationBar/middle_controller.dart';
-import 'package:minbar_fl/components/widgets/NavgationBar/floating_widget.dart';
+import 'package:minbar_fl/components/widgets/floating_widget.dart';
 import 'package:minbar_fl/components/widgets/buttons/buttons.dart';
 import 'package:minbar_fl/components/widgets/misc/minbar_scaffold.dart';
 import 'package:minbar_fl/components/widgets/voice_visualisation.dart';
@@ -39,8 +39,8 @@ class _ActionButtonState extends State<ActionButton> {
             },
             withHitDetection: true,
             padding: EdgeInsets.only(bottom: 30),
-            snap: [
-              SnapTap(
+            snaps: [
+              SnapLocation(
                   pos: Offset(-0, -100),
                   radius: 50,
                   onSnap: () async => await widget.state!.pauseOrStop()
@@ -56,7 +56,7 @@ class _ActionButtonState extends State<ActionButton> {
                       Icons.stop_rounded,
                     )),
                   ))),
-              HitSnapTap(
+              HitSnapLocation(
                 pos: Offset.zero,
                 radius: 50,
                 onHitChange: (bool isIn) => isIn
