@@ -17,6 +17,6 @@
 
 
 
-```diff
-!state: In progress...
-```
+####  state: hold 🟠
+This project is on hold due to master degree dissertation [project](https://github.com/Danzo7/doctorIO) that build using web framework such as react, its a total different eco system which make it hard for me to keep working on both project so i decide to stop working on this one until I get my degree ( 5month maybe).
+Also this project is open source under MIT lisence,You are free to copy every widget or line of code.
